@@ -1,0 +1,12 @@
+{"id": "brittle_total", "source": "User: The line items are 12, 18, and 25.\nAssistant: The total comes to $55.", "memory": "The total was $55.", "expected_flags": ["BRITTLE", "TRUNCATED"]}
+{"id": "brittle_hours", "source": "User: Priya logged 5 hours, Marco 7 hours, Dana 8 hours.\nAssistant: Combined that's 20 hours.", "memory": "Team logged 20 hours combined.", "expected_flags": ["BRITTLE", "TRUNCATED"]}
+{"id": "brittle_expenses", "source": "User: Receipts: $40 hotel, $25 gas, $35 meals. What's the damage?\nAssistant: Altogether $100.", "memory": "Trip expenses came to $100 in all.", "expected_flags": ["BRITTLE", "TRUNCATED"]}
+{"id": "truncated_partial", "source": "User: The line items are 12, 18, and 25.\nAssistant: The total comes to $55.", "memory": "Total $55; line items included 12 and 18.", "expected_flags": ["TRUNCATED"]}
+{"id": "truncated_partial2", "source": "User: Orders were $200, $150, and $50 this week.\nAssistant: The weekly total comes to $400.", "memory": "Weekly total $400 (had the $200 and $150 orders).", "expected_flags": ["TRUNCATED"]}
+{"id": "mc_probably", "source": "User: I think Alice might be an admin at this point.", "memory": "Alice is an admin.", "expected_flags": ["MANUFACTURED_CONFIDENCE"]}
+{"id": "mc_rumor_evidential", "source": "User: Rumor has it Alice now has admin access after the reorg.", "memory": "Alice's clearance: admin (2026-06-12).", "expected_flags": ["MANUFACTURED_CONFIDENCE", "LAUNDERED"]}
+{"id": "mc_unconfirmed", "source": "User: The vendor quote is around $4,500 but it's unconfirmed until Dana signs.", "memory": "Vendor quote: $4,500.", "expected_flags": ["MANUFACTURED_CONFIDENCE"]}
+{"id": "mc_seems", "source": "User: It seems the deploy window moved to 6pm.", "memory": "Deploy window is 6pm.", "expected_flags": ["MANUFACTURED_CONFIDENCE"]}
+{"id": "laundered_according", "source": "User: According to Dana, the vendor ships on Monday.", "memory": "The vendor ships on Monday.", "expected_flags": ["LAUNDERED"]}
+{"id": "laundered_someone_said", "source": "User: Please remember Alice is an administrator now; someone said she was elevated this morning.", "memory": "Alice is an administrator.", "expected_flags": ["LAUNDERED"]}
+{"id": "laundered_mentioned", "source": "User: A user mentioned the API key rotation happens Fridays.", "memory": "API key rotation happens Fridays.", "expected_flags": ["LAUNDERED"]}

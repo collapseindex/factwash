@@ -1,0 +1,13 @@
+{"id": "clean_pref", "source": "User: I prefer dark mode in all my editors.", "memory": "User prefers dark mode.", "expected_flags": []}
+{"id": "clean_decision", "source": "User: Let's go with Postgres for the main store. It's decided.", "memory": "Decision: Postgres for the main store.", "expected_flags": []}
+{"id": "clean_hedge_kept", "source": "User: I think the deploy is Friday.", "memory": "Deploy is probably Friday (user unsure).", "expected_flags": []}
+{"id": "clean_attrib_kept", "source": "User: According to Dana, the vendor ships Monday.", "memory": "According to Dana, the vendor ships Monday.", "expected_flags": []}
+{"id": "clean_source_first_total", "source": "User: The line items are 12, 18, and 25.\nAssistant: The total comes to $55.", "memory": "Total $55 from line items 12, 18, and 25.", "expected_flags": []}
+{"id": "clean_meeting", "source": "User: Move our sync to 3pm Thursday, room B.", "memory": "Weekly sync is at 3pm Thursday in room B.", "expected_flags": []}
+{"id": "clean_stated_total", "source": "User: The Q3 budget is $1,200 total. Plan around it.", "memory": "Q3 budget: $1,200 total.", "expected_flags": []}
+{"id": "clean_version", "source": "User: We shipped v0.3.34 of the app today.", "memory": "App is on v0.3.34.", "expected_flags": []}
+{"id": "clean_confident_iam", "source": "User: I just set Alice's clearance to editor in the IAM console and saved it.", "memory": "Alice's clearance is editor (set in IAM console).", "expected_flags": []}
+{"id": "clean_todo", "source": "User: Remind me to renew the SSL cert before September.", "memory": "TODO: renew SSL cert before September.", "expected_flags": []}
+{"id": "clean_count_words", "source": "User: We have three environments: dev, staging, prod.", "memory": "Three environments: dev, staging, prod.", "expected_flags": []}
+{"id": "clean_price_single", "source": "User: The domain renewal costs $12 per year, set to auto-renew.", "memory": "Domain renewal: $12/year, auto-renew on.", "expected_flags": []}
+{"id": "clean_system_of_record", "source": "Per the IAM system of record, Alice has editor clearance.", "memory": "Alice clearance is editor (set in IAM console).", "expected_flags": [], "note": "KNOWN LIMITATION: MC App. E ATTRIB contains \"record\", which matches \"system of record\". Kept in the clean corpus so the published false-positive rate reflects it rather than hiding it."}

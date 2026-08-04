@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "factwash"
+version = "0.4.0"
+description = "A write-time linter for AI memory: rejects brittle, de-hedged, and laundered memory writes. Deterministic, judge-free, ported from three published papers."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Alex Kwon" }]
+keywords = ["ai-memory", "agents", "mem0", "linter", "safety"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development :: Quality Assurance",
+]
+dependencies = []
+
+[project.optional-dependencies]
+fix = ["anthropic>=0.40"]
+units = ["quantulum3>=0.9"]
+dev = ["pytest>=8"]
+
+[project.urls]
+Homepage = "https://github.com/collapseindex/factwash"
+
+[project.scripts]
+factwash = "factwash.cli:console"
+
+[tool.setuptools.packages.find]
+where = ["src"]

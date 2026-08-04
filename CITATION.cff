@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "If you use factwash, please cite it. The preferred citation is the preprint below."
+title: "factwash"
+abstract: "A write-time gate for AI memory: catches rewrites that wash hearsay into fact (dropped attribution, stripped hedges, reversed polarity, lost conditions and temporal scope, broken derivations). Deterministic core, evidence-validated optional witness, typed source-to-output change report."
+authors:
+  - family-names: "Kwon"
+    given-names: "Alex"
+    email: "ask@collapseindex.org"
+version: "0.4.0"
+date-released: "2026-08-03"
+license: "Apache-2.0"
+repository-code: "https://github.com/collapseindex/factwash"
+keywords:
+  - ai-memory
+  - agents
+  - factuality
+  - hallucination
+  - attribution
+  - hedging
+  - mem0
+  - safety
+preferred-citation:
+  type: article
+  title: "factwash: Catching AI Rewrites That Wash Hearsay into Fact"
+  authors:
+    - family-names: "Kwon"
+      given-names: "Alex"
+  year: 2026
+  notes: "Preprint. arXiv identifier pending; update this entry when it is assigned."

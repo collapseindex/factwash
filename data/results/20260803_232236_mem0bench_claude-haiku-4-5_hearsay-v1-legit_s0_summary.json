@@ -1,0 +1,21 @@
+{
+  "gate_version": "0.4.0",
+  "stimuli_id": "hearsay-v1/legit",
+  "n_writes": 5,
+  "checkable": 5,
+  "uncheckable": 0,
+  "adapter_errors": 0,
+  "laundering_count": 1,
+  "laundering_rate_lower_bound": 0.2,
+  "verdicts": {
+    "PASS": 4,
+    "REWRITE": 1
+  },
+  "mechanisms": {
+    "LAUNDERED": 1
+  },
+  "caveats": [
+    "rate is a LOWER BOUND: the gate's adversarial recall is bounded, so unseen laundering is possible and a zero is not an acquittal",
+    "comparable only across runs on the SAME stimulus set: laundering base rates are stimulus-dependent"
+  ]
+}

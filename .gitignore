@@ -1,0 +1,18 @@
+# internal planning doc, not part of the public repo
+memlint_v0_prd.md
+
+# experiment outputs (per-item ledgers + summaries). Force-add a specific summary
+# with `git add -f data/results/<file>` when a run's numbers are worth publishing.
+data/
+
+__pycache__/
+*.pyc
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.venv/
+.env
+
+# paper draft, kept out of the repo until submission
+writeup/

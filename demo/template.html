@@ -1,0 +1,486 @@
+<title>Factwash — That’s What Source Said</title>
+<style>
+  /* ============================================================
+     Palette: instrument panel. Prussian accent, neutrals pulled
+     cool toward it. Verdict colours are semantic and deliberately
+     separate from the accent.
+     ============================================================ */
+  :root {
+    --paper:      #EEF1F5;
+    --surface:    #FFFFFF;
+    --surface-2:  #F6F8FA;
+    --ink:        #131A24;
+    --ink-soft:   #46556A;
+    --muted:      #6B7B8F;
+    --rule:       #D2DAE4;
+    --rule-soft:  #E3E9F0;
+    --accent:     #2D4A7A;
+    --accent-ink: #FFFFFF;
+    --pass:       #2E7355;
+    --rewrite:    #9C5B14;
+    --reject:     #9E2B2B;
+    --hedge-bg:   #F6E2C4;
+    --attrib-bg:  #CFE0EE;
+    --shadow:     0 1px 2px rgba(19,26,36,.06), 0 8px 24px rgba(19,26,36,.06);
+
+    --serif: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+    --mono: ui-monospace, "Cascadia Mono", "SF Mono", "Menlo", Consolas, "Liberation Mono", monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #0E141B; --surface: #17202B; --surface-2: #1C2733;
+      --ink: #E4EAF1; --ink-soft: #AEBCCC; --muted: #8395A9;
+      --rule: #2A3644; --rule-soft: #222D3A;
+      --accent: #7FA6DA; --accent-ink: #0E141B;
+      --pass: #64BE95; --rewrite: #E0A560; --reject: #E38080;
+      --hedge-bg: #4A3A1E; --attrib-bg: #23405A;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 28px rgba(0,0,0,.32);
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #0E141B; --surface: #17202B; --surface-2: #1C2733;
+    --ink: #E4EAF1; --ink-soft: #AEBCCC; --muted: #8395A9;
+    --rule: #2A3644; --rule-soft: #222D3A;
+    --accent: #7FA6DA; --accent-ink: #0E141B;
+    --pass: #64BE95; --rewrite: #E0A560; --reject: #E38080;
+    --hedge-bg: #4A3A1E; --attrib-bg: #23405A;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 28px rgba(0,0,0,.32);
+  }
+  :root[data-theme="light"] {
+    --paper: #EEF1F5; --surface: #FFFFFF; --surface-2: #F6F8FA;
+    --ink: #131A24; --ink-soft: #46556A; --muted: #6B7B8F;
+    --rule: #D2DAE4; --rule-soft: #E3E9F0;
+    --accent: #2D4A7A; --accent-ink: #FFFFFF;
+    --pass: #2E7355; --rewrite: #9C5B14; --reject: #9E2B2B;
+    --hedge-bg: #F6E2C4; --attrib-bg: #CFE0EE;
+    --shadow: 0 1px 2px rgba(19,26,36,.06), 0 8px 24px rgba(19,26,36,.06);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: var(--serif); font-size: 17px; line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px 96px; }
+
+  /* ---------- masthead ---------- */
+  header.masthead { padding: 56px 0 28px; border-bottom: 1px solid var(--rule); }
+  .eyebrow {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--muted); margin: 0 0 14px;
+  }
+  h1 {
+    font-family: var(--mono); font-weight: 600; font-size: clamp(30px, 5vw, 46px);
+    letter-spacing: -.02em; line-height: 1.08; margin: 0 0 18px; text-wrap: balance;
+  }
+  h1 .dim { color: var(--muted); font-weight: 400; }
+  .thesis { font-size: 19px; line-height: 1.55; color: var(--ink-soft); max-width: 62ch; margin: 0; }
+  .thesis strong { color: var(--ink); font-weight: 600; }
+
+  /* ---------- section rhythm ---------- */
+  section { padding-top: 52px; }
+  h2 {
+    font-family: var(--mono); font-size: 13px; letter-spacing: .13em; text-transform: uppercase;
+    color: var(--accent); font-weight: 600; margin: 0 0 6px;
+  }
+  .sub { color: var(--muted); font-size: 15px; margin: 0 0 22px; max-width: 66ch; }
+
+  /* ---------- the gate ---------- */
+  .panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 4px; box-shadow: var(--shadow); }
+  .presets { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+  .chip {
+    font-family: var(--mono); font-size: 12px; padding: 7px 12px; cursor: pointer;
+    background: var(--surface); color: var(--ink-soft);
+    border: 1px solid var(--rule); border-radius: 2px; transition: background .12s, color .12s, border-color .12s;
+  }
+  .chip:hover { border-color: var(--accent); color: var(--ink); }
+  .chip[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .chip:focus-visible, .run:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .io { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule); }
+  @media (max-width: 760px) { .io { grid-template-columns: 1fr; } }
+  .cell { background: var(--surface); padding: 16px 18px; min-width: 0; }
+  .cell-head {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 10px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 10px;
+  }
+  .cell-head .who { color: var(--ink-soft); letter-spacing: .04em; text-transform: none; font-size: 11px; }
+  textarea {
+    width: 100%; border: 1px solid var(--rule-soft); border-radius: 3px; background: var(--surface-2);
+    color: var(--ink); font-family: var(--mono); font-size: 13px; line-height: 1.65;
+    padding: 11px 12px; resize: vertical; min-height: 104px;
+  }
+  .note { font-size: 14px; color: var(--muted); margin: 14px 0 0; max-width: 70ch; }
+
+  .actionbar { display: flex; align-items: center; gap: 14px; padding: 14px 18px; border-top: 1px solid var(--rule); flex-wrap: wrap; }
+  .run {
+    font-family: var(--mono); font-size: 13px; font-weight: 600; letter-spacing: .04em;
+    background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 3px;
+    padding: 10px 20px; cursor: pointer;
+  }
+  .run:hover { filter: brightness(1.08); }
+  .hint { font-family: var(--mono); font-size: 11.5px; color: var(--muted); }
+
+  /* ---------- verdict ---------- */
+  .verdict { margin-top: 20px; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; background: var(--surface); box-shadow: var(--shadow); }
+  .verdict-head { display: flex; align-items: center; gap: 14px; padding: 14px 18px; border-bottom: 1px solid var(--rule-soft); flex-wrap: wrap; }
+  .stamp {
+    font-family: var(--mono); font-size: 13px; font-weight: 700; letter-spacing: .1em;
+    padding: 6px 12px; border-radius: 2px; border: 1.5px solid currentColor;
+  }
+  .stamp[data-v="PASS"] { color: var(--pass); }
+  .stamp[data-v="PASS_WITH_FLAGS"] { color: var(--rewrite); }
+  .stamp[data-v="REWRITE"] { color: var(--rewrite); }
+  .stamp[data-v="REJECT"] { color: var(--reject); }
+  .stamp[data-v="UNCHECKABLE"] { color: var(--muted); }
+  .verdict-why { font-size: 15px; color: var(--ink-soft); }
+  .applied { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-left: auto; }
+
+  .findings { padding: 4px 0; }
+  .finding { padding: 14px 18px; border-top: 1px solid var(--rule-soft); }
+  .finding:first-child { border-top: 0; }
+  .fname {
+    font-family: var(--mono); font-size: 12px; font-weight: 700; letter-spacing: .08em;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .finding[data-sev="fail"] .fname { color: var(--reject); }
+  .finding[data-sev="warn"] .fname { color: var(--rewrite); }
+  .finding[data-sev="info"] .fname { color: var(--pass); }
+  .evidential {
+    font-family: var(--mono); font-size: 9.5px; letter-spacing: .1em; padding: 2px 6px;
+    border: 1px solid currentColor; border-radius: 2px; font-weight: 600;
+  }
+  .fev { font-family: var(--mono); font-size: 12.5px; line-height: 1.6; color: var(--ink-soft); margin: 8px 0 0; overflow-wrap: anywhere; }
+  .fcite { font-family: var(--mono); font-size: 11px; color: var(--muted); margin: 7px 0 0; }
+  .na { padding: 12px 18px; border-top: 1px solid var(--rule-soft); font-family: var(--mono); font-size: 11.5px; color: var(--muted); }
+
+  /* ---------- token marking ---------- */
+  .lens { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule); border-top: 1px solid var(--rule); }
+  @media (max-width: 760px) { .lens { grid-template-columns: 1fr; } }
+  .lens .cell { padding: 16px 18px; }
+  .rendered { font-family: var(--mono); font-size: 12.5px; line-height: 1.75; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--ink-soft); }
+  mark { padding: 1px 3px; border-radius: 2px; color: var(--ink); }
+  mark.h { background: var(--hedge-bg); }
+  mark.a { background: var(--attrib-bg); }
+  .legend { font-family: var(--mono); font-size: 10.5px; color: var(--muted); margin-top: 12px; display: flex; gap: 14px; flex-wrap: wrap; }
+  .legend i { font-style: normal; padding: 1px 5px; border-radius: 2px; color: var(--ink); }
+  .stripped { font-family: var(--mono); font-size: 12px; margin-top: 12px; color: var(--muted); }
+  .stripped b { color: var(--reject); font-weight: 600; }
+  .stripped s { color: var(--reject); }
+
+  /* ---------- data table ---------- */
+  .scroll { overflow-x: auto; border: 1px solid var(--rule); border-radius: 4px; background: var(--surface); box-shadow: var(--shadow); }
+  table { border-collapse: collapse; width: 100%; font-family: var(--mono); font-size: 12.5px; }
+  th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--rule-soft); white-space: nowrap; }
+  th { font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  tbody tr:last-child td { border-bottom: 0; }
+  td.num { font-variant-numeric: tabular-nums; }
+  td.big { color: var(--reject); font-weight: 600; }
+  td.ok { color: var(--pass); font-weight: 600; }
+
+  .checks { display: grid; grid-template-columns: repeat(auto-fit, minmax(248px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 4px; }
+  .check { background: var(--surface); padding: 16px 18px; }
+  .check h3 { font-family: var(--mono); font-size: 12px; letter-spacing: .07em; margin: 0 0 8px; color: var(--ink); }
+  .check p { font-size: 14.5px; margin: 0 0 8px; color: var(--ink-soft); }
+  .check .src { font-family: var(--mono); font-size: 10.5px; color: var(--muted); }
+  .verd { font-family: var(--mono); font-size: 10px; letter-spacing: .08em; padding: 2px 6px; border: 1px solid currentColor; border-radius: 2px; }
+  .verd.rj { color: var(--reject); }
+  .verd.rw { color: var(--rewrite); }
+  /* WARN reuses the rewrite hue: it is the same "look at this" register, one step softer,
+     and TEMPORAL_SCOPE_DROPPED is the only check that surfaces at this level. */
+  .verd.wn { color: var(--rewrite); opacity: .8; }
+
+  footer { margin-top: 60px; padding-top: 26px; border-top: 1px solid var(--rule); color: var(--muted); font-size: 14.5px; }
+  footer p { max-width: 72ch; }
+  footer code { font-family: var(--mono); font-size: 12.5px; color: var(--ink-soft); }
+  a { color: var(--accent); }
+
+  .sweep { animation: sweep .45s ease-out; }
+  @keyframes sweep { from { opacity: .35; transform: translateY(3px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .sweep { animation: none; } }
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Deterministic · judge-free · 69 tests</p>
+    <h1>Factwash <span class="dim">— that’s what source said</span></h1>
+    <p class="thesis">
+      A memory that keeps the claim and drops who said it becomes <strong>uncorrectable</strong>.
+      In measured runs a real store turned <em>“someone said she was elevated”</em> into a dated,
+      confident fact, and an access agent granted admin on it. This page runs the actual gate in
+      your browser — <strong>no model, no network, no scores.</strong> Named flags and hard verdicts only.
+    </p>
+  </header>
+
+  <section>
+    <h2>Run the gate</h2>
+    <p class="sub">
+      Pick a case or paste your own. Every preset is verbatim output from a paid run against a real
+      extractor — nothing here is hand-written to look good.
+    </p>
+
+    <div class="presets" id="presets" role="group" aria-label="Example cases"></div>
+
+    <div class="panel">
+      <div class="io">
+        <div class="cell">
+          <div class="cell-head"><span>Source · what was actually said</span></div>
+          <textarea id="src" spellcheck="false" aria-label="Source context"></textarea>
+        </div>
+        <div class="cell">
+          <div class="cell-head"><span>Stored · what the extractor kept</span><span class="who" id="origin"></span></div>
+          <textarea id="mem" spellcheck="false" aria-label="Candidate memory"></textarea>
+        </div>
+      </div>
+      <div class="actionbar">
+        <button class="run" id="run" type="button">Run gate</button>
+        <span class="hint" id="preset-note"></span>
+      </div>
+    </div>
+
+    <div class="verdict" id="verdict" hidden>
+      <div class="verdict-head">
+        <span class="stamp" id="stamp"></span>
+        <span class="verdict-why" id="why"></span>
+        <span class="applied" id="applied"></span>
+      </div>
+      <div class="findings" id="findings"></div>
+      <div class="lens">
+        <div class="cell">
+          <div class="cell-head"><span>Source, marked</span></div>
+          <div class="rendered" id="srcOut"></div>
+          <div class="legend">
+            <span><i style="background:var(--hedge-bg)">hedge</i> uncertainty marker</span>
+            <span><i style="background:var(--attrib-bg)">attribution</i> who said it</span>
+          </div>
+        </div>
+        <div class="cell">
+          <div class="cell-head"><span>Stored, marked</span></div>
+          <div class="rendered" id="memOut"></div>
+          <div class="stripped" id="stripped"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What the runs measured</h2>
+    <p class="sub">
+      The same 15 items through four combinations of model and extraction prompt, $0.65 of API spend.
+      A better prompt helps and a stronger model helps, but attribution-stripping never falls below half.
+    </p>
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr><th>Model</th><th>Extraction prompt</th><th>Attribution stripped</th><th>Hedge stripped</th><th>Abstained</th><th>False positives</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>haiku-4.5</td><td>naive “extract durable facts”</td><td class="num big">7 / 9</td><td class="num">2 / 9</td><td class="num">0</td><td class="num ok">0 / 5</td></tr>
+          <tr><td>haiku-4.5</td><td>mem0’s own ~7,800-token prompt</td><td class="num big">5 / 8</td><td class="num">1 / 8</td><td class="num">2</td><td class="num ok">0 / 5</td></tr>
+          <tr><td>sonnet-5</td><td>naive “extract durable facts”</td><td class="num big">7 / 10</td><td class="num">2 / 10</td><td class="num">0</td><td class="num ok">0 / 5</td></tr>
+          <tr><td>sonnet-5</td><td>mem0’s own ~7,800-token prompt</td><td class="num big">3 / 6</td><td class="num">1 / 6</td><td class="num">3</td><td class="num ok">0 / 5</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">
+      Read those columns for what they are. The first two measure the <em>extractor</em>, using the
+      paper’s own lexicon as the instrument, so a “catch rate” derived from them restates the
+      measurement rather than validating the gate. The independent number is the last column:
+      zero false positives in twenty opportunities on genuinely confident memories.
+      Hedge-stripping came nowhere near the 100% the source paper reports — on this corpus these
+      models usually keep “reportedly” unprompted. n is small and shrinks as abstention rises;
+      treat the rates as directional.
+    </p>
+  </section>
+
+  <section>
+    <h2>The seven checks</h2>
+    <p class="sub">Each one cites the result it comes from. A check that cannot apply reports N/A — never PASS.</p>
+    <div class="checks">
+      <div class="check">
+        <h3>BRITTLE <span class="verd rj">REJECT</span></h3>
+        <p>A derived conclusion survives but the values it was computed from are gone. “The total was $55”, with no line items.</p>
+        <p class="src">Reclaim, Sec. 4 — source-token test</p>
+      </div>
+      <div class="check">
+        <h3>TRUNCATED <span class="verd rj">REJECT</span></h3>
+        <p>What was retained no longer recomputes the stored total, and no “k of N” completeness tag admits it.</p>
+        <p class="src">Reclaim, Sec. 7 — recompute certificate</p>
+      </div>
+      <div class="check">
+        <h3>MANUFACTURED_CONFIDENCE <span class="verd rw">REWRITE</span></h3>
+        <p>The source hedged and the memory does not. Evidential hedges (“reportedly”, “rumor”) are flagged loudest — they are the near-universal blind spot.</p>
+        <p class="src">Manufactured Confidence, App. E — dehedged()</p>
+      </div>
+      <div class="check">
+        <h3>LAUNDERED <span class="verd rw">REWRITE</span></h3>
+        <p>Attribution disappears between source and store, so hearsay is filed as established fact.</p>
+        <p class="src">Manufactured Confidence, App. E — laundering metric</p>
+      </div>
+      <div class="check">
+        <h3>POLARITY_CHANGED <span class="verd rj">REJECT</span></h3>
+        <p>The source denied it and the memory asserts it. Worse than laundering: laundering keeps the fact and drops the stance, a flip stores the opposite fact.</p>
+        <p class="src">Factwash — closed-class negation, 0.91 F1 on held-out external text</p>
+      </div>
+      <div class="check">
+        <h3>CONDITION_DROPPED <span class="verd rw">REWRITE</span></h3>
+        <p>“Alice can approve it <em>if Bob is absent</em>” stored without the condition, turning a conditional permission into a standing one.</p>
+        <p class="src">Factwash — closed-class conditionals</p>
+      </div>
+      <div class="check">
+        <h3>TEMPORAL_SCOPE_DROPPED <span class="verd wn">WARN</span></h3>
+        <p>The source dated the claim and the memory stores it undated, so it reads as current later. A warning, not a block: a dropped date is stale-risky, not wrong.</p>
+        <p class="src">Factwash — bounded time expressions</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>
+      The gate running above is a direct port of the Python package. It was cross-checked against
+      <code>factwash.check()</code> on <strong>157 pairs</strong> — every test fixture plus every real
+      extraction and rewrite from the paid runs — with <strong>zero disagreements</strong>. It is still a
+      port: the shipping gate is the Python one.
+    </p>
+    <p>
+      Known limits, stated rather than hidden: the lexicons are English-only and substring-matched, so
+      <code>record</code> fires on “system of record” and <code>note</code> on “quick note before I forget”.
+      That accounts for the single false positive in the package’s calibration corpus. Checks are
+      claim-local rather than whole-memory, because real extractor preamble (“I’ve noted the following”)
+      otherwise shields the bare claim beneath it.
+    </p>
+  </footer>
+</div>
+
+<script>
+__GATE_JS__
+</script>
+<script>
+(function () {
+  "use strict";
+  var PRESETS = __PRESETS__;
+  var G = window.FactwashGate;
+
+  var elSrc = document.getElementById("src"), elMem = document.getElementById("mem");
+  var elChips = document.getElementById("presets"), elNote = document.getElementById("preset-note");
+  var elOrigin = document.getElementById("origin"), elVerdict = document.getElementById("verdict");
+
+  function esc(s) {
+    return s.replace(/[&<>"]/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+    });
+  }
+
+  // Wrap every lexicon hit. Ranges are merged so overlapping terms
+  // ("reportedly" is both a hedge and an attribution) mark once.
+  function markUp(text) {
+    var low = text.toLowerCase(), ranges = [];
+    function scan(list, cls) {
+      list.forEach(function (term) {
+        var i = 0;
+        while ((i = low.indexOf(term, i)) !== -1) { ranges.push({ s: i, e: i + term.length, c: cls }); i += 1; }
+      });
+    }
+    scan(G.HEDGE, "h"); scan(G.ATTRIB, "a");
+    if (!ranges.length) return esc(text);
+    ranges.sort(function (a, b) { return a.s - b.s || b.e - a.e; });
+    var merged = [];
+    ranges.forEach(function (r) {
+      var last = merged[merged.length - 1];
+      if (last && r.s < last.e) { last.e = Math.max(last.e, r.e); }
+      else merged.push({ s: r.s, e: r.e, c: r.c });
+    });
+    var out = "", cur = 0;
+    merged.forEach(function (r) {
+      out += esc(text.slice(cur, r.s)) + '<mark class="' + r.c + '">' + esc(text.slice(r.s, r.e)) + "</mark>";
+      cur = r.e;
+    });
+    return out + esc(text.slice(cur));
+  }
+
+  var WHY = {
+    PASS: "Nothing to fix — this write is safe to store.",
+    PASS_WITH_FLAGS: "Storable, but something is worth knowing about.",
+    REWRITE: "The stance was altered. Rewrite it hedge-intact, then re-gate.",
+    REJECT: "The basis is gone. Storing this makes the error uncorrectable.",
+    UNCHECKABLE: "No stored claim matched a source claim, so nothing could be verified. Not the same as clean."
+  };
+
+  function render(source, memory) {
+    var r = G.check(source, memory);
+    elVerdict.hidden = false;
+    elVerdict.classList.remove("sweep"); void elVerdict.offsetWidth; elVerdict.classList.add("sweep");
+
+    var stamp = document.getElementById("stamp");
+    stamp.textContent = r.verdict.replace(/_/g, " ");
+    stamp.setAttribute("data-v", r.verdict);
+    document.getElementById("why").textContent = WHY[r.verdict];
+    document.getElementById("applied").textContent = r.applied + " of 4 checks applied";
+
+    var findings = document.getElementById("findings");
+    findings.innerHTML = "";
+    var shown = r.flags.filter(function (f) { return f.severity !== "info"; });
+    shown.forEach(function (f) {
+      var d = document.createElement("div");
+      d.className = "finding"; d.setAttribute("data-sev", f.severity);
+      d.innerHTML =
+        '<div class="fname">' + esc(f.name) +
+        (f.evidential ? '<span class="evidential">EVIDENTIAL</span>' : "") + "</div>" +
+        '<p class="fev">' + esc(f.evidence) + "</p>" +
+        '<p class="fcite">' + esc(f.citation) + "</p>";
+      findings.appendChild(d);
+    });
+    if (!shown.length) {
+      var ok = document.createElement("div");
+      ok.className = "finding"; ok.setAttribute("data-sev", "info");
+      ok.innerHTML = '<div class="fname">NO FINDINGS</div>' +
+        '<p class="fev">Every applicable check passed on this pair.</p>';
+      findings.appendChild(ok);
+    }
+    var na = r.outcomes.filter(function (o) { return o.status === "n/a"; });
+    if (na.length) {
+      var n = document.createElement("div");
+      n.className = "na";
+      n.textContent = "N/A — " + na.map(function (o) { return o.check + " (" + o.note + ")"; }).join(" · ");
+      findings.appendChild(n);
+    }
+
+    document.getElementById("srcOut").innerHTML = markUp(source);
+    document.getElementById("memOut").innerHTML = markUp(memory);
+
+    var lost = [];
+    r.flags.forEach(function (f) { if (f.stripped) f.stripped.forEach(function (t) { if (lost.indexOf(t) === -1) lost.push(t); }); });
+    var strippedEl = document.getElementById("stripped");
+    strippedEl.innerHTML = lost.length
+      ? "<b>lost between source and store:</b> " + lost.map(function (t) { return "<s>" + esc(t) + "</s>"; }).join("&nbsp; ")
+      : "nothing was stripped from the matched claim";
+  }
+
+  PRESETS.forEach(function (p, i) {
+    var b = document.createElement("button");
+    b.className = "chip"; b.type = "button"; b.textContent = p.label;
+    b.setAttribute("aria-pressed", i === 0 ? "true" : "false");
+    b.addEventListener("click", function () {
+      Array.prototype.forEach.call(elChips.children, function (c) { c.setAttribute("aria-pressed", "false"); });
+      b.setAttribute("aria-pressed", "true");
+      load(p);
+    });
+    elChips.appendChild(b);
+  });
+
+  function load(p) {
+    elSrc.value = p.source; elMem.value = p.memory;
+    elNote.textContent = p.note;
+    elOrigin.textContent = p.origin ? "from " + p.origin : "";
+    render(p.source, p.memory);
+  }
+
+  document.getElementById("run").addEventListener("click", function () {
+    elOrigin.textContent = ""; render(elSrc.value, elMem.value);
+  });
+
+  load(PRESETS[0]);
+})();
+</script>
