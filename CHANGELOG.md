@@ -2,6 +2,24 @@
 
 ### Unreleased
 
+- **The bench was gameable, and now reports the vector that shows it.** Excluding
+  UNCHECKABLE from the denominator meant a heavily abstractive system could evade
+  alignment, contribute fewer flaggable writes, and score *cleaner* for being harder to
+  check. (The drift work proved the mechanism: paraphrase chains escape by going
+  UNCHECKABLE, not by passing.) `BenchResult` now reports `uncheckable_rate` and
+  `abstention_rate` beside the flag rate, `run_adapter` counts sources the system stored
+  nothing for, and a caveat names the incentive. Tests pin the vector and the caveat.
+  Credit: third-party review.
+- **The class rule is stated as a cue-inventory claim, not a claim about English.**
+  "Negation is a closed class" overreaches: semantic negation also surfaces through
+  *lack*, *fail to*, *without*, antonyms and pragmatic denial, none of which an
+  explicit-cue list catches. What the corpora annotate is cues, so the demonstrated claim
+  is that explicit negation cues are substantially more enumerable than hedge and
+  attribution realizations. Abstract and Limitations rewritten accordingly.
+- **One table for every evaluation set** (new Appendix B), because the paper reports a
+  0.73 precision and a 0.34 precision from different corpora and never said so at point
+  of use. Each set now appears once with its size, what it measures, and what it cannot.
+
 - **Overclaim audit: four corrections, one of them in the tool's own output.** (1) The
   bench called its number a LOWER BOUND, which is one-sided and flattering to anyone
   using it to indict a system: bounded recall pushes the rate down, but imperfect

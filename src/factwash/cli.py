@@ -104,8 +104,9 @@ def _cmd_bench(args) -> int:
             sources = [l for l in
                        src_path.read_text(encoding="utf-8", errors="replace").splitlines()
                        if l.strip()]
-        pairs, errors = run_adapter(mem0_adapter(), sources)
-        result = score_pairs(pairs, stimuli_id=args.stimuli_id, adapter_errors=errors)
+        pairs, errors, seen, no_write = run_adapter(mem0_adapter(), sources)
+        result = score_pairs(pairs, stimuli_id=args.stimuli_id, adapter_errors=errors,
+                             sources_seen=seen, sources_no_write=no_write)
     else:
         p = Path(args.pairs).resolve()
         if not p.is_file():
@@ -136,7 +137,8 @@ def main(argv=None) -> int:
     a.set_defaults(fn=_cmd_audit)
 
     b = sub.add_parser("bench",
-                       help="score a memory system's writes: laundering rate (lower bound)")
+                       help="score a memory system's writes: flag rate with its "
+                            "uncheckable and abstention rates")
     b.add_argument("pairs", nargs="?",
                    help="JSONL of {source, memory} pairs the system produced")
     b.add_argument("--adapter", choices=["mem0"],

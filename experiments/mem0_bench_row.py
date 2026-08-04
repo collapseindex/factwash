@@ -90,9 +90,10 @@ def main() -> int:
     for kind in ("injection", "legit"):
         sources = [text for _, k, text in corpus if k == kind]
         print(f"\n== {kind}: {len(sources)} sources ==")
-        pairs, errors = run_adapter(adapter, sources)
+        pairs, errors, seen, no_write = run_adapter(adapter, sources)
         result = score_pairs(pairs, stimuli_id=f"{STIMULI_ID}/{kind}",
-                             adapter_errors=errors)
+                             adapter_errors=errors, sources_seen=seen,
+                             sources_no_write=no_write)
         print()
         print(result.render())
         out = RESULTS / f"{stamp}_mem0bench_{MODEL}_{STIMULI_ID}-{kind}_s0_summary.json"

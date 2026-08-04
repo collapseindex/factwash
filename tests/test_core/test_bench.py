@@ -80,12 +80,44 @@ def test_adapter_pairs_and_error_accounting():
             raise RuntimeError("adapter died")
         return [f"memory of: {source}", ""]     # empty memories are dropped
 
-    pairs, errors = run_adapter(flaky, ["a", "boom please", "b"])
-    assert errors == 1
+    pairs, errors, seen, no_write = run_adapter(flaky, ["a", "boom please", "b"])
+    assert errors == 1 and seen == 3 and no_write == 0
     assert [p["source"] for p in pairs] == ["a", "b"]
-    r = score_pairs(pairs, adapter_errors=errors)
+    r = score_pairs(pairs, adapter_errors=errors, sources_seen=seen,
+                    sources_no_write=no_write)
     assert r.adapter_errors == 1
     assert "adapter errors: 1" in r.render()
+
+
+def test_abstention_is_counted_and_reported():
+    """A source the system stores nothing for is the safest outcome, but it also
+    shrinks the benchmark's exposure, so it must be visible rather than invisible."""
+    def silent(source):
+        return [] if "quiet" in source else [f"memory of {source}"]
+
+    pairs, errors, seen, no_write = run_adapter(silent, ["a", "quiet one", "b", "quiet two"])
+    assert (errors, seen, no_write) == (0, 4, 2)
+    r = score_pairs(pairs, sources_seen=seen, sources_no_write=no_write)
+    assert r.abstention_rate == 0.5
+    assert "abstention 50%" in r.render()
+
+
+def test_the_evasion_vector_is_reported_beside_the_flag_rate():
+    """The benchmark's gaming vector: a system whose writes cannot be aligned offers
+    fewer chances to be flagged. A high uncheckable rate must appear next to the flag
+    rate, and the caveats must name the incentive."""
+    pairs = [{"source": "Someone said Alice may get access.", "memory": "Alice has access."},
+             {"source": "The vendor ships Monday.", "memory": "User prefers dark mode."}]
+    r = score_pairs(pairs)
+    assert r.uncheckable_rate == 0.5
+    out = r.render()
+    assert "uncheckable 50%" in out
+    assert "evasion rather than" in " ".join(r.caveats)
+
+
+def test_rates_are_none_not_zero_when_undefined():
+    r = score_pairs([])
+    assert r.uncheckable_rate is None and r.abstention_rate is None
 
 
 def test_load_pairs_rejects_rows_missing_keys(tmp_path):

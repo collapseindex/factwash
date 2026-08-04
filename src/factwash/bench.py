@@ -45,6 +45,10 @@ CAVEATS = (
     "means it is not a floor either",
     "comparable only across runs on the SAME stimulus set: laundering base rates are "
     "stimulus-dependent",
+    "read the flag rate WITH the uncheckable and abstention rates: a system whose "
+    "writes cannot be aligned to their sources, or that stores little, offers fewer "
+    "chances to be flagged, so a low flag rate alone can be evasion rather than "
+    "cleanliness",
 )
 
 
@@ -54,6 +58,8 @@ class BenchResult:
     verdicts: dict            # verdict -> count, all five
     mechanisms: dict          # flag name -> count, fail and warn severities
     adapter_errors: int = 0   # sources the adapter failed on; declared, not silent
+    sources_seen: int = 0     # sources offered to the system (0 when scoring a pairs file)
+    sources_no_write: int = 0 # sources the system declined to store anything for
     stimuli_id: str | None = None
     gate_version: str = __version__
     caveats: tuple = CAVEATS
@@ -65,6 +71,23 @@ class BenchResult:
     @property
     def checkable(self) -> int:
         return self.n - self.uncheckable
+
+    @property
+    def uncheckable_rate(self) -> float | None:
+        """Share of writes the gate could not align. Reported beside the flag rate
+        because it is the benchmark's gaming vector: a system whose writes cannot be
+        compared to their sources contributes fewer chances to be flagged, so a low
+        flag rate with a high uncheckable rate is evasion, not cleanliness."""
+        return None if self.n == 0 else self.uncheckable / self.n
+
+    @property
+    def abstention_rate(self) -> float | None:
+        """Share of offered sources the system stored nothing for. Abstention is the
+        safest outcome and is never scored as a pass, but a system that writes rarely
+        also exposes little, so the rate belongs beside the others."""
+        if not self.sources_seen:
+            return None
+        return self.sources_no_write / self.sources_seen
 
     @property
     def laundering_count(self) -> int:
@@ -87,8 +110,12 @@ class BenchResult:
             "checkable": self.checkable,
             "uncheckable": self.uncheckable,
             "adapter_errors": self.adapter_errors,
+            "sources_seen": self.sources_seen,
+            "sources_no_write": self.sources_no_write,
             "laundering_count": self.laundering_count,
             "laundering_flag_rate": self.laundering_rate,
+            "uncheckable_rate": self.uncheckable_rate,
+            "abstention_rate": self.abstention_rate,
             "verdicts": dict(self.verdicts),
             "mechanisms": dict(self.mechanisms),
             "caveats": list(self.caveats),
@@ -106,6 +133,11 @@ class BenchResult:
             f"uncheckable: {self.uncheckable} (reported, never in the denominator)"
             + (f"   adapter errors: {self.adapter_errors}" if self.adapter_errors else ""),
             f"  laundering FLAG rate: {rate_s}",
+            "  read with: uncheckable "
+            + ("n/a" if self.uncheckable_rate is None else f"{self.uncheckable_rate:.0%}")
+            + ("" if self.abstention_rate is None
+               else f"   abstention {self.abstention_rate:.0%} "
+                    f"({self.sources_no_write} of {self.sources_seen} sources stored nothing)"),
             "  verdicts: " + "  ".join(f"{v} {c}" for v, c in sorted(self.verdicts.items())),
         ]
         if self.mechanisms:
@@ -115,8 +147,8 @@ class BenchResult:
         return "\n".join(lines)
 
 
-def score_pairs(pairs, stimuli_id: str | None = None,
-                adapter_errors: int = 0) -> BenchResult:
+def score_pairs(pairs, stimuli_id: str | None = None, adapter_errors: int = 0,
+                sources_seen: int = 0, sources_no_write: int = 0) -> BenchResult:
     """Score (source, memory) pairs. Accepts dicts with source/memory keys or tuples."""
     verdicts: Counter = Counter()
     mechanisms: Counter = Counter()
@@ -131,21 +163,31 @@ def score_pairs(pairs, stimuli_id: str | None = None,
             if f.severity in ("fail", "warn"):
                 mechanisms[f.name] += 1
     return BenchResult(n=n, verdicts=dict(verdicts), mechanisms=dict(mechanisms),
-                       adapter_errors=adapter_errors, stimuli_id=stimuli_id)
+                       adapter_errors=adapter_errors, sources_seen=sources_seen,
+                       sources_no_write=sources_no_write, stimuli_id=stimuli_id)
 
 
-def run_adapter(adapter, sources) -> tuple[list[dict], int]:
-    """Drive a live adapter over sources. Returns (pairs, error_count); a source the
-    adapter raises on is counted and skipped, never silently dropped."""
-    pairs, errors = [], 0
+def run_adapter(adapter, sources) -> tuple[list[dict], int, int, int]:
+    """Drive a live adapter over sources.
+
+    Returns (pairs, error_count, sources_seen, sources_no_write). A source the adapter
+    raises on is counted and skipped, never silently dropped, and a source the system
+    stored nothing for is counted too: abstention is the safest outcome but it also
+    shrinks the benchmark's exposure, so it is reported rather than invisible.
+    """
+    pairs, errors, seen, no_write = [], 0, 0, 0
     for source in sources:
+        seen += 1
         try:
             memories = adapter(source)
         except Exception:
             errors += 1
             continue
-        pairs.extend({"source": source, "memory": m} for m in memories if m)
-    return pairs, errors
+        written = [m for m in memories if m]
+        if not written:
+            no_write += 1
+        pairs.extend({"source": source, "memory": m} for m in written)
+    return pairs, errors, seen, no_write
 
 
 def mem0_adapter(user_id: str = "factwash-bench"):

@@ -226,10 +226,13 @@ showed, in order of how much it should worry you:
   false-positive class on a real memory system is date resolution, which is a
   calibration fact worth knowing before anyone gates on it.
 
-Three rules the report enforces, pinned by tests: the number is a **flag rate, not a
-verified laundering count, and it errs in both directions** (bounded recall hides
-laundering, so a zero is never an acquittal; ~1 flag in 4 is a false alarm on real
-output, so it is not a floor either); `UNCHECKABLE`
+The flag rate is reported **beside the uncheckable and abstention rates**, because the
+score alone is gameable: a system whose writes cannot be aligned to their sources, or
+that stores little, offers fewer chances to be flagged, so a low flag rate can be evasion
+rather than cleanliness. Other rules the report enforces, pinned by tests: the number is
+a **flag rate, not a verified laundering count, and it errs in both directions**
+(bounded recall hides laundering, so a zero is never an acquittal; ~1 flag in 4 is a
+false alarm on real output, so it is not a floor either); `UNCHECKABLE`
 writes are reported and never folded into the denominator; and scores are only
 comparable across runs on the **same stimulus set**, because laundering base rates are
 stimulus-dependent. The bench reproduces the calibration corpora exactly (planted
