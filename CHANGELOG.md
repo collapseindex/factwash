@@ -2,6 +2,21 @@
 
 ### Unreleased
 
+- **Stance as a field: `factwash.check_record()`.** Three probes this morning converged
+  on one design. (1) The leak is at RECORDING, not compression: the gate flags 9/10
+  source-to-note pairs and 1/10 note-to-compressed. (2) Gating the note and repairing it
+  is a clean null end to end (0 recovered, 0 broken), because the repair writes the hedge
+  as a parenthetical and the compressor strips it; stance written as a labelled field
+  survived 3/4, as a parenthetical 0/4. (3) So make it a field: a four-field stance
+  schema at the note step took clean writes from 3/10 to 7/10 on the same stimuli.
+  The new checker compares a record's retention fields to the source with no model and
+  no hedge lexicon on the memory side, and reports MALFORMED (never PASS) when the
+  retention fields are absent. It exists because the prose gate scored a schema memory
+  WORSE than a prose one: "CERTAINTY: hedged" carries the stance perfectly and contains
+  no word a hedge lexicon knows, which is a fact about the instrument, not the record.
+  Also fixes a parser bug found by its own test: `- **CERTAINTY**: rumor` silently lost
+  the field because markdown was stripped from one end of the key only.
+
 - **The LLM-judge baseline, run and reported: the judge commits the failure it is asked
   to detect.** Every reader asks why not just hand the pair to a model, and the paper
   only answered architecturally. Now measured (`experiments/judge_baseline.py`, ~$0.05,

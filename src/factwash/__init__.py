@@ -11,6 +11,7 @@ from .added import anthropic_added_witness
 from .checks import CheckOutcome, Flag
 from .core import check
 from .fixer import FixResult, fix
+from .record import RecordReport, check_record, parse_record
 from .report import Report
 from .surface import surface_scan
 from .drift import DriftReport, drift
@@ -25,7 +26,8 @@ def bench(pairs, stimuli_id=None):
     return score_pairs(pairs, stimuli_id=stimuli_id)
 
 
-__all__ = ["check", "fix", "wrap", "surface_scan", "inspect", "bench", "Report", "Flag",
+__all__ = ["check", "check_record", "fix", "wrap", "surface_scan", "inspect", "bench",
+           "parse_record", "RecordReport", "Report", "Flag",
            "CheckOutcome", "FixResult", "GatedMemory", "Change", "TransitionReport",
            "drift", "DriftReport",
            "anthropic_witness", "anthropic_added_witness", "apply_veto", "parse_tag",

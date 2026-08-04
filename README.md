@@ -176,6 +176,35 @@ in-lexicon chain cannot launder gradually past a per-write gate), and chains esc
 chain that loses checkability is reported loudly (`CHECKABILITY LOST at hop 2`), never
 as "no findings".
 
+### Structured memories: check the field, not the prose
+
+If a memory system stores records rather than sentences, `factwash.check_record()`
+compares the record's retention fields against the source, with no model and no lexicon
+of hedged phrasings on the memory side:
+
+```python
+factwash.check_record(
+    "Probably the API rate limit is 500 a minute; I'm going from memory here.",
+    "CLAIM: API rate limit ~500 req/min
+SOURCE: the user
+CERTAINTY: asserted
+AS_OF: unspecified")
+# REWRITE  MANUFACTURED_CONFIDENCE: source hedges ['probably'] but the record
+#          certifies it as 'asserted'
+```
+
+The rule is one line per field: if the source hedges, `CERTAINTY` may not say
+`asserted`; if the source names a speaker, `SOURCE` may not be empty; if the source
+dates it, `AS_OF` may not be empty. A record missing its retention fields is
+`MALFORMED`, never `PASS`, for the same reason `UNCHECKABLE` is never a pass.
+
+**Why this exists, measured.** Making the scratchpad structural more than doubled the
+share of writes that survived compression cleanly (3/10 to 7/10 on the `hearsay-v1`
+stimuli). But a structured *memory* scored worse under the prose gate than a prose one,
+and the reason was the measuring instrument: `CERTAINTY: hedged` preserves the source's
+stance perfectly and contains no word a hedge lexicon knows. The record is more
+machine-readable, not less. It just has to be read as a record.
+
 ## Benchmark: score your memory system
 
 `factwash bench` turns the gate into a scorer: feed it the `{source, memory}` pairs your
