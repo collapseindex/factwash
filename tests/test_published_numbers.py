@@ -204,3 +204,20 @@ ADDED_MEASURED = {"precision": "**precision 0.57**", "recall": "**recall 0.30**"
 def test_the_added_measurement_is_still_stated():
     for what, fragment in ADDED_MEASURED.items():
         _assert_in_readme(fragment, f"ADDED witness {what}")
+
+
+# The LLM-judge baseline (experiments/judge_baseline.py). Needs a key, so asserted as
+# PRESENT like the other live-model rows; ledgers in data/raw/*judgebaseline*.
+JUDGE_BASELINE = {
+    "gate row": "| Real writes (44, 20 pos.) | gate | 0.73 | **0.95** |",
+    "small judge": "| | LLM judge (small) | 1.00 | 0.30 |",
+    "large judge": "| | LLM judge (large) | 0.91 | 0.50 |",
+    "adversarial judge": "| | LLM judge (small) | 1.00 | **0.92** |",
+    "the mechanism": "the memory accurately captures the core fact",
+    "the caveat": "89 of 90 items",
+}
+
+
+def test_the_judge_baseline_is_still_stated():
+    for what, fragment in JUDGE_BASELINE.items():
+        _assert_in_readme(fragment, f"judge baseline {what}")

@@ -287,6 +287,27 @@ This is the design claim in `lexicons.py`, externally confirmed: the closed-clas
 
 +17 and +15 points of recall at equal precision, on exactly the two open classes. Unusable replies are counted as misses, because that is how the shipped gate treats them. Cost: $0.157 for all 400 calls on haiku-4.5.
 
+**Versus the obvious baseline: a direct LLM judge.** Same rubric the human labeller
+used, same labels, same pairs (`experiments/judge_baseline.py`, ~$0.05):
+
+| Set | Detector | Precision | Recall |
+|---|---|---|---|
+| Real writes (44, 20 pos.) | gate | 0.73 | **0.95** |
+| | LLM judge (small) | 1.00 | 0.30 |
+| | LLM judge (large) | 0.91 | 0.50 |
+| Adversarial (46, 26 pos.) | gate | 1.00 | 0.58 |
+| | LLM judge (small) | 1.00 | **0.92** |
+
+The judge nearly doubles the gate's recall on unfamiliar phrasing and collapses on real
+extractor output, missing 14 of 20 flagged writes. Its own explanations say why: the
+misses read *"the memory accurately captures the core fact"* — asked whether a memory
+misleads, the judge checks whether the **claim** survived, finds it did, and passes.
+That is the failure this tool is named after, performed by the detector asked to catch
+it. Two caveats: this is one rubric and two models, so it bounds the naive baseline
+rather than every possible judge; and the judge volunteered a source-grounded quote on
+89 of 90 items, so the case for validating evidence is that verdicts must be *required*
+to cite text, not that models can't.
+
 **Prompt or model? A 2x2 on the same 15 items:**
 
 | Model | Extraction prompt | Attribution stripped | Hedge stripped | Abstained |

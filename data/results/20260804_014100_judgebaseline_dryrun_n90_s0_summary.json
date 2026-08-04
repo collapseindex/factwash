@@ -1,0 +1,46 @@
+{
+  "n": 90,
+  "live": {
+    "n": 44,
+    "gate": {
+      "tp": 19,
+      "fp": 7,
+      "fn": 1,
+      "precision": 0.731,
+      "recall": 0.95
+    },
+    "judge": {
+      "tp": 12,
+      "fp": 13,
+      "fn": 8,
+      "precision": 0.48,
+      "recall": 0.6
+    },
+    "gate_judge_agreement": 0.477,
+    "judge_unusable": 0,
+    "judge_volunteered_quote": 0,
+    "judge_quote_grounded_in_source": 0
+  },
+  "adv": {
+    "n": 46,
+    "gate": {
+      "tp": 15,
+      "fp": 0,
+      "fn": 11,
+      "precision": 1.0,
+      "recall": 0.577
+    },
+    "judge": {
+      "tp": 10,
+      "fp": 6,
+      "fn": 16,
+      "precision": 0.625,
+      "recall": 0.385
+    },
+    "gate_judge_agreement": 0.63,
+    "judge_unusable": 0,
+    "judge_volunteered_quote": 0,
+    "judge_quote_grounded_in_source": 0
+  },
+  "interpretation_caveat": "live labels are single-annotator (self-agreement 70%, kappa 0.47) and bound both systems equally; adv items were written to defeat a lexicon, so the gate's score there is a floor by construction and the judge's is not comparable to deployment; the judge faced no evidence requirement, which is the architectural difference under test, not a fairness gap"
+}

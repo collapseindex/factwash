@@ -2,6 +2,21 @@
 
 ### Unreleased
 
+- **The LLM-judge baseline, run and reported: the judge commits the failure it is asked
+  to detect.** Every reader asks why not just hand the pair to a model, and the paper
+  only answered architecturally. Now measured (`experiments/judge_baseline.py`, ~$0.05,
+  same rubric the human labeller used, same labels): on adversarial phrasing the judge
+  nearly doubles the gate's recall (0.92 vs 0.58), which is the open-class result by
+  another route; on 44 real extractor writes it inverts, 0.30 recall (small model) and
+  0.50 (large) against the gate's 0.95, at higher precision. The reason is in its own
+  explanations, which say "the memory accurately captures the core fact": asked whether
+  a memory misleads, it checks whether the CLAIM survived, finds it did, and passes.
+  Pre-registered before spending: any outcome went in, including the one where the judge
+  wins. Two caveats stated with the result: one rubric and two models, so it bounds the
+  naive baseline; and the judge volunteered a source-grounded quote on 89 of 90 items,
+  so the evidence argument is that verdicts must be REQUIRED to cite text, not that
+  models cannot. Claims ledger gained a NOT CLAIMED row for the latter.
+
 - **The bench was gameable, and now reports the vector that shows it.** Excluding
   UNCHECKABLE from the denominator meant a heavily abstractive system could evade
   alignment, contribute fewer flaggable writes, and score *cleaner* for being harder to
