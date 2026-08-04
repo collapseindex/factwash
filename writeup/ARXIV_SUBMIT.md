@@ -39,7 +39,7 @@ so vocabulary plateaus near half recall, and a one-question LLM witness recovers
 +15 points of cue-detection recall at equal precision. Deployed, that witness may only
 lower a verdict, so it buys precision rather than coverage. We measure cue detection on
 105,596 independently annotated sentences. A blind-labelled corpus of memory writes then
-locates the failure: 55\% of bad writes in conversational hearsay, 7\% in business email
+locates the failure: 55% of bad writes in conversational hearsay, 7% in business email
 (p < 0.001), so the first deployment question is not which detector to use but whether
 the failure occurs at all. On unmodified mem0 2.0.7, the gate flags 5 of 8
 hedged-hearsay writes.

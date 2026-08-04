@@ -10,6 +10,7 @@ abs_tex = tex[start:tex.index("\\end{abstract}")]
 plain = re.sub(r"\\emph\{([^}]*)\}", r"\1", abs_tex)
 plain = re.sub(r"\\texttt\{([^}]*)\}", r"\1", plain)
 plain = plain.replace("\\sys", "factwash")
+plain = re.sub(r"\\([%&_$#])", r"\1", plain)   # escaped chars: \% -> %, before \cmd strip
 plain = re.sub(r"\\[a-zA-Z]+", "", plain)
 plain = plain.replace("$", "").replace("{,}", ",").replace("{", "").replace("}", "")
 plain = plain.replace("``", '"').replace("''", '"')
