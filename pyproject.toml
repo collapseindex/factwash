@@ -5,18 +5,25 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "factwash"
 version = "0.4.0"
-description = "A write-time linter for AI memory: rejects brittle, de-hedged, and laundered memory writes. Deterministic, judge-free, ported from three published papers."
+description = "Catch AI rewrites that wash hearsay into fact. A write-time gate for AI memory: deterministic checks, evidence-bearing flags, no LLM judge."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "Apache-2.0" }
-authors = [{ name = "Alex Kwon" }]
-keywords = ["ai-memory", "agents", "mem0", "linter", "safety"]
+authors = [{ name = "Alex Kwon", email = "ask@collapseindex.org" }]
+keywords = ["ai-memory", "agents", "mem0", "attribution", "hedging",
+            "hallucination", "factuality", "linter", "safety"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
     "License :: OSI Approved :: Apache Software License",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 dependencies = []
 
@@ -27,6 +34,9 @@ dev = ["pytest>=8"]
 
 [project.urls]
 Homepage = "https://github.com/collapseindex/factwash"
+Source = "https://github.com/collapseindex/factwash"
+Changelog = "https://github.com/collapseindex/factwash/blob/main/CHANGELOG.md"
+Issues = "https://github.com/collapseindex/factwash/issues"
 
 [project.scripts]
 factwash = "factwash.cli:console"
