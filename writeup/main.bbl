@@ -1,0 +1,143 @@
+\begin{thebibliography}{18}
+\providecommand{\natexlab}[1]{#1}
+
+\bibitem[{{Anthropic}(2025{\natexlab{a}})}]{anthropic2025haiku}
+{Anthropic}. 2025{\natexlab{a}}.
+\newblock Claude haiku 4.5.
+\newblock \url{https://www.anthropic.com/claude/haiku}.
+\newblock Model card.
+
+\bibitem[{{Anthropic}(2025{\natexlab{b}})}]{anthropic2025sonnet}
+{Anthropic}. 2025{\natexlab{b}}.
+\newblock Claude sonnet 5.
+\newblock \url{https://www.anthropic.com/claude/sonnet}.
+\newblock Model card.
+
+\bibitem[{Chhikara et~al.(2025)Chhikara, Khant, Aryan, Singh, and
+  Yadav}]{chhikara2025mem0}
+Prateek Chhikara, Dev Khant, Saket Aryan, Taranjeet Singh, and Deshraj Yadav.
+  2025.
+\newblock \href {https://arxiv.org/abs/2504.19413} {Mem0: Building
+  production-ready {AI} agents with scalable long-term memory}.
+\newblock \emph{arXiv preprint arXiv:2504.19413}.
+
+\bibitem[{Cohen(1960)}]{cohen1960kappa}
+Jacob Cohen. 1960.
+\newblock A coefficient of agreement for nominal scales.
+\newblock \emph{Educational and Psychological Measurement}, 20(1):37--46.
+
+\bibitem[{Farkas et~al.(2010)Farkas, Vincze, M{\'o}ra, Csirik, and
+  Szarvas}]{farkas2010conll}
+Rich{\'a}rd Farkas, Veronika Vincze, Gy{\"o}rgy M{\'o}ra, J{\'a}nos Csirik, and
+  Gy{\"o}rgy Szarvas. 2010.
+\newblock \href {https://aclanthology.org/W10-3001/} {The {CoNLL}-2010 shared
+  task: Learning to detect hedges and their scope in natural language text}.
+\newblock In \emph{Proceedings of the Fourteenth Conference on Computational
+  Natural Language Learning -- Shared Task}, pages 1--12, Uppsala, Sweden.
+  Association for Computational Linguistics.
+
+\bibitem[{Jiang et~al.(2023)Jiang, Wu, Lin, Yang, and Qiu}]{jiang2023llmlingua}
+Huiqiang Jiang, Qianhui Wu, Chin-Yew Lin, Yuqing Yang, and Lili Qiu. 2023.
+\newblock {LLMLingua}: Compressing prompts for accelerated inference of large
+  language models.
+\newblock In \emph{Proceedings of the 2023 Conference on Empirical Methods in
+  Natural Language Processing}, pages 13358--13376, Singapore. Association for
+  Computational Linguistics.
+
+\bibitem[{Klimt and Yang(2004)}]{klimt2004enron}
+Bryan Klimt and Yiming Yang. 2004.
+\newblock \href {https://doi.org/10.1007/978-3-540-30115-8_22} {The {Enron}
+  corpus: A new dataset for email classification research}.
+\newblock In \emph{Machine Learning: {ECML} 2004}, volume 3201 of \emph{Lecture
+  Notes in Computer Science}, pages 217--226. Springer.
+
+\bibitem[{Kwon(2026{\natexlab{a}})}]{kwon2026mc}
+Alex Kwon. 2026{\natexlab{a}}.
+\newblock \href {https://arxiv.org/abs/2606.29279} {Manufactured confidence:
+  How memory consolidation turns hearsay into confident facts}.
+\newblock \emph{arXiv preprint arXiv:2606.29279}.
+
+\bibitem[{Kwon(2026{\natexlab{b}})}]{kwon2026reclaim}
+Alex Kwon. 2026{\natexlab{b}}.
+\newblock \href {https://arxiv.org/abs/2606.25449} {Reclaim evaluation: A lossy
+  memory is worse than an empty one}.
+\newblock \emph{arXiv preprint arXiv:2606.25449}.
+
+\bibitem[{Lagi et~al.(2016)Lagi, Nielsen, and {contributors}}]{quantulum3}
+Marco Lagi, Tom Nielsen, and {contributors}. 2016.
+\newblock quantulum3: Information extraction of quantities from unstructured
+  text.
+\newblock \url{https://github.com/nielstron/quantulum3}.
+\newblock Python library, MIT license.
+
+\bibitem[{Newell et~al.(2018)Newell, Margolin, and Ruths}]{newell2018polnear}
+Edward Newell, Drew Margolin, and Derek Ruths. 2018.
+\newblock \href {https://aclanthology.org/L18-1524/} {An attribution relations
+  corpus for political news}.
+\newblock In \emph{Proceedings of the Eleventh International Conference on
+  Language Resources and Evaluation (LREC 2018)}, Miyazaki, Japan. European
+  Language Resources Association (ELRA).
+
+\bibitem[{Packer et~al.(2023)Packer, Wooders, Lin, Fang, Patil, Stoica, and
+  Gonzalez}]{packer2023memgpt}
+Charles Packer, Sarah Wooders, Kevin Lin, Vivian Fang, Shishir~G. Patil, Ion
+  Stoica, and Joseph~E. Gonzalez. 2023.
+\newblock \href {https://arxiv.org/abs/2310.08560} {{MemGPT}: Towards {LLMs} as
+  operating systems}.
+\newblock \emph{arXiv preprint arXiv:2310.08560}.
+
+\bibitem[{Pagnoni et~al.(2021)Pagnoni, Balachandran, and
+  Tsvetkov}]{pagnoni2021frank}
+Artidoro Pagnoni, Vidhisha Balachandran, and Yulia Tsvetkov. 2021.
+\newblock \href {https://doi.org/10.18653/v1/2021.naacl-main.383}
+  {Understanding factuality in abstractive summarization with {FRANK}: A
+  benchmark for factuality metrics}.
+\newblock In \emph{Proceedings of the 2021 Conference of the North American
+  Chapter of the Association for Computational Linguistics: Human Language
+  Technologies}, pages 4812--4829. Association for Computational Linguistics.
+
+\bibitem[{Pareti(2016)}]{pareti2016parc}
+Silvia Pareti. 2016.
+\newblock \href {https://aclanthology.org/L16-1619/} {{PARC} 3.0: A corpus of
+  attribution relations}.
+\newblock In \emph{Proceedings of the Tenth International Conference on
+  Language Resources and Evaluation (LREC'16)}, pages 3914--3920, Portoro{\v
+  z}, Slovenia. European Language Resources Association (ELRA).
+
+\bibitem[{Szarvas et~al.(2012)Szarvas, Vincze, Farkas, M{\'o}ra, and
+  Gurevych}]{szarvas2012cross}
+Gy{\"o}rgy Szarvas, Veronika Vincze, Rich{\'a}rd Farkas, Gy{\"o}rgy M{\'o}ra,
+  and Iryna Gurevych. 2012.
+\newblock \href {https://doi.org/10.1162/COLI_a_00098} {Cross-genre and
+  cross-domain detection of semantic uncertainty}.
+\newblock \emph{Computational Linguistics}, 38(2):335--367.
+
+\bibitem[{Tang et~al.(2023)Tang, Goyal, Fabbri, Laban, Xu, Yavuz, Kryscinski,
+  Rousseau, and Durrett}]{tang2023aggrefact}
+Liyan Tang, Tanya Goyal, Alex Fabbri, Philippe Laban, Jiacheng Xu, Semih Yavuz,
+  Wojciech Kryscinski, Justin Rousseau, and Greg Durrett. 2023.
+\newblock \href {https://aclanthology.org/2023.acl-long.650/} {Understanding
+  factual errors in summarization: Errors, summarizers, datasets, error
+  detectors}.
+\newblock In \emph{Proceedings of the 61st Annual Meeting of the Association
+  for Computational Linguistics (Volume 1: Long Papers)}, pages 11626--11644,
+  Toronto, Canada. Association for Computational Linguistics.
+
+\bibitem[{Vincze et~al.(2008)Vincze, Szarvas, Farkas, M{\'o}ra, and
+  Csirik}]{vincze2008bioscope}
+Veronika Vincze, Gy{\"o}rgy Szarvas, Rich{\'a}rd Farkas, Gy{\"o}rgy M{\'o}ra,
+  and J{\'a}nos Csirik. 2008.
+\newblock \href {https://doi.org/10.1186/1471-2105-9-S11-S9} {The {BioScope}
+  corpus: biomedical texts annotated for uncertainty, negation and their
+  scopes}.
+\newblock \emph{BMC Bioinformatics}, 9(S11):S9.
+
+\bibitem[{Wang et~al.(2025)Wang, Fu, Cao, Wang, Tian, and
+  Ding}]{wang2025recursive}
+Qingyue Wang, Yanhe Fu, Yanan Cao, Shuai Wang, Zhiliang Tian, and Liang Ding.
+  2025.
+\newblock \href {https://doi.org/10.1016/j.neucom.2025.130193} {Recursively
+  summarizing enables long-term dialogue memory in large language models}.
+\newblock \emph{Neurocomputing}, 639:130193.
+
+\end{thebibliography}

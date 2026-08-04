@@ -14,5 +14,14 @@ dist/
 .venv/
 .env
 
-# paper draft, kept out of the repo until submission
-writeup/
+# The paper. Source, figures, the PDF and the consistency checkers are tracked
+# (submitted 2026-08; check_paper.py enforces paper<->README parity, which only means
+# anything if both live here). Build artifacts and the packaged tarball are not.
+writeup/*.aux
+writeup/*.log
+writeup/*.out
+writeup/*.blg
+writeup/*.synctex.gz
+writeup/arxiv_pkg/
+writeup/*.tar.gz
+writeup/figures/*.png
