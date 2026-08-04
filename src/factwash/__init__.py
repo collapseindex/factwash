@@ -5,7 +5,7 @@ become uncorrectable (source dropped) or falsely confident (hedge stripped, attr
 laundered). The judge is deterministic; the optional fixer is an LLM rewriter whose output
 must pass the same deterministic judge.
 """
-__version__ = "0.4.0"
+__version__ = "0.5.0"
 
 from .added import anthropic_added_witness
 from .checks import CheckOutcome, Flag

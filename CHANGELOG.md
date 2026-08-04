@@ -1,6 +1,9 @@
 # Changelog
 
-### Unreleased
+### v0.5.0 (2026-08-04)
+
+Stance as a field. The morning's three probes found the leak is at recording, that
+repairing prose does not survive compression, and that a schema does.
 
 - **Stance as a field: `factwash.check_record()`.** Three probes this morning converged
   on one design. (1) The leak is at RECORDING, not compression: the gate flags 9/10

@@ -2,7 +2,7 @@
 
 **Catches AI rewrites that wash hearsay into fact.** (formerly TWSS, "That's What Source Said")
 
-**v0.4.0** · Apache-2.0 · zero runtime dependencies
+**v0.5.0** · Apache-2.0 · zero runtime dependencies
 
 **A gate for AI memory.** Agents rewrite conversations into stored "facts", and the rewrite quietly drops the things that made a claim checkable: who said it, how sure they were, when it held. factwash checks a candidate memory against the conversation it came from and rejects or rewrites the writes that would come back to bite you.
 
