@@ -131,6 +131,21 @@ def main() -> int:
         ("padding stops hurting on Sonnet",
          lambda: _patch_abs(["contrasts", "padded_vs_paren",
                              "mean_per_claim_delta"], 0.05)),
+        ("a retracted claim reasserted in the intro",
+         lambda: TEX.write_text(
+             orig_tex.replace(r"\section{Related work}",
+                              "What matters is whether the stance is asserted "
+                              "or subordinated.\n\n" + r"\section{Related work}",
+                              1),
+             encoding="utf-8")),
+        ("the stated retraction count disagrees with itself",
+         lambda: TEX.write_text(
+             orig_tex.replace("eight retractions", "five retractions", 1),
+             encoding="utf-8")),
+        ("the ablation arm count disagrees between sections",
+         lambda: TEX.write_text(
+             orig_tex.replace("the six forms", "the five forms", 1),
+             encoding="utf-8")),
         ("a judge reply became unusable",
          lambda: _patch(orig_sum, ["judge_parse", "failed"], 3)),
     ]

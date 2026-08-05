@@ -171,7 +171,7 @@ model, wording the stance as a full sentence ($+12.5$), is worth nothing on the 
 ($+0.6$). Either model alone would have licensed a confident and different mechanism. We
 report the intersection: make the stance explicit, do not merely make the note longer, and
 expect the best way of being explicit to depend on the model. A deterministic readout using
-no model agrees on direction. We also report seven retractions, three of them our own
+no model agrees on direction. We also report eight retractions, three of them our own
 headline claims.
 \end{abstract}
 
@@ -207,27 +207,30 @@ CERTAINTY: asserted | hedged | rumor | unverified\\
 AS\_OF: <when it held>
 \end{promptbox}
 
-It is right about the outcome and wrong about the reason, which took an ablation to find.
-Labelled fields do retain stance far better than parentheticals. But so does plain prose
-that states the stance in a sentence, and padding a parenthetical until it is longer than
-the schema retains nothing extra. What the compressor is responding to is not the labels
-and not the line breaks. It is whether the stance is \emph{asserted} or
-\emph{subordinated}.
+It is right about the outcome. The reason took an ablation to find, and the ablation's
+answer is that there may not be a single reason. Labelled fields do retain stance far
+better than bracketed asides, on two models and on a held-out corpus. But padding the
+aside until it is longer than the schema retains nothing extra, and when we decompose the
+format on both models they agree on the size of the effect while disagreeing about which
+property produces it. We therefore report a ranking that holds on one model, a second
+ranking that does not match it, and the two things both models agree on: labels help,
+length does not.
 
 \paragraph{Contributions.}
 (1)~A controlled test of form over $60$ claims in seven registers on two models, holding
 claim, stance, distractors and position constant, with a blind readout
 (\S\ref{sec:twocell}). Inference is at the claim, which is the unit that generalises.
-(2)~An ablation that separates \emph{labels}, \emph{layout} and \emph{length} and finds
-the mechanism is none of the first two and not the third: what matters is whether the
-stance is asserted or subordinated (\S\ref{sec:ablation}).
+(2)~An ablation, run on both models, that separates \emph{labels}, \emph{bracketing},
+\emph{wording} and \emph{length}, and finds that the two models produce the same net
+effect from different components (\S\ref{sec:ablation}). Only labels and length behave
+the same way on both.
 (3)~The finding that this is not about tokens. A parenthetical padded with stance-free
 text until it is the longest note in the experiment retains no more stance than the
 short one.
 (4)~A failure mode that the mechanism predicts and that we found separately: claims whose
 sources disagree, where a single field forces two attributions back into one subordinate
 clause (\S\ref{sec:errors}).
-(5)~Seven retractions, two of them our own headline claims, plus an instrument bug in our
+(5)~Eight retractions, three of them our own headline claims, plus an instrument bug in our
 own blind reader and a ten-claim corpus that manufactured both a false null and a false
 model-family split (\S\ref{sec:negatives}, \S\ref{sec:twocell}).
 
@@ -296,12 +299,12 @@ harder half of the detection problem does not arise.
 Two results shaped the design, and both are negative. A third, in our own instrument,
 shaped how much we believe the result that followed.
 
-\paragraph{The loss is at recording, not at compression.} We instrumented both
-transitions of the same sessions: source to scratchpad note, then note to stored memory.
-In $9/10$ sessions the model did record a stance cue in its note, and of those, the cue
-was still recoverable after compression in most cases. The intermediate note is
-stance-\emph{preserving}: what a model writes down explicitly tends to survive
-consolidation, and the leak is upstream of the compressor. We report this as a pilot and
+\paragraph{Where the loss happens is not obvious.} We instrumented both transitions of
+the same sessions: source to scratchpad note, then note to stored memory. A write-time
+gate flagged the first transition in $9/10$ sessions and the second in $1/10$, which
+reads as a leak at recording rather than at compression. Reading the same ten triples by
+hand does not support that cleanly: the model recorded a stance cue in $9/10$ notes, and
+of those the cue survived compression in most cases but not all. We report this as a pilot and
 lean nothing on the exact counts, because the automatic scorer we used for it counts
 cue \emph{tokens}, and compression frequently reworded a hedge rather than deleting it
 (``(unconfirmed)'' became ``pending confirmation''), which that scorer records as a loss.
@@ -345,7 +348,8 @@ between them.) We report this because
 the direction is the instructive part. A measurement error in a paper's own scorer is
 not a coin flip; it lands where the scorer is fragile, and a scorer is usually most
 fragile on the cases its author considered obvious. The harness now stores every raw
-judge reply and reports what fraction needed the fallback parser ($32/1900$, with none
+judge reply and reports what fraction needed the fallback parser ($32$ of the $1{,}900$
+two-cell trials, with none
 unusable), so the next failure of this kind is visible in the data rather than absorbed
 by it.
 
@@ -422,7 +426,7 @@ changed between those two rows, only the claims they were asked about.}
 \midrule
 field retains stance      & $30.3\%$  & $56.1\%$ \\
 prose retains stance      & $14.4\%$  & $40.8\%$ \\
-difference                & $+15.9$   & $+15.3$ \\
+difference                & $+15.8$   & $+15.3$ \\
 \addlinespace
 claim-clustered $95\%$ CI & $[+10.8, +20.6]$ & $[+8.9, +21.9]$ \\
 claims favouring field    & $37$      & $30$ \\
@@ -490,9 +494,9 @@ dropped from the digest entirely, and these are different failures. Under the
 \textsc{brutal} budget on Haiku, the field form keeps standing $44\%$ of the time, is
 stored as bare fact $11\%$, and is evicted $45\%$. The parenthetical keeps standing
 $21\%$, is stored as bare fact $28\%$, and is evicted $52\%$. The eviction gap is small;
-the washing gap is a factor of two and a half. On Sonnet the eviction rates are
-statistically indistinguishable ($129$ against $123$, $p=0.52$) while the stance
-difference is $15$ points. So the schema is not mainly keeping claims in memory. It is
+the washing gap is a factor of two and a half. On Sonnet, pooled over both budgets, the eviction rates are
+statistically indistinguishable ($129$ against $123$ out of $360$, $p=0.52$) while the
+stance difference is $15$ points. So the schema is not mainly keeping claims in memory. It is
 keeping them qualified.
 
 This also retracts a cost an earlier draft asserted, that the bulkier record is evicted
@@ -504,8 +508,8 @@ more often; see the Limitations.
 % GOAL: 0.75 page. Register breakdown, the failure mode, and the assumption-free test.
 % ===========================================================================
 
-\paragraph{It is not one register.} The effect is positive in six of the seven registers
-on both models. The strongest is \emph{project} ($+0.21$ on Haiku, $+0.23$ on Sonnet,
+\paragraph{It is not one register.} The effect is positive on both models in six of the
+seven registers. The strongest is \emph{project} ($+0.21$ on Haiku, $+0.23$ on Sonnet,
 $17$ claims) and the weakest by a distance is \emph{conflict} ($+0.12$ and $-0.00$,
 $7$ claims). A corpus that was widened precisely because a narrow one had lied to us
 should be checked for doing a smaller version of the same thing, and it is not.
@@ -567,7 +571,7 @@ levels or arms or replicates afterwards.
 \midrule
 field retains stance   & $30.3\%$ & $28.6\%$ \\
 prose retains stance   & $14.4\%$ & $13.1\%$ \\
-difference             & $+15.9$  & $+15.6$ \\
+difference             & $+15.8$  & $+15.6$ \\
 claim-clustered CI     & $[+10.8, +20.6]$ & $[+11.4, +20.0]$ \\
 claims favouring field & $37$ & $38$ \\
 claims favouring prose & $2$ & $1$ \\
@@ -623,17 +627,19 @@ templates wrap the same three strings, so the difference is a constant twelve ch
 for every claim and the predictor has no variance. A correlation of zero there is evidence
 of no experiment.
 
-\paragraph{Four forms, three more contrasts.} We therefore ran three further arms on the
+\paragraph{Six forms, five contrasts.} We therefore ran four further arms on the
 same sixty claims, the same two budgets, the same seed and the same replicate count. The
 filler notes and the target's position are drawn from a generator that does not depend on
 the arm, so every arm saw byte-identical surroundings and the already-collected field and
 paren data could be reused rather than paid for again.
 
-\begin{promptbox}[the five forms, mean length over the sixty claims]
+\begin{promptbox}[the six forms, mean length over the sixty claims]
 \textbf{sentences} \hfill 120 chars\\
 \quad X. This came from Y. It is Z.\\[2pt]
 \textbf{field} \hfill 115 chars\\
 \quad X / SOURCE: Y / CERTAINTY: Z\\[2pt]
+\textbf{promoted} \hfill 103 chars\\
+\quad X. Per Y; Z.\\[2pt]
 \textbf{padded} \hfill 125 chars\\
 \quad X (per Y; Z). Filed with the rest.\\[2pt]
 \textbf{unlabelled} \hfill 101 chars\\
@@ -656,7 +662,11 @@ outright.
 memories from which a blind reader can still recover the claim's standing, by the form the
 stance was written in, for both models. Sonnet retains more overall because it is the
 better compressor at these budgets; the comparison that matters is within a model.
-\textbf{Right:} each row changes exactly one property. Grey bars are not significant at
+\textbf{Right:} each row is one contrast between two of the forms on the left, named for
+what differs between them: \emph{length} is padded against bracketed, \emph{own line} is
+unlabelled against bracketed (which moves layout and bracketing together), \emph{
+unbracketing} is promoted against bracketed, \emph{wording} is sentences against
+promoted, and \emph{labels} is field against unlabelled. Grey bars are not significant at
 $0.05$ by an exact sign test over per-claim differences. Only \emph{labels} is coloured
 for both models; \emph{wording} carries the effect on Haiku and does nothing on Sonnet,
 while \emph{unbracketing} does more on Sonnet. \emph{Length} is the one property that
@@ -680,7 +690,7 @@ wording it explicitly & $+12.5^{*}$ & $+0.6$ \\
 own line              & $+6.1$      & $+2.5$ \\
 length                & $+0.8$      & $-10.3^{*}$ \\
 \midrule
-net (field vs bracketed) & $+15.9^{*}$ & $+15.3^{*}$ \\
+net (field vs bracketed) & $+15.8^{*}$ & $+15.3^{*}$ \\
 \bottomrule
 \end{tabular}
 \caption{\textbf{The same effect, assembled differently.} Percentage-point change in
@@ -794,8 +804,7 @@ machine-readable, not less; it has to be read as a record.
 
 Write a claim's standing into a bracketed aside and a compressor treats it as an aside.
 Write the same standing as a labelled field and it survives about fifteen points more
-often, across sixty claims in seven registers, on two models whose estimates sit inside
-each other's intervals, and again on sixty further claims written before the run under a
+often, across sixty claims in seven registers, on two models whose estimates differ by five and a half thousandths, and again on sixty further claims written before the run under a
 prediction registered in advance.
 
 What we cannot do is tell you why in one sentence, and the reason is worth more than the
@@ -819,7 +828,7 @@ false model-family split, and we believed the second long enough to verify it ag
 independent judge and find the check reassuring. Our own scorer discarded its clearest
 verdicts and inflated an effect twofold. A single-model ablation named a mechanism that
 the second model declined to confirm. Every number above is stated at the level the last
-surviving control allows, and the ledger in Appendix~\ref{app:claims} lists the seven
+surviving control allows, and the ledger in Appendix~\ref{app:claims} lists the eight
 claims we have withdrawn.
 
 \section*{Limitations}
@@ -960,6 +969,13 @@ Sonnet \\
 in opposite directions}: first asserted, then over-corrected to dismissal, and finally
 measured on a second model where labels are the \emph{most} robust component \\
 
+\textbf{Our consistency gate protects this paper from stating what it has withdrawn.} &
+\S\ref{app:repro} & \textsc{retracted}: it re-derived every number from the run data and
+caught none of six internal contradictions found by a reading, because each was a
+sentence surviving a rewrite rather than a number drifting. The introduction asserted a
+mechanism the paper retracts in \S\ref{sec:ablation}. The gate now also checks prose
+against prose \\
+
 The field-over-bracketed effect replicates on claims chosen before the result was known.
 & \S\ref{sec:prereg}, Tab.~\ref{tab:prereg} & \textsc{shown}: pre-registered at a public
 commit before any call, $+15.6$ points $[+11.4,+20.0]$, $38$ claims to $1$, size
@@ -1008,7 +1024,7 @@ attributions, so they are compressed back into a subordinate clause \\
 
 Stance written as a labelled field survives compression more often than the same stance
 written as prose. & \S\ref{sec:twocell}, Fig.~\ref{fig:perclaim} & \textsc{shown} on
-$60$ claims, two models: Haiku $+15.9$ points, Sonnet $+15.3$; claim-clustered
+$60$ claims, two models: Haiku $+15.8$ points, Sonnet $+15.3$; claim-clustered
 $p<0.001$ on both; $37$ vs $2$ and $30$ vs $8$ claims by sign \\
 
 The effect is a property of claims in general, not of a few wordings. &

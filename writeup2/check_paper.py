@@ -205,6 +205,68 @@ def main() -> int:
                 fails.append(f"stated {what} {m.group(1)} is not a count the data "
                              f"produces")
 
+    # --- PROSE-LEVEL CHECKS ---------------------------------------------------
+    # Everything above re-derives numbers from JSON. A review found six internal
+    # contradictions and this gate caught none of them, because every one was a
+    # sentence surviving a rewrite rather than a number drifting. These check the prose
+    # against itself.
+
+    # (a) claims the ledger marks RETRACTED must not be asserted elsewhere
+    RETRACTED_PHRASES = [
+        ("whether the stance is asserted or subordinated",
+         "the mechanism claim retracted after the promoted arm"),
+        ("subordination does everything", "retracted figure caption"),
+        ("helps where the compressor is weakest", "retracted v2 title claim"),
+        ("splits by model family", "retracted"),
+        ("widens monotonically", "retracted prediction"),
+        ("does as well as the labelled schema", "equivalence was never established"),
+        ("ran on Haiku~4.5 only", "the ablation now runs on both models"),
+    ]
+    for phrase, why in RETRACTED_PHRASES:
+        for m in re.finditer(re.escape(phrase), tex, re.I):
+            checks += 1
+            ctx = tex[max(0, m.start() - 220):m.end() + 220].lower()
+            if not any(w in ctx for w in ("retract", "earlier draft", "previous draft",
+                                          "title history", "not shown", "not claimed",
+                                          "wrong", "it does not", "does not support")):
+                fails.append(f"retracted claim asserted as current: {phrase!r} ({why})")
+
+    # (b) counts written as words must match the ledger
+    WORDS = {5: "five", 6: "six", 7: "seven", 8: "eight", 9: "nine", 10: "ten"}
+    checks += 1
+    word = WORDS.get(tex.lower().count(r"	extsc{retracted}"))
+    if word and f"{word} retractions" not in tex.lower():
+        fails.append(f"the ledger holds {word} retractions but the prose does not say so")
+    # the same number must be used everywhere it is stated
+    stated = set(re.findall(r"(\w+) retractions", tex.lower()))
+    checks += 1
+    if len(stated) > 1:
+        fails.append(f"the prose states the retraction count inconsistently: {stated}")
+    stated_h = set(re.findall(r"(\w+) of them our own headline", tex.lower()))
+    checks += 1
+    if len(stated_h) > 1:
+        fails.append(f"'N of them our own headline claims' disagrees with itself: "
+                     f"{stated_h}")
+
+    # (c) the arm count stated in prose must equal the number of arms in the data.
+    # Checking only for internal disagreement was not enough: the phrase occurs once,
+    # so corrupting it left nothing to disagree with. Anchor it to the run instead.
+    AB2 = SUMMARY.parent / "ablation_summary.json"
+    if AB2.is_file():
+        n_arms = len(json.loads(AB2.read_text(encoding="utf-8"))["rates"])
+        NUM = {2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven"}
+        checks += 1
+        stated_arms = set(re.findall(r"the (three|four|five|six|seven) forms",
+                                     tex.lower()))
+        if stated_arms and stated_arms != {NUM[n_arms]}:
+            fails.append(f"the prose says 'the {stated_arms} forms' but the ablation "
+                         f"has {n_arms} arms")
+        checks += 1
+        n_new = n_arms - 2  # field and paren already existed
+        if f"ran {NUM[n_new]} further arms" not in tex:
+            fails.append(f"the prose does not say 'ran {NUM[n_new]} further arms'; the "
+                         f"ablation added {n_new} to the original two")
+
     # no placeholders; the ledger must still carry its retractions
     checks += 1
     if re.findall(r"\\needsdata\{", tex):
@@ -223,7 +285,7 @@ def main() -> int:
         fails.append(f"the ledger holds {word} retractions but the prose does not say "
                      f"'{word} retractions' anywhere")
 
-    expected_retractions = 7
+    expected_retractions = 8
     n_retracted = tex.lower().count(r"\textsc{retracted}")
     if n_retracted != expected_retractions:
         fails.append(f"{n_retracted} RETRACTED rows in the ledger, expected "

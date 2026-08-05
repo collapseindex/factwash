@@ -199,7 +199,12 @@ def block(rows, label):
                     "rate": round(k / n_eff, 3) if n_eff else None,
                     "ci95": wilson(k, n_eff)}
     if out["field"]["rate"] is not None and out["paren"]["rate"] is not None:
-        out["delta"] = round(out["field"]["rate"] - out["paren"]["rate"], 3)
+        # from the UNROUNDED rates. Subtracting two rounded rates gave +15.9 where the
+        # true difference is 57/360 = 15.83, which a review caught: a difference of
+        # rounded numbers is not a rounded difference.
+        fk, fn = out["field"]["kept_qualified"], out["field"]["n"] - out["field"]["unparsed"]
+        pk, pn = out["paren"]["kept_qualified"], out["paren"]["n"] - out["paren"]["unparsed"]
+        out["delta"] = round(fk / fn - pk / pn, 4) if fn and pn else None
 
     byk = defaultdict(dict)
     for r in rows:
