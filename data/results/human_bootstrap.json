@@ -1,0 +1,28 @@
+{
+  "n_items": 50,
+  "n_claims": 40,
+  "n_boot": 10000,
+  "seed": 20260805,
+  "judge_delta": 0.2083,
+  "human_delta": 0.2115,
+  "human_delta_ci95": [
+    -0.034,
+    0.4417
+  ],
+  "shift_human_minus_judge": 0.0032,
+  "shift_ci95": [
+    -0.1586,
+    0.16
+  ],
+  "shift_ci_contains_zero": true,
+  "disagree_field": [
+    1,
+    26
+  ],
+  "disagree_prose": [
+    6,
+    24
+  ],
+  "asymmetry_fisher_p": 0.0451,
+  "note": "One rater, the paper's author, blind to condition but not to hypothesis. Fifty items check the DIRECTION of scorer disagreement; they do not re-measure the effect."
+}

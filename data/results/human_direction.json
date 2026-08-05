@@ -1,0 +1,18 @@
+{
+  "judge": {
+    "field": 0.5,
+    "paren": 0.2917,
+    "delta": 0.2083,
+    "n_field": 26,
+    "n_paren": 24
+  },
+  "human": {
+    "field": 0.4615,
+    "paren": 0.25,
+    "delta": 0.2115,
+    "n_field": 26,
+    "n_paren": 24
+  },
+  "verdict": "judge understates; paper conservative",
+  "note": "One rater, the paper's author, blind to condition but not to hypothesis. Fifty items is a check on direction, not a re-measurement of the effect."
+}
