@@ -108,7 +108,7 @@ What Makes Epistemic Stance Survive Memory Compression}
 \node[squeeze, right=12mm of mid] (comp)
   {\textbf{one compressor}\\[2pt]
    \footnotesize identical prompt,\\ settings and filler notes\\[3pt]
-   \scriptsize\itshape budget: 8 notes\\ \scriptsize\itshape into 25 or 12 words};
+   \scriptsize\itshape budget: 8 notes\\ \scriptsize\itshape into 25 words};
 
 \draw[arr, fieldblue] (fnote.east) -- ++(6mm,0) |- (comp.west);
 \draw[arr, proseorange] (pnote.east) -- ++(6mm,0) |- (comp.west);
@@ -339,7 +339,10 @@ it reliably emitted this:
 which is not valid JSON. \texttt{json.loads} raised, the verdict was recorded as null,
 and the scorer counted it as ``standing did not survive''. The instrument was discarding
 its own clearest positives, and discarding them precisely on the memories with the most
-surviving stance. It affected $6\%$ of trials. Because those trials were the
+surviving stance. It affected $6\%$ of the trials that existed when it was found. (That
+is a different quantity from the $33$ of $4{,}104$ replies that need the fallback parser
+today: one counts verdicts the bug destroyed before the fix, the other counts replies the
+repaired parser recovers.) Because those trials were the
 unambiguous ones, and because the parenthetical arm produced more of them, the bug
 inflated the headline: on the affected data the pooled advantage read
 $+9.3$ points, and re-running the identical four-level design after the fix gave $+4.0$.
@@ -442,7 +445,8 @@ across columns: Sonnet retains more standing overall because it is a better comp
 these budgets. The comparison is within a column, and it is paired down to the individual
 claim. The two models produce nearly the same difference. Differences are computed from
 the raw counts and then rounded, so subtracting the two displayed percentages can differ
-from the printed difference by a tenth ($30.28-14.44=15.83$, shown as $+15.8$).}
+from the printed difference by a tenth. The Haiku difference is $109/360-52/360=57/360
+=15.83\%$; subtracting the two rounded percentages instead gives $15.84$.}
 \label{tab:twocell}
 \end{table}
 
@@ -717,14 +721,20 @@ Three things survive the second model and one does not.
 \begin{itemize}\itemsep2pt
 \item \textbf{Labels replicate.} $+9.7$ points $[+2.8, +16.1]$ on Haiku and $+12.8$
       $[+7.2, +18.3]$ on Sonnet, both significant, intervals overlapping. This is the
-      only component that behaves the same way on both models, and an earlier draft of
-      this paper dismissed it.
+      only component that behaves the same way on both models. We have been wrong about
+      labels in both directions: an early draft credited them with the whole effect, a
+      later one dismissed them as irrelevant, and the measurement puts them second of
+      five and reproducible.
 \item \textbf{Length helps on neither model, and on one it hurts.} $+0.8$ $[-2.5, +3.9]$ on Haiku is a
       tight null; on Sonnet the same padding \emph{costs} $10.3$ points
       $[-15.0, -5.3]$, $p=0.0001$. Making the note longer without making the stance
       plainer is at best useless and at worst actively harmful.
 \item \textbf{Unbracketing helps on both, by different amounts}, $+6.7$ and $+12.8$; it
-      reaches significance on Sonnet and not on Haiku.
+      reaches significance on Sonnet and not on Haiku. Note that on Haiku \emph{own line}
+      ($+6.1$) is slightly smaller than \emph{unbracketing} ($+6.7$) even though it moves
+      layout and bracketing together, which implies the layout part alone is marginally
+      negative there. The difference is well inside both intervals and we do not read
+      anything into it.
 \item \textbf{Wording does not replicate.} It is the largest component on Haiku
       ($+12.5$, $p=0.0001$) and worth nothing at all on Sonnet ($+0.6$, $p=0.77$, with a
       $95\%$ interval of $[-6.1, +7.2]$ that comfortably contains zero).
@@ -757,10 +767,13 @@ said Helsinki, the account plan says Berlin'' has to be crushed back into one fi
 returns the stance to a subordinate blob. Two analyses that did not know about each other
 point at the same mechanism.
 
-\paragraph{What survives for the schema.} We could not detect a difference between the
-schema and plain asserted prose on either model, and the interval is too wide to call them
-equivalent (\S\ref{sec:ablation}); what we can say is that the schema is not the only way
-to buy retention. What the schema still has, and what this
+\paragraph{What survives for the schema.} The comparator here is the \textsc{sentences}
+arm, which states the source and the certainty in full sentences; we call it \emph{explicit
+prose} rather than ``asserted prose'', because elsewhere in this paper a claim stored as
+\emph{asserted} is one whose standing has been stripped, which is the opposite of what this
+arm does. We could not detect a difference between the schema and explicit prose on either
+model, and the interval is too wide to call them equivalent. What we can say is that the
+schema is not the only way to buy retention. What the schema still has, and what this
 ablation does not touch, is that its retention is \emph{checkable}. A four-field record can
 be compared against its source by a program with no model and no lexicon of hedged
 phrasings (\S\ref{sec:check}). Prose that retains stance has to be read by something that
@@ -1021,7 +1034,8 @@ The effect is a matter of length or token count. & \S\ref{sec:ablation} &
 stance-free text, is worth $+0.8$ points, $95\%$ CI $[-2.5,+3.9]$. The interval is narrow
 as well as containing zero, so this one can be called negligible \\
 
-\textbf{The labelled schema performs as well as plain asserted prose.} &
+\textbf{The labelled schema performs as well as explicit prose (the \textsc{sentences}
+arm).} &
 \S\ref{sec:ablation} & \textsc{not claimed}: no difference detected on either model
 ($-3.3$ points on Haiku, $p=1.0$; $+1.9$ on Sonnet), but Haiku's $90\%$ interval
 $[-9.2,+1.9]$ fails a two-one-sided test against a $5$-point margin. Absence of a detected

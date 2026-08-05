@@ -221,14 +221,28 @@ def main() -> int:
         ("widens monotonically", "retracted prediction"),
         ("does as well as the labelled schema", "equivalence was never established"),
         ("ran on Haiku~4.5 only", "the ablation now runs on both models"),
+        ("asserted prose", "collides with CERTAINTY: asserted, which means the "
+                           "opposite; the sentences arm is EXPLICIT prose"),
+        ("about as well as the schema", "an equivalence claim the TOST does not support"),
     ]
+    # comments are not the paper; the title-history block names every withdrawn
+    # claim on purpose
+    prose = re.sub(r"(?m)^\s*%.*$", "", tex)
     for phrase, why in RETRACTED_PHRASES:
-        for m in re.finditer(re.escape(phrase), tex, re.I):
+        for m in re.finditer(re.escape(phrase), prose, re.I):
             checks += 1
-            ctx = tex[max(0, m.start() - 220):m.end() + 220].lower()
+            # a phrase named as a TERM, in LaTeX quotes, is being discussed rather
+            # than asserted. "rather than" was tried as a context keyword and is far
+            # too common: it exempted a mutation that reasserted a retracted claim.
+            quoted = (prose[max(0, m.start() - 2):m.start()] == "``"
+                      and prose[m.end():m.end() + 2] == "''")
+            if quoted:
+                continue
+            ctx = prose[max(0, m.start() - 220):m.end() + 220].lower()
             if not any(w in ctx for w in ("retract", "earlier draft", "previous draft",
                                           "title history", "not shown", "not claimed",
-                                          "wrong", "it does not", "does not support")):
+                                          "wrong", "it does not",
+                                          "does not support")):
                 fails.append(f"retracted claim asserted as current: {phrase!r} ({why})")
 
     # (a2) EVERY point-value in the prose must be a number the run data produces.
