@@ -32,11 +32,13 @@ MUTED = "#898781"
 GRID = "#e1e0d9"
 BASE = "#c3c2b7"
 
-LEVELS = ("none", "low", "high", "extreme")
-SHORT = {"none": "none", "low": "low", "high": "high", "extreme": "extr."}
+LEVELS = ("none", "low", "high", "extreme", "brutal", "severe")
+SHORT = {"none": "none", "low": "low", "high": "high", "extreme": "extr.",
+         "brutal": "brut.", "severe": "sev."}
 NICE = {"claude-haiku-4-5": "Haiku 4.5", "claude-sonnet-4-5": "Sonnet 4.5",
-        "claude-opus-4-5": "Opus 4.5"}
-ORDER = ("claude-haiku-4-5", "claude-sonnet-4-5", "claude-opus-4-5")
+        "claude-opus-4-5": "Opus 4.5", "claude-sonnet-5": "Sonnet 5"}
+ORDER = ("claude-haiku-4-5", "claude-sonnet-4-5", "claude-opus-4-5",
+         "claude-sonnet-5")
 
 plt.rcParams.update({
     "font.family": "sans-serif",
@@ -68,14 +70,18 @@ def load():
 def fig_twocell(rep):
     blocks = rep["blocks"]
     models = [m for m in ORDER if any(k.startswith(f"{m} / ") for k in blocks)]
-    x = list(range(len(LEVELS)))
 
-    fig, axes = plt.subplots(2, len(models), figsize=(6.8, 3.9), sharex=True,
+    fig, axes = plt.subplots(2, len(models), figsize=(7.0, 3.9), sharex=True,
                              sharey="row")
 
     for col, model in enumerate(models):
-        keys = [f"{model} / {lv}" for lv in LEVELS]
-        n_pairs = sum(blocks[k]["paired"]["pairs"] for k in keys if k in blocks)
+        # a model is only plotted at the levels it was actually run at; the budget
+        # did not stretch to every model at every level, and drawing a line across a
+        # level that was never run would invent a data point
+        lv_run = [lv for lv in LEVELS if f"{model} / {lv}" in blocks]
+        x = [LEVELS.index(lv) for lv in lv_run]
+        keys = [f"{model} / {lv}" for lv in lv_run]
+        n_pairs = sum(blocks[k]["paired"]["pairs"] for k in keys)
 
         # --- top row: standing recoverable from the stored memory --------------
         ax = axes[0][col]
@@ -92,8 +98,8 @@ def fig_twocell(rep):
                         capsize=2, elinewidth=0.8, clip_on=False,
                         label="labelled field" if arm == "field" else "parenthetical")
         ax.set_ylim(0, 1.04)
-        ax.set_xlim(-0.3, len(LEVELS) - 0.7)
-        ax.set_title(f"{NICE.get(model, model)}  ($n$={n_pairs} pairs)",
+        ax.set_xlim(-0.4, len(LEVELS) - 0.6)
+        ax.set_title(f"{NICE.get(model, model)}  ($n$={n_pairs})",
                      fontsize=8.5, color=INK, pad=4)
         _spines(ax)
         if col == 0:
@@ -105,9 +111,9 @@ def fig_twocell(rep):
         for i, (arm, color) in enumerate((("field", BLUE), ("paren", ORANGE))):
             vals = [blocks[k][arm]["evicted"] / blocks[k][arm]["n"] for k in keys]
             ax.bar([v + (i - 0.5) * w for v in x], vals, width=w, color=color, zorder=3)
-        ax.set_ylim(0, 0.32)
-        ax.set_xticks(x)
-        ax.set_xticklabels([SHORT[lv] for lv in LEVELS], fontsize=7)
+        ax.set_ylim(0, 0.85)
+        ax.set_xticks(list(range(len(LEVELS))))
+        ax.set_xticklabels([SHORT[lv] for lv in LEVELS], fontsize=6.5)
         ax.set_xlabel("compression pressure", labelpad=2)
         _spines(ax)
         if col == 0:

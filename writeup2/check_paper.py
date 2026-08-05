@@ -15,8 +15,12 @@ HERE = Path(__file__).resolve().parent
 TEX = HERE / "main.tex"
 SUMMARY = HERE.parent / "data" / "results" / "twocell_pooled_summary.json"
 
-MODELS = {"Haiku": "claude-haiku-4-5", "Sonnet": "claude-sonnet-4-5",
-          "Opus": "claude-opus-4-5"}
+# Row label in the results table -> block key in the summary. "pooled" is included
+# deliberately: an earlier version checked only the model rows, and negative testing
+# showed the pooled row could be corrupted freely.
+MODELS = {"Haiku 4.5": "claude-haiku-4-5", "Sonnet 4.5": "claude-sonnet-4-5",
+          "Opus 4.5": "claude-opus-4-5", "Sonnet 5": "claude-sonnet-5",
+          "pooled": "ALL"}
 
 
 def pct(x):
@@ -40,9 +44,9 @@ def main() -> int:
     # corrupting the percentage was masked by the count still being present. Negative
     # testing caught it. Parse the row and check every cell.
     for nice, key in MODELS.items():
-        b = blocks[f"model={key}"]
+        b = blocks[key] if key == "ALL" else blocks[f"model={key}"]
         checks += 1
-        row = re.search(rf"^{nice} 4\.5\s*&(.+?)\\\\", tex, re.MULTILINE)
+        row = re.search(rf"^{re.escape(nice)}\s*&(.+?)\\\\", tex, re.MULTILINE)
         if not row:
             fails.append(f"{nice}: no results-table row found in main.tex")
             continue
@@ -62,45 +66,60 @@ def main() -> int:
             elif abs(float(nums[0]) - float(exp)) > 0.051:
                 fails.append(f"{nice} {label}: table says {nums[0]}, data says {exp}")
 
-    # --- raw counts must also appear in the prose ----------------------------
+    # --- raw counts and discordant pairs in the prose ------------------------
     h = blocks["model=claude-haiku-4-5"]
     s = blocks["model=claude-sonnet-4-5"]
-    for nice, b in (("Haiku", h), ("Sonnet", s)):
+    o = blocks["model=claude-opus-4-5"]
+    allb = blocks["ALL"]
+    sev = blocks.get("claude-opus-4-5 / severe")
+
+    for nice, b in (("Haiku", h), ("Sonnet 4.5", s), ("Opus", o), ("pooled", allb)):
         for arm in ("field", "paren"):
             want(f"{b[arm]['kept_qualified']}/{b[arm]['n']}", f"{nice} {arm} raw counts")
 
-    # --- the two significant McNemar results --------------------------------
-    checks += 1
-    if f"{h['paired']['field_only']}" not in tex or f"{h['paired']['paren_only']}" not in tex:
-        fails.append("Haiku discordant counts missing from tex")
+    for nice, b in (("Haiku", h), ("Sonnet 4.5", s), ("Opus", o), ("pooled", allb)):
+        checks += 1
+        if (str(b["paired"]["field_only"]) not in tex
+                or str(b["paired"]["paren_only"]) not in tex):
+            fails.append(f"{nice} discordant counts missing from tex")
+
+    # --- p-values quoted in the prose must match the data --------------------
     for label, val, lit in (
             ("Haiku survival p", h["paired"]["mcnemar_exact_p"], "0.004"),
-            ("Haiku eviction p", h["eviction_paired"]["mcnemar_exact_p"], "0.031"),
-            ("Sonnet eviction p", s["eviction_paired"]["mcnemar_exact_p"], "0.039")):
+            ("Opus survival p", o["paired"]["mcnemar_exact_p"], "0.0003"),
+            ("Sonnet eviction p", s["eviction_paired"]["mcnemar_exact_p"], "0.29"),
+            ("Opus severe survival p", sev["paired"]["mcnemar_exact_p"], "0.0009")):
         checks += 1
-        if abs(round(val, 3) - float(lit)) > 0.0005:
-            fails.append(f"{label}: tex says {lit}, data says {round(val, 5)}")
+        if abs(float(f"{val:.4g}") - float(lit)) > float(lit) * 0.12:
+            fails.append(f"{label}: tex says {lit}, data says {val}")
         if lit not in tex:
             fails.append(f"{label}: {lit!r} not present in tex")
 
-    # eviction counts
-    checks += 1
-    if not (str(h["field"]["evicted"]) in tex and str(h["paren"]["evicted"]) in tex):
-        fails.append("Haiku eviction counts missing")
-    checks += 1
-    if not (str(s["field"]["evicted"]) in tex and str(s["paren"]["evicted"]) in tex):
-        fails.append("Sonnet eviction counts missing")
+    # eviction counts, pooled and per-model
+    for nice, b in (("pooled", allb), ("Haiku", h), ("Sonnet 4.5", s), ("Opus", o)):
+        checks += 1
+        if not (str(b["field"]["evicted"]) in tex and str(b["paren"]["evicted"]) in tex):
+            fails.append(f"{nice} eviction counts missing")
 
     # --- total analysed pairs ------------------------------------------------
-    total_pairs = blocks["ALL"]["paired"]["pairs"]
-    want(f"${total_pairs}$", "total matched pairs")
+    want(f"${allb['paired']['pairs']}$", "total matched pairs")
 
-    # --- Opus must be reported as ceiling, not as a null ---------------------
-    o = blocks["model=claude-opus-4-5"]
+    # --- the direction claims the prose makes --------------------------------
     checks += 1
-    if not (o["field"]["rate"] == o["paren"]["rate"] == 1.0):
-        fails.append("Opus is no longer at ceiling; the 'nothing to prevent' framing "
-                     "in the abstract and conclusion is now wrong")
+    if allb["paren"]["evicted"] <= allb["field"]["evicted"]:
+        fails.append("pooled eviction no longer runs against the parenthetical; the "
+                     "'schema helps twice over' framing is now wrong")
+    checks += 1
+    if o["delta"] <= h["delta"]:
+        fails.append("Opus no longer shows a larger effect than Haiku; the retraction "
+                     "of 'helps where the compressor is weakest' no longer follows")
+    checks += 1
+    for lv in ("none", "low", "high", "extreme"):
+        k = f"claude-opus-4-5 / {lv}"
+        if k in blocks and blocks[k]["field"]["rate"] != 1.0:
+            fails.append(f"Opus is no longer at ceiling at {lv}; the 'a ceiling is a "
+                         f"statement about the test' argument needs rechecking")
+            break
 
     # --- judge parse health --------------------------------------------------
     parse = rep["judge_parse"]

@@ -73,7 +73,26 @@ PRESSURE = {
                    "TOTAL for all of them."),
     "extreme": (6, "Consolidate the notes below into long-term memory. One line per "
                    "fact, maximum 8 words per line."),
+    # The two levels below exist because the first sweep left the strongest model at
+    # ceiling in both arms, which makes it uninformative about the mechanism rather
+    # than evidence against it. A model has to actually lose something before you can
+    # ask whether form changes what it loses.
+    "brutal":  (8, "Consolidate the notes below into long-term memory. At most 25 words "
+                   "TOTAL for all of them."),
+    "severe":  (8, "Consolidate the notes below into long-term memory. At most 12 words "
+                   "TOTAL. Keep only what matters most."),
 }
+
+# Passed in, not measured. USD per million tokens (input, output). The cap is enforced
+# against MEASURED token counts at these rates, so a wrong rate makes the cap wrong;
+# unknown models default to the most expensive entry rather than the cheapest, so the
+# failure mode is stopping early rather than overspending.
+RATES = {
+    "claude-haiku-4-5": (1.0, 5.0),
+    "claude-sonnet-4-5": (3.0, 15.0),
+    "claude-opus-4-5": (5.0, 25.0),
+}
+RATE_FALLBACK = (15.0, 75.0)
 
 COMPRESS_HEAD = "You are a memory system consolidating working notes into long-term storage.\n\n"
 COMPRESS_TAIL = "\n\nOutput only the stored memory."
@@ -185,10 +204,29 @@ def main() -> int:
     ap.add_argument("--temperature", type=float, default=1.0)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--max-calls", type=int, default=800)
+    ap.add_argument("--max-usd", type=float, default=1.0,
+                    help="hard spend cap; the run stops rather than exceeding it")
+    ap.add_argument("--levels", default="",
+                    help="comma-separated subset of pressure levels; default all")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
 
-    calls, tel = {"n": 0}, []
+    levels = ([l.strip() for l in args.levels.split(",") if l.strip()]
+              if args.levels else list(PRESSURE))
+    bad = [l for l in levels if l not in PRESSURE]
+    if bad:
+        raise SystemExit(f"unknown pressure level(s): {bad}; known: {list(PRESSURE)}")
+
+    rate_in, rate_out = RATES.get(args.model, RATE_FALLBACK)
+    if args.model not in RATES and not args.dry_run:
+        print(f"! no rate on file for {args.model}; assuming the expensive fallback "
+              f"${rate_in}/${rate_out} per Mtok so the cap fails safe")
+
+    calls, tel, temp_ok = {"n": 0}, [], {"yes": True}
+
+    def spent_usd():
+        return (sum(t["tokens_in"] for t in tel) * rate_in
+                + sum(t["tokens_out"] for t in tel) * rate_out) / 1_000_000
 
     if args.dry_run:
         def ask(system, user, temp=None):
@@ -210,12 +248,29 @@ def main() -> int:
         def ask(system, user, temp=None):
             if calls["n"] >= args.max_calls:
                 raise SystemExit(f"hard stop at --max-calls {args.max_calls}")
+            if spent_usd() >= args.max_usd:
+                raise SystemExit(f"hard stop at --max-usd {args.max_usd} "
+                                 f"(measured spend ${spent_usd():.4f}); "
+                                 f"every completed trial is already on disk")
             calls["n"] += 1
             t0 = time.perf_counter()
-            r = client.messages.create(
-                model=args.model, max_tokens=500, system=system,
-                temperature=args.temperature if temp is None else temp,
-                messages=[{"role": "user", "content": user}])
+            kw = dict(model=args.model, max_tokens=500, system=system,
+                      messages=[{"role": "user", "content": user}])
+            # Some newer models reject `temperature` outright. Falling back silently
+            # would mean this run's sampling differs from every other run's without
+            # that appearing anywhere, so the fact is recorded and reported.
+            if temp_ok["yes"]:
+                kw["temperature"] = args.temperature if temp is None else temp
+            try:
+                r = client.messages.create(**kw)
+            except anthropic.BadRequestError as e:
+                if "temperature" not in str(e).lower() or not temp_ok["yes"]:
+                    raise
+                temp_ok["yes"] = False
+                print(f"! {args.model} rejects temperature; running at its default "
+                      f"for the rest of this run, and recording that in the summary")
+                kw.pop("temperature", None)
+                r = client.messages.create(**kw)
             tel.append({"tokens_in": r.usage.input_tokens,
                         "tokens_out": r.usage.output_tokens,
                         "latency_ms": round((time.perf_counter() - t0) * 1000, 1)})
@@ -224,7 +279,7 @@ def main() -> int:
 
     stamp = time.strftime("%Y%m%d_%H%M%S")
     tag = "dryrun" if args.dry_run else args.model
-    out_path = RAW / (f"{stamp}_twocellpress_{tag}_n{len(PAIRS)}x{len(PRESSURE)}"
+    out_path = RAW / (f"{stamp}_twocellpress_{tag}_n{len(PAIRS)}x{len(levels)}"
                       f"x{args.reps}_s{args.seed}.jsonl")
     RAW.mkdir(parents=True, exist_ok=True)
     done = ({json.loads(l)["key"] for l in out_path.read_text(encoding="utf-8").splitlines()
@@ -232,7 +287,8 @@ def main() -> int:
 
     with open(out_path, "a", encoding="utf-8") as fh:
         for rep in range(args.reps):
-            for level, (n_notes, instruction) in PRESSURE.items():
+            for level in levels:
+                n_notes, instruction = PRESSURE[level]
                 for pid, claim, source, certainty in PAIRS:
                     for arm, note in (("field", field_note(claim, source, certainty)),
                                       ("paren", paren_note(claim, source, certainty))):
@@ -260,9 +316,10 @@ def main() -> int:
                         fh.flush()
                         os.fsync(fh.fileno())
                 print(f"  rep {rep + 1}/{args.reps} pressure={level} "
-                      f"({calls['n']} calls)")
+                      f"({calls['n']} calls, ${spent_usd():.4f} of ${args.max_usd})")
 
-    score(out_path, tel)
+    score(out_path, tel, spent_usd() if not args.dry_run else 0.0,
+          (rate_in, rate_out), temp_ok["yes"])
     return 0
 
 
@@ -286,7 +343,7 @@ def mcnemar_exact(b, c):
     return round(min(1.0, 2 * tail), 5)
 
 
-def score(path, tel=None):
+def score(path, tel=None, usd=0.0, rates=None, temp_ok=True):
     rows = [json.loads(l) for l in path.read_text(encoding="utf-8").splitlines() if l.strip()]
     s = {"n_trials": len(rows), "by_pressure": {}}
 
@@ -333,12 +390,20 @@ def score(path, tel=None):
             "tokens_out": sum(t["tokens_out"] for t in tel),
             "latency_ms_p50": round(statistics.median(t["latency_ms"] for t in tel), 1),
             "latency_ms_max": round(max(t["latency_ms"] for t in tel), 1),
+            "usd": round(usd, 4),
+            "rate_note": (f"${rates[0]}/Mtok in, ${rates[1]}/Mtok out (passed in, "
+                          f"not measured)" if rates else None),
         }
     how = {}
     for r in rows:
         how[r.get("blind_parsed_how", "unknown")] = how.get(
             r.get("blind_parsed_how", "unknown"), 0) + 1
     s["judge_parse"] = how
+    s["temperature_set"] = temp_ok
+    if not temp_ok:
+        s["temperature_note"] = ("this model rejected the temperature parameter, so "
+                                 "this run used the model default for both the "
+                                 "compressor and the judge, unlike every other run")
     s["readout"] = ("blind: judge sees the stored digest and the claim to look up, never "
                     "the source note, the arm, or the pressure level")
     print("\n" + json.dumps(s, indent=2))

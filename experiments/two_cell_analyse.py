@@ -30,7 +30,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RAW, RESULTS = ROOT / "data" / "raw", ROOT / "data" / "results"
-LEVELS = ("none", "low", "high", "extreme")
+LEVELS = ("none", "low", "high", "extreme", "brutal", "severe")
 
 
 def wilson(k, n, z=1.96):
@@ -65,17 +65,22 @@ def load():
 
 
 def balance(rows):
-    """Keep only replicates that ran to completion on every pressure level.
+    """Keep only (run, replicate, pressure) cells that ran to completion.
 
-    The opus run stopped mid-way when the API credit ran out, leaving a replicate that
-    covers the easy pressure levels and not the hard ones. Averaging that in would
-    silently weight one model toward the conditions where nothing is lost. Dropped
-    replicates are returned so the count can be printed rather than hidden.
+    The opus run stopped mid-way when the API credit ran out, leaving a cell with one
+    arm populated and the other not. Averaging that in would silently weight a model
+    toward whichever arm got further. Dropped cells are returned so the count is printed
+    rather than hidden.
+
+    Balancing is per CELL, not per replicate, so that runs covering different subsets of
+    the pressure ladder can coexist: the harder levels were added after the first sweep,
+    and requiring a replicate to cover every level would silently discard every earlier
+    run the moment a new level was introduced.
     """
-    want = len(LEVELS) * 2 * 10  # levels x arms x pairs
+    want = 2 * 10  # arms x pairs, within one (run, rep, pressure) cell
     per = defaultdict(list)
     for r in rows:
-        per[(r["run"], r["rep"])].append(r)
+        per[(r["run"], r["rep"], r["pressure"])].append(r)
     kept, dropped = [], []
     for key, group in sorted(per.items()):
         (kept if len(group) == want else dropped).append((key, group))
@@ -150,14 +155,15 @@ def main():
         return 1
     rows, dropped = balance(raw)
     if dropped:
-        print("incomplete replicates dropped (not silently averaged in):")
-        for (run, rep), n in dropped:
-            print(f"  {run} rep={rep}: {n} trials, expected {len(LEVELS) * 2 * 10}")
+        print("incomplete cells dropped (not silently averaged in):")
+        for (run, rep, level), n in dropped:
+            print(f"  {run[:52]} rep={rep} {level}: {n} trials, expected 20")
         print()
     models = sorted({r["model"] for r in rows})
     report = {"n_trials_collected": len(raw), "n_trials_analysed": len(rows),
-              "dropped_incomplete_replicates": [
-                  {"run": k[0], "rep": k[1], "trials": n} for k, n in dropped],
+              "dropped_incomplete_cells": [
+                  {"run": k[0], "rep": k[1], "pressure": k[2], "trials": n}
+                  for k, n in dropped],
               "models": models,
               "runs": sorted({r["run"] for r in rows}), "blocks": {}}
 
