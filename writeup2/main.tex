@@ -301,10 +301,13 @@ shaped how much we believe the result that followed.
 
 \paragraph{Where the loss happens is not obvious.} We instrumented both transitions of
 the same sessions: source to scratchpad note, then note to stored memory. A write-time
-gate flagged the first transition in $9/10$ sessions and the second in $1/10$, which
-reads as a leak at recording rather than at compression. Reading the same ten triples by
-hand does not support that cleanly: the model recorded a stance cue in $9/10$ notes, and
-of those the cue survived compression in most cases but not all. We report this as a pilot and
+gate flagged the first transition in $9/10$ sessions and the second in $1/10$, which reads
+as a leak at recording rather than at compression. Reading the same ten triples by hand
+gives the opposite impression: the model did record a stance cue in $9/10$ notes, so
+recording largely worked, and what was lost was lost later. The two $9/10$ figures are not
+the same measurement, which is the problem: one counts sessions the gate flagged, the
+other counts notes containing a cue. We report the pilot as unresolved and lean nothing on
+it. We report this as a pilot and
 lean nothing on the exact counts, because the automatic scorer we used for it counts
 cue \emph{tokens}, and compression frequently reworded a hedge rather than deleting it
 (``(unconfirmed)'' became ``pending confirmation''), which that scorer records as a loss.
@@ -342,14 +345,14 @@ surviving stance. It affected $6\%$ of trials. Because those trials were the
 unambiguous ones, and because the parenthetical arm produced more of them, the bug
 inflated the headline: on the affected data the pooled advantage read
 $+9.3$ points, and re-running the identical four-level design after the fix gave $+4.0$.
-(Both figures predate the two harder levels, so neither is comparable to the
-$+5.5$ headline of \S\ref{sec:twocell}; the comparison that matters here is the one
-between them.) We report this because
+(Both figures predate the two harder levels and the sixty-claim corpus, so neither is
+comparable to the $+15.8$ and $+15.3$ of \S\ref{sec:twocell}; the comparison that matters
+here is the one between the two of them.) We report this because
 the direction is the instructive part. A measurement error in a paper's own scorer is
 not a coin flip; it lands where the scorer is fragile, and a scorer is usually most
 fragile on the cases its author considered obvious. The harness now stores every raw
-judge reply and reports what fraction needed the fallback parser ($32$ of the $1{,}900$
-two-cell trials, with none
+judge reply and reports what fraction needed the fallback parser ($33$ of the
+$4{,}104$ two-cell trials pooled across every corpus and model, with none
 unusable), so the next failure of this kind is visible in the data rather than absorbed
 by it.
 
@@ -374,8 +377,9 @@ where the standing sits:
 Both go to the same compressor with the same prompt and the same settings. Pairing is
 strict: for a given (claim, pressure, replicate) the two arms receive the same filler
 notes in the same positions, drawn from a seed that does not depend on the arm, so
-nothing but form differs. Sampling is held fixed within every comparison; one model
-rejects the temperature parameter outright and is discussed in the Limitations.
+nothing but form differs. Sampling is held fixed within every comparison. (Sonnet~5, which appears only in the
+ten-claim runs and is not among the models reported here, rejects the temperature
+parameter outright; see the Limitations.)
 
 \paragraph{Pressure is a factor, not a nuisance.} A first version of this experiment
 compressed a single one-sentence note and returned a clean null, for the good reason that
@@ -401,8 +405,8 @@ without requiring valid JSON, for reasons given in \S\ref{sec:instrument}.
 \paragraph{Result.} Figure~\ref{fig:perclaim} and Table~\ref{tab:twocell}. On
 \textbf{Haiku 4.5}, standing is recovered from $109/360$ field records against $52/360$
 parentheticals, $30.3\%$ against $14.4\%$. On \textbf{Sonnet 4.5}, $202/360$ against
-$147/360$, $56.1\%$ against $40.8\%$. The two models differ from each other by six
-thousandths.
+$147/360$, $56.1\%$ against $40.8\%$. The two models differ from each other by five and a
+half thousandths.
 
 \begin{figure*}[t]
 \centering
@@ -482,9 +486,10 @@ written up rather than checked.
 
 \paragraph{The judge is not the explanation.} In the runs above the compressor and the
 blind reader are the same model, so each model in effect grades its own homework. That is
-a live confound for any comparison \emph{between} models. We removed it by re-scoring all
-$1{,}941$ previously stored memories with a single fixed judge, which costs judge calls
-only and no new compression. Agreement with the original scoring is $98\%$, and no
+a live confound for any comparison \emph{between} models. We removed it by re-scoring, with a single fixed judge, all $1{,}941$ memories that
+existed when that check was run, which costs judge calls only and no new compression. That
+figure is a snapshot: it predates the sixty-claim runs and the replication, so it is
+smaller than the $4{,}104$ trials the paper now analyses. Agreement with the original scoring is $98\%$, and no
 model's effect moves by more than two points; Sonnet~4.5's ten-claim null is unchanged to
 four decimals. The self-judging confound is real in principle and was not what was
 happening here.
@@ -557,7 +562,9 @@ answer, we then wrote the corpus that produced the answer.
 
 So we wrote sixty more claims to the same seven-register specification, together with a
 prediction and a decision rule, and committed all of it to a public repository before any
-call was made against them. The registered rule was: a sign test at $p \ge 0.05$ means
+call was made against them. The replication runs on Haiku~4.5 only, which is why
+Table~\ref{tab:prereg} compares it against that model's numbers rather than the two-model
+figure of the abstract. The registered rule was: a sign test at $p \ge 0.05$ means
 the effect does not replicate and the headline claim becomes \textsc{not shown}; a
 claim-clustered mean outside $[+8, +25]$ points means the size prediction failed, and we
 say so whatever the sign test does. One run, three replicates, two budgets, no adding
@@ -651,7 +658,7 @@ paren data could be reused rather than paid for again.
 \textsc{padded} is the control that does the work. It leaves the stance exactly where the
 parenthetical puts it and appends a stance-free sentence, so it matches \textsc{sentences}
 in token count and in having more than one sentence while carrying no additional
-information about source, certainty or time. It is in fact the longest of the five, which
+information about source, certainty or time. It is in fact the longest of the six, which
 makes it a conservative test: if length were the mechanism, padding should have won
 outright.
 
@@ -995,9 +1002,10 @@ Fig.~\ref{fig:ablation} & \textsc{not shown}: the two models agree on the net
 effect and disagree on its composition. Wording is the largest component on
 Haiku ($+12.5$) and null on Sonnet ($+0.6$); unbracketing runs the other way \\
 
-The result rests on model judges alone. & \S\ref{sec:prereg} & \textsc{shown, and it is a
-limitation}: two model judges plus one deterministic gate. No human annotation was
-collected for any experiment here \\
+No human ever validated these outcomes. & \S\ref{sec:prereg} & \textsc{shown, and it is
+a limitation}: scored by two model judges and one deterministic gate, which is three
+instruments and no ground truth. No human annotation was collected for any experiment
+here \\
 
 The effect is a matter of length or token count. & \S\ref{sec:ablation} &
 \textsc{not shown}: the longest arm in the experiment, a parenthetical padded with

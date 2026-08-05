@@ -146,6 +146,9 @@ def main() -> int:
          lambda: TEX.write_text(
              orig_tex.replace("the six forms", "the five forms", 1),
              encoding="utf-8")),
+        ("a phantom effect size appears in the prose",
+         lambda: TEX.write_text(
+             orig_tex.replace("$+15.8$", "$+5.5$", 1), encoding="utf-8")),
         ("a judge reply became unusable",
          lambda: _patch(orig_sum, ["judge_parse", "failed"], 3)),
     ]

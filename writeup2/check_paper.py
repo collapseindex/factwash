@@ -231,6 +231,47 @@ def main() -> int:
                                           "wrong", "it does not", "does not support")):
                 fails.append(f"retracted claim asserted as current: {phrase!r} ({why})")
 
+    # (a2) EVERY point-value in the prose must be a number the run data produces.
+    # A stale "+5.5 headline" survived a rewrite and no check saw it, because a number
+    # that no longer exists anywhere cannot fail a comparison against the summary. So
+    # instead of checking that the right numbers are present, enumerate every "+N.N"
+    # the prose asserts and require each to be a real quantity.
+    legal_pts = set()
+    for blk in list(cc.values()):
+        for key in ("point", "rate_delta"):
+            if isinstance(blk.get(key), (int, float)):
+                legal_pts.add(round(100 * blk[key], 1))
+        for b in blk.get("ci95_claim_clustered", []) or []:
+            legal_pts.add(round(100 * b, 1))
+    for src in (SUMMARY.parent / "ablation_summary.json",
+                SUMMARY.parent / "ablation_summary_sonnet-4-5.json",
+                SUMMARY.parent / "ablation_intervals.json",
+                SUMMARY.parent / "ablation_intervals_sonnet-4-5.json",
+                SUMMARY.parent / "prereg_replication.json"):
+        if not src.is_file():
+            continue
+        d = json.loads(src.read_text(encoding="utf-8"))
+        for c2 in (d.get("contrasts") or {}).values():
+            for key in ("mean_per_claim_delta", "point"):
+                if isinstance(c2.get(key), (int, float)):
+                    legal_pts.add(round(100 * c2[key], 1))
+            for b in (c2.get("ci95") or []) + (c2.get("ci90") or []):
+                legal_pts.add(round(100 * b, 1))
+        for key in ("mean_per_claim_delta",):
+            if isinstance(d.get(key), (int, float)):
+                legal_pts.add(round(100 * d[key], 1))
+        for b in (d.get("ci95") or []):
+            legal_pts.add(round(100 * b, 1))
+    # historical figures the paper quotes on purpose when describing what it withdrew
+    legal_pts |= {4.0, 9.3, 3.7, 0.4, 18.3, 15.9}
+    for m in re.finditer(r"\$([+-]\d+\.\d)\$", tex):
+        checks += 1
+        v = float(m.group(1))
+        if round(v, 1) not in legal_pts and round(-v, 1) not in legal_pts:
+            ctx = re.sub(r"\s+", " ", tex[max(0, m.start() - 60):m.end() + 60])
+            fails.append(f"stated effect {m.group(1)} is not a value the run data "
+                         f"produces: ...{ctx}...")
+
     # (b) counts written as words must match the ledger
     WORDS = {5: "five", 6: "six", 7: "seven", 8: "eight", 9: "nine", 10: "ten"}
     checks += 1
