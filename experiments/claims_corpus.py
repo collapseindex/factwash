@@ -164,10 +164,22 @@ V2 = [
      "the handbook says three, a manager said two", "sources disagree"),
 ]
 
+def _v3():
+    from claims_corpus_v3 import V3
+    return V3
+
+
 CORPORA = {"v1": V1, "v2": V2, "all": V1 + V2}
 
 
 def get(name: str):
+    if name == "v3":
+        import sys
+        sys.path.insert(0, str(__import__("pathlib").Path(__file__).resolve().parent))
+        claims = _v3()
+        ids = [c[0] for c in claims]
+        assert len(set(ids)) == len(ids), "duplicate claim ids in v3"
+        return claims
     if name not in CORPORA:
         raise SystemExit(f"unknown corpus {name!r}; known: {sorted(CORPORA)}")
     claims = CORPORA[name]

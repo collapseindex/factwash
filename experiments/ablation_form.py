@@ -89,7 +89,23 @@ def padded_note(claim, source, certainty):
     return f"{claim} (per {source}; {certainty}). Filed with the rest."
 
 
-ARMS = {"field": field_note, "paren": paren_note,
+def promoted_note(claim, source, certainty):
+    """The parenthetical's EXACT words, promoted out of the parentheses.
+
+    paren     X (per Y; Z)
+    promoted  X. Per Y; Z.
+
+    Review objection this answers: `sentences` differs from `paren` in vocabulary as
+    well as in syntax ("This came from Y" is a stronger attribution cue than "per Y"),
+    so the +18.3 attributed to assertion could be a wording effect. This arm changes
+    nothing but the punctuation that makes the stance subordinate. If it recovers the
+    gain, subordination is isolated. If it does not, the gain was the richer wording and
+    the mechanism claim is wrong.
+    """
+    return f"{claim}. Per {source}; {certainty}."
+
+
+ARMS = {"field": field_note, "paren": paren_note, "promoted": promoted_note,
         "unlabelled": unlabelled_note, "sentences": sentences_note,
         "padded": padded_note}
 

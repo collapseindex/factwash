@@ -157,12 +157,15 @@ the same budget among the same distractor notes, and a blind reader that never s
 condition scores the result. Across $60$ claims in seven registers, moving stance out of a
 parenthetical and into a labelled field raises retention by about $15$ points on two
 models, holding claim by claim ($37$ claims to $2$ on one, $30$ to $8$ on the other;
-permutation $p=0.00005$). An ablation on one of those models then shows the labels are not
-the mechanism. Padding the parenthetical with stance-free text until it is the longest
-note of all changes nothing ($+0.8$ points, $p=0.48$), and plain prose stating the stance
-as its own sentence does as well as the labelled schema ($p=1.0$). What matters is whether
-stance is \emph{asserted} or \emph{subordinated}: at matched length and sentence count,
-asserting it is worth $+18.3$ points ($p<0.0001$), labels a further $+9.7$. That also
+permutation $p=0.00005$). An ablation on one of those models then decomposes the
+effect. Length contributes nothing: padding the parenthetical with stance-free text until
+it is the longest note of all is worth $+0.8$ points, $95\%$ CI $[-2.5,+3.9]$. The largest
+component is whether the stance is \emph{asserted} or \emph{subordinated}, worth $+18.3$
+points $[+12.2,+24.7]$ at matched length and sentence count. Labels contribute a smaller
+but real $+9.7$ $[+2.8,+16.1]$ on top of that, and putting the stance on its own line
+contributes $+6.1$ $[+0.8,+11.4]$. We did not detect a difference between the labelled
+schema and plain asserted prose, but the interval is too wide to call them equivalent:
+any difference is somewhere within $9$ points. That also
 explains a failure mode we had already found, claims whose sources disagree, where one
 field forces two attributions back into a single subordinate clause. A schema is therefore
 one way to buy retention rather than the only one, but it remains the only form here whose
@@ -602,19 +605,33 @@ test over per-claim differences.}
 \item \textbf{Labels: $+9.7$ points}, $29$ to $7$, $p=0.0003$. \textsc{field} against
       \textsc{unlabelled}: the same words on the same lines, with and without
       \texttt{SOURCE:} and \texttt{CERTAINTY:} naming them.
-\item \textbf{Own lines alone: $+6.1$ points}, $19$ to $10$, $p=0.14$. Not significant.
-\item \textbf{Length alone: $+0.8$ points}, $11$ to $7$, $p=0.48$. Nothing, from the
-      longest arm in the experiment.
+\item \textbf{Own lines alone: $+6.1$ points}, $[+0.8, +11.4]$, $19$ to $10$. The
+      two tests disagree here: the interval excludes zero, the sign test does not
+      ($p=0.14$, with $31$ ties). We report it as small and not firmly established
+      rather than picking whichever test suits the story.
+\item \textbf{Length alone: $+0.8$ points}, $[-2.5, +3.9]$, $11$ to $7$, $p=0.48$. This
+      is the one component the study can call negligible, because the interval is
+      narrow as well as containing zero, and it comes from the longest arm in the
+      experiment.
 \end{itemize}
 
-\noindent And the contrast that constrains the paper's own claim: \textsc{field} against
-\textsc{sentences} is $-3.3$ points, $18$ claims each way, $p=1.0$. \textbf{The labelled
-schema is not better than plain prose that states the stance in a sentence.}
+\noindent The components are ordered, not exclusive. Assertion is roughly twice labels
+and labels are not zero, so ``it is the syntax, not the labels'' would overstate what was
+measured; the defensible reading is that assertion is the largest single component and
+labels a real secondary one.
+
+\noindent On the schema against plain asserted prose, \textsc{field} minus
+\textsc{sentences} is $-3.3$ points with a $90\%$ interval of $[-9.2, +1.9]$. Against a
+five-point equivalence margin declared before the analysis, that fails the two one-sided
+tests. We therefore did \emph{not} detect a difference between them and also cannot claim
+they perform the same: the study is consistent with plain prose beating the schema by as
+much as nine points. Saying the schema ``does as well'' would be treating a null result as
+evidence of equivalence.
 
 \paragraph{What this means.} On Haiku~4.5, a compressor asked to discard material
-discards what is grammatically subordinate and keeps what is asserted. The ablation is
-one model, so read this as the mechanism behind that model's fifteen-point effect rather
-than as a law about compressors; the two-cell result it explains does replicate on
+keeps what is asserted more reliably than what is subordinated, with labels adding a
+smaller further gain. The ablation is one model, so read this as a decomposition of that
+model's fifteen-point effect rather than as a law about compressors; the two-cell result it explains does replicate on
 Sonnet~4.5, but the decomposition itself does not yet. It is a claim about syntax, not
 about formatting or token budgets, and it explains something the earlier framing could
 not: why a parenthetical is a poor place to put a hedge. A parenthetical is
@@ -690,15 +707,17 @@ standing as a proposition, in a labelled field or in a plain sentence, and it su
 about fifteen points more often across sixty claims in seven registers, on two models
 whose estimates sit well inside each other's intervals.
 
-We can name the mechanism rather than guess it because the alternatives were measured and
-failed. Padding a parenthetical with stance-free text until it is the longest note in the
-experiment buys eight thousandths of a point. Putting the same words on their own lines
-without labels does not reach significance. Only moving the stance into its own
-proposition moves the outcome, and it does so by $18.3$ points at matched length and
-matched sentence count.
+We can rank the components rather than guess at them, because the alternatives were
+measured. Padding a parenthetical with stance-free text until it is the longest note in
+the experiment buys eight thousandths of a point, with an interval narrow enough to call
+that negligible. Moving the stance into its own proposition, at matched length and
+matched sentence count, is worth $18.3$ points. Labels are worth a further $9.7$ on top
+of that, which is smaller but not nothing, and an earlier draft of this paper was wrong
+to write them off.
 
-That reframes what a write schema is for, and \S\ref{sec:ablation} states the reframing:
-retention is available from plain prose, verifiability is not. It also says where the
+That reframes what a write schema is for, and \S\ref{sec:ablation} states the
+reframing: retention is largely available from plain asserted prose, while the structural
+completeness of a record is checkable by a program and prose is not. It also says where the
 schema breaks, and agrees there with an error analysis run before the ablation existed.
 
 Most of what we learned here arrived as negatives, and the positive result exists because
@@ -823,15 +842,18 @@ claims to $6$, $p<0.0001$. The ablation ran on Haiku~4.5 only \\
 
 The effect is a matter of length or token count. & \S\ref{sec:ablation} &
 \textsc{not shown}: the longest arm in the experiment, a parenthetical padded with
-stance-free text, gains $+0.8$ points ($p=0.48$) \\
+stance-free text, is worth $+0.8$ points, $95\%$ CI $[-2.5,+3.9]$. The interval is narrow
+as well as containing zero, so this one can be called negligible \\
 
-\textbf{The labelled schema is the best form for retaining stance.} & \S\ref{sec:ablation}
-& \textsc{retracted}: plain asserted prose does as well or better; \textsc{field} vs
-\textsc{sentences} is $-3.3$ points, $18$ claims each way, $p=1.0$ \\
+\textbf{The labelled schema performs as well as plain asserted prose.} &
+\S\ref{sec:ablation} & \textsc{not claimed}: we did not detect a difference
+($-3.3$ points, $p=1.0$) but the $90\%$ interval $[-9.2,+1.9]$ fails a two-one-sided test
+against a $5$-point margin. Absence of a detected difference is not equivalence \\
 
-Labels contribute nothing once the stance is on its own lines. & \S\ref{sec:ablation} &
-\textsc{not shown}: labels are worth a further $+9.7$ points over the same words on the
-same lines, $29$ to $7$, $p=0.0003$ \\
+\textbf{Labels are not the mechanism.} & \S\ref{sec:ablation} & \textsc{retracted}:
+asserted by a previous draft while this paper's own ablation measured labels at $+9.7$
+points, $[+2.8,+16.1]$. Assertion is the larger component; labels are a real smaller one \\
+
 
 A labelled record's retention can be verified without a model. & \S\ref{sec:check} &
 \textsc{shown} by construction, and it is the schema's remaining advantage over prose,

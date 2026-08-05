@@ -1,0 +1,19 @@
+{
+  "model": "claude-haiku-4-5",
+  "n": 360,
+  "stopped_early": null,
+  "by_arm": {
+    "promoted": {
+      "n": 360,
+      "qualified": 76,
+      "rate": 0.2111
+    }
+  },
+  "telemetry": {
+    "calls": 720,
+    "usd": 0.2806,
+    "tokens_in": 140775,
+    "tokens_out": 27963,
+    "latency_ms_p50": 1015.6
+  }
+}

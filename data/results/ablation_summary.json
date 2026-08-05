@@ -1,12 +1,31 @@
 {
   "rates": {
-    "field": 0.3028,
     "sentences": 0.3361,
-    "padded": 0.1528,
+    "field": 0.3028,
     "unlabelled": 0.2056,
+    "promoted": 0.2111,
+    "padded": 0.1528,
     "paren": 0.1444
   },
   "contrasts": {
+    "promoted_vs_paren": {
+      "isolates": "SUBORDINATION",
+      "mean_per_claim_delta": 0.0667,
+      "positive": 21,
+      "negative": 10,
+      "tied": 29,
+      "sign_p": 0.07076,
+      "claims": 60
+    },
+    "sentences_vs_promoted": {
+      "isolates": "WORDING",
+      "mean_per_claim_delta": 0.125,
+      "positive": 31,
+      "negative": 7,
+      "tied": 22,
+      "sign_p": 0.00012,
+      "claims": 60
+    },
     "field_vs_unlabelled": {
       "isolates": "LABELS",
       "mean_per_claim_delta": 0.0972,
@@ -25,17 +44,8 @@
       "sign_p": 0.13605,
       "claims": 60
     },
-    "sentences_vs_paren": {
-      "isolates": "STANCE+LENGTH",
-      "mean_per_claim_delta": 0.1917,
-      "positive": 33,
-      "negative": 5,
-      "tied": 22,
-      "sign_p": 0.0,
-      "claims": 60
-    },
     "padded_vs_paren": {
-      "isolates": "LENGTH ONLY",
+      "isolates": "LENGTH",
       "mean_per_claim_delta": 0.0083,
       "positive": 11,
       "negative": 7,
@@ -43,17 +53,8 @@
       "sign_p": 0.48068,
       "claims": 60
     },
-    "sentences_vs_padded": {
-      "isolates": "STANCE AS A PROPOSITION",
-      "mean_per_claim_delta": 0.1833,
-      "positive": 34,
-      "negative": 6,
-      "tied": 20,
-      "sign_p": 1e-05,
-      "claims": 60
-    },
     "field_vs_sentences": {
-      "isolates": "labels+layout",
+      "isolates": "schema vs asserted prose",
       "mean_per_claim_delta": -0.0333,
       "positive": 18,
       "negative": 19,

@@ -1,0 +1,125 @@
+{
+  "equivalence_margin": 0.05,
+  "contrasts": {
+    "field_vs_unlabelled": {
+      "claims": 60,
+      "point": 0.0972,
+      "ci95": [
+        0.0278,
+        0.1611
+      ],
+      "ci90": [
+        0.0417,
+        0.15
+      ],
+      "equivalence_margin": 0.05,
+      "equivalent_within_margin": false,
+      "label": "labels"
+    },
+    "unlabelled_vs_paren": {
+      "claims": 60,
+      "point": 0.0611,
+      "ci95": [
+        0.0083,
+        0.1139
+      ],
+      "ci90": [
+        0.0167,
+        0.1083
+      ],
+      "equivalence_margin": 0.05,
+      "equivalent_within_margin": false,
+      "label": "own lines alone"
+    },
+    "padded_vs_paren": {
+      "claims": 60,
+      "point": 0.0083,
+      "ci95": [
+        -0.025,
+        0.0389
+      ],
+      "ci90": [
+        -0.0194,
+        0.0333
+      ],
+      "equivalence_margin": 0.05,
+      "equivalent_within_margin": true,
+      "label": "length alone"
+    },
+    "sentences_vs_padded": {
+      "claims": 60,
+      "point": 0.1833,
+      "ci95": [
+        0.1222,
+        0.2472
+      ],
+      "ci90": [
+        0.1333,
+        0.2361
+      ],
+      "equivalence_margin": 0.05,
+      "equivalent_within_margin": false,
+      "label": "asserting the stance"
+    },
+    "field_vs_sentences": {
+      "claims": 60,
+      "point": -0.0333,
+      "ci95": [
+        -0.1,
+        0.0306
+      ],
+      "ci90": [
+        -0.0917,
+        0.0194
+      ],
+      "equivalence_margin": 0.05,
+      "equivalent_within_margin": false,
+      "label": "labelled schema vs plain asserted prose"
+    },
+    "field_vs_paren": {
+      "claims": 60,
+      "point": 0.1583,
+      "ci95": [
+        0.1083,
+        0.2056
+      ],
+      "ci90": [
+        0.1194,
+        0.1972
+      ],
+      "equivalence_margin": 0.05,
+      "equivalent_within_margin": false,
+      "label": "the headline two-cell contrast"
+    },
+    "promoted_vs_paren": {
+      "claims": 60,
+      "point": 0.0667,
+      "ci95": [
+        0.0194,
+        0.1167
+      ],
+      "ci90": [
+        0.0278,
+        0.1083
+      ],
+      "equivalence_margin": 0.05,
+      "equivalent_within_margin": false,
+      "label": "SUBORDINATION ONLY (identical words)"
+    },
+    "sentences_vs_promoted": {
+      "claims": 60,
+      "point": 0.125,
+      "ci95": [
+        0.0694,
+        0.1806
+      ],
+      "ci90": [
+        0.0778,
+        0.1722
+      ],
+      "equivalence_margin": 0.05,
+      "equivalent_within_margin": false,
+      "label": "richer wording, both asserted"
+    }
+  }
+}

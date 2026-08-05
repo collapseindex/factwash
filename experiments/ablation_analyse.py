@@ -29,15 +29,15 @@ A = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(A)
 
 # mean characters over the sixty claims, not the first claim
-CHARS = {"field": 115, "sentences": 120, "padded": 125, "unlabelled": 101, "paren": 103}
+CHARS = {"field": 115, "sentences": 120, "padded": 125, "unlabelled": 101,
+         "promoted": 103, "paren": 103}
 CONTRASTS = [
+    ("promoted", "paren", "SUBORDINATION", "identical words, out of the parentheses"),
+    ("sentences", "promoted", "WORDING", "both asserted; how explicitly stance is said"),
     ("field", "unlabelled", "LABELS", "both multi-line; does naming the parts matter?"),
     ("unlabelled", "paren", "LAYOUT", "both unlabelled, ~same length; own lines?"),
-    ("sentences", "paren", "STANCE+LENGTH", "the tangled contrast the padding splits"),
-    ("padded", "paren", "LENGTH ONLY", "padding carries no stance; is it token count?"),
-    ("sentences", "padded", "STANCE AS A PROPOSITION",
-     "both long, both multi-sentence; only the stance placement differs"),
-    ("field", "sentences", "labels+layout", "at matched length"),
+    ("padded", "paren", "LENGTH", "padding carries no stance; is it token count?"),
+    ("field", "sentences", "schema vs asserted prose", "the equivalence question"),
 ]
 
 
@@ -74,8 +74,8 @@ def main() -> int:
         if A.outcome(r) != "unparsed":
             by_arm[r["arm"]][r["pair"]].append(A.outcome(r) == "kept_qualified")
 
-    arms = [a for a in ("field", "sentences", "padded", "unlabelled", "paren")
-            if a in by_arm]
+    arms = [a for a in ("sentences", "field", "unlabelled", "promoted", "padded",
+                        "paren") if a in by_arm]
     print(f"{len(rows)} trials, arms present: {arms}")
     print()
     print(f"{'arm':<12} {'chars':>5} {'claims':>7} {'stance retained':>17}")
