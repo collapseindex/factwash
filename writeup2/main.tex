@@ -130,7 +130,7 @@ Structure Preserves Stance Under Compression Pressure}
   {a blind reader scores the stored memory;\\ it never sees the source, the arm, or the budget};
 
 \end{tikzpicture}}
-\caption{The experiment in one view. The same claim carrying the same epistemic standing
+\caption{\textbf{The experiment in one view.} The same claim carrying the same epistemic standing
 is written twice, once as a labelled field and once as a parenthetical, and passed to the
 same compressor with the same prompt, settings and filler notes. Only the form differs.
 Numbers are the tightest budget on Opus~4.5 ($n=100$ pairs): standing survives in $72\%$
@@ -148,26 +148,24 @@ requires the budget to actually bind, and it is absent on both Sonnet models we 
 \begin{abstract}
 Agent memory systems compress what they store, and compression is designed to drop
 qualifiers. A natural fix is to stop writing a claim's epistemic standing as prose
-(``reportedly'', ``(unconfirmed)'') and start writing it as a labelled field, on the
+(``reportedly'', ``(unconfirmed)'') and write it as a labelled field instead, on the
 theory that a compressor treats prose as phrasing and a field as content. We test that
 directly: $950$ matched pairs carrying identical claims and identical stance, differing
 only in whether the standing is a field or a parenthetical, compressed under six levels
-of budget pressure across four models, and scored by a blind reader that never sees the
-source or the condition. Two conditions govern the effect and neither is the one we
-expected. The first is budget: the field form buys nothing until compression actually
-binds, and the most it buys is at the tightest budget, where on Opus~4.5 standing
-survives in $72\%$ of field records against $54\%$ of parentheticals ($p = 0.0009$). The
-second is the model family. The effect is clear on Haiku~4.5 ($p = 0.004$) and Opus~4.5
-($p = 0.0003$) and exactly absent on both Sonnet models we tested, including one run
-specifically to check whether the first null was a fluke: $370$ paired trials across
-Sonnet~4.5 and Sonnet~5 find nothing where $580$ across Haiku and Opus find a clear
-effect. Pooled, the field form preserves standing in $77.6\%$ of pairs against $72.1\%$
-($p = 9\times10^{-5}$) and its claims are evicted from memory outright less often
-($139$ versus $181$, $p = 0.00014$), but the per-model split is the result and the pooled
-number is not. We also report a prediction we recorded and falsified, two designs that
-failed before this one worked, two claims from earlier drafts that we retract here, and
-an instrument bug in our own blind reader that inflated the effect until we found it.
-Schema, deterministic field-level checker, harness and every raw run are released.
+of budget pressure across four models and scored by a blind reader that never sees the
+source or the condition. Two conditions govern the effect, and neither is the one we
+expected. The first is budget. The field form buys nothing until compression actually
+binds; at the tightest budget, on Opus~4.5, standing survives in $72\%$ of field records
+against $54\%$ of parentheticals ($p = 0.0009$). The second is the model family. The
+effect is clear on Haiku~4.5 ($p = 0.004$) and Opus~4.5 ($p = 0.0003$) and exactly absent
+on both Sonnet models, the second of which we ran only to check whether the first null
+was a fluke. Pooled, the field form preserves standing in $77.6\%$ of pairs against
+$72.1\%$ ($p = 9\times10^{-5}$) and its claims are evicted from memory outright less
+often ($139$ versus $181$, $p = 0.00014$); the per-model split, not the pooled number, is
+the result. We also report a prediction we recorded and falsified, two designs that
+failed before this one worked, two claims from earlier drafts that we retract, and an
+instrument bug in our own blind reader that inflated the effect until we found it.
+Schema, checker, harness and every raw run are released.
 \end{abstract}
 
 % ===========================================================================
@@ -233,22 +231,45 @@ headline effect until it was found (\S\ref{sec:negatives}).
 % ===========================================================================
 \paragraph{Memory systems compress by design.} Agent memory architectures store a
 summary rather than a transcript, whether by paging between context tiers
-\citep{packer2023memgpt} or by extracting standalone facts at write time
+\citep{packer2023memgpt}, by accumulating a stream of natural-language observations and
+periodically synthesising them into higher-level reflections
+\citep{park2023generative}, or by extracting standalone facts at write time
 \citep{chhikara2025mem0}. Prompt compression pushes the same objective further, dropping
 tokens that contribute least to reconstructing an answer
 \citep{jiang2023llmlingua,wang2025recursive}. None of these objectives has a term for
 epistemic standing, so a hedge is exactly the kind of token they are built to remove. Our
 claim is not that these systems are careless; it is that a qualifier written as prose is
-indistinguishable, to a compressor, from a qualifier written as padding.
+indistinguishable, to a compressor, from a qualifier written as padding. Note that all
+three store standing, when they store it at all, \emph{inside} the remembered sentence.
+That is the design decision this paper questions.
 
 \paragraph{Standing has long been annotated, not stored.} Hedging and speculation have a
 mature annotation literature \citep{vincze2008bioscope,szarvas2012cross,farkas2010conll},
-as does attribution \citep{pareti2016parc,newell2018polnear}. That work treats stance as
-something to \emph{recover} from text. We take the complementary position: once a memory
-system controls its own write format, stance does not have to be recovered, because it
-never has to be inferred. Faithfulness benchmarks for summarisation
+as does attribution \citep{pareti2016parc,newell2018polnear}. Attribution has also been
+given an evaluation framework of its own, in which a generated statement must be
+attributable to an identified source \citep{rashkin2023attribution}. All of it treats
+stance and provenance as something to \emph{recover} from, or verify against, text that
+has already been written. We take the complementary position: once a memory system
+controls its own write format, stance does not have to be recovered, because it never has
+to be inferred. Faithfulness benchmarks for summarisation
 \citep{pagnoni2021frank,tang2023aggrefact} likewise score a summary after the fact; they
 do not change what the summary is allowed to look like.
+
+\paragraph{Making the standing obligatory rather than optional.} The intervention is less
+novel than it looks, which is a point in its favour. Natural languages already do this:
+in a large class of languages, marking the \emph{source} of information is not a stylistic
+choice but an obligatory grammatical category, so a speaker cannot assert a proposition
+without also encoding whether they saw it, inferred it, or were told
+\citep{aikhenvald2004evidentiality}. English makes evidentiality optional and lexical,
+which is precisely why it compresses away: an optional word is a candidate for deletion in
+a way an obligatory slot is not. A write schema does for a memory system what
+grammaticalised evidentiality does for a language, and the mechanism for enforcing it at
+generation time already exists in constrained decoding, where a grammar or regular
+expression is imposed on the output rather than requested in the prompt
+\citep{willard2023guided}. Our \texttt{CERTAINTY} field is also the memory-side analogue
+of verbalised confidence, where a model states its own uncertainty in words rather than
+in logits \citep{lin2022teaching}; the difference is that we ask for the standing of the
+\emph{source}, not of the model.
 
 \paragraph{The detection arm.} The failure this paper treats was named, measured and
 given a deterministic write-time gate in \citet{kwon2026factwash}, which reports where it
@@ -377,7 +398,7 @@ result.
 \begin{figure*}[t]
 \centering
 \includegraphics[width=\textwidth]{fig_twocell.pdf}
-\caption{Two-cell result by model. \textbf{Top:} share of stored memories from which a
+\caption{\textbf{Two-cell result by model.} \textbf{Top:} share of stored memories from which a
 blind reader can still recover the claim's standing, by compression pressure, with $95\%$
 Wilson intervals. \textbf{Bottom:} share where the claim is absent from the stored memory
 altogether. Both arms track together while the budget is loose and separate once it
@@ -403,7 +424,7 @@ Sonnet 5   & 130 & $81.5\%$ & $80.8\%$ & $1.0$ \\
 pooled     & 950 & $77.6\%$ & $72.1\%$ & $9\times10^{-5}$ \\
 \bottomrule
 \end{tabular}
-\caption{Standing recovered by a blind reader. Rates are not comparable
+\caption{\textbf{Standing recovered by a blind reader.} Rates are not comparable
 \emph{across} rows: models were run at different subsets of the pressure ladder as the
 budget allowed, so a model run mostly at hard levels looks worse than one run mostly at
 easy levels. The within-row comparison is the experiment, and it is paired. The rows are
@@ -628,22 +649,33 @@ checked rather than taken on trust.
 \section{Claims and evidence}
 \label{app:claims}
 
-Every load-bearing claim, its evidence, and its status. Rows marked \textsc{pending} are
-what this draft still owes.
+Every load-bearing claim, its evidence, and its epistemic status. Same discipline and
+same format as the companion paper \citep{kwon2026factwash}.
+
+\begin{itemize}\itemsep2pt
+\item \textsc{shown}: direct measurement supports it.
+\item \textsc{retracted}: \emph{we} asserted it earlier and later withdrew it.
+\item \textsc{not shown}: our measurement neither supports nor refutes it.
+\item \textsc{not claimed}: we never asserted it; the row exists so a reader cannot
+      infer it.
+\item \textsc{pending}: this draft still owes the measurement.
+\end{itemize}
 
 \medskip
 {\small
-\begin{longtable}{@{}L{0.44\textwidth} L{0.18\textwidth} L{0.30\textwidth}@{}}
+\begin{longtable}{@{}L{0.46\textwidth} L{0.18\textwidth} L{0.28\textwidth}@{}}
+\caption{\textbf{Claims and evidence.}}\label{tab:claims}\\
 \toprule
 \textbf{Claim} & \textbf{Evidence} & \textbf{Status} \\
 \midrule
 \endfirsthead
+\multicolumn{3}{@{}l}{\emph{Table~\ref{tab:claims}, continued}}\\
 \toprule
 \textbf{Claim} & \textbf{Evidence} & \textbf{Status} \\
 \midrule
 \endhead
-\bottomrule
-\endlastfoot
+\midrule \multicolumn{3}{r@{}}{\emph{continued on next page}}\\ \endfoot
+\bottomrule \endlastfoot
 
 Stance written as a field survives compression more often than the same stance written as
 prose. & \S\ref{sec:twocell}, Fig.~\ref{fig:twocell} & \textsc{shown}, pooled $77.6\%$ vs
