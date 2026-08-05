@@ -1,0 +1,143 @@
+{
+  "n_trials": 160,
+  "by_pressure": {
+    "none": {
+      "field": {
+        "n": 20,
+        "qualified": 19,
+        "rate": 0.95,
+        "ci95": [
+          0.764,
+          0.991
+        ],
+        "absent": 0
+      },
+      "paren": {
+        "n": 20,
+        "qualified": 14,
+        "rate": 0.7,
+        "ci95": [
+          0.481,
+          0.855
+        ],
+        "absent": 0
+      },
+      "paired": {
+        "pairs": 20,
+        "field_only": 5,
+        "paren_only": 0,
+        "both": 14,
+        "neither": 1,
+        "mcnemar_exact_p": 0.0625
+      },
+      "delta": 0.25
+    },
+    "low": {
+      "field": {
+        "n": 20,
+        "qualified": 19,
+        "rate": 0.95,
+        "ci95": [
+          0.764,
+          0.991
+        ],
+        "absent": 0
+      },
+      "paren": {
+        "n": 20,
+        "qualified": 16,
+        "rate": 0.8,
+        "ci95": [
+          0.584,
+          0.919
+        ],
+        "absent": 3
+      },
+      "paired": {
+        "pairs": 20,
+        "field_only": 4,
+        "paren_only": 1,
+        "both": 15,
+        "neither": 0,
+        "mcnemar_exact_p": 0.375
+      },
+      "delta": 0.15
+    },
+    "high": {
+      "field": {
+        "n": 20,
+        "qualified": 15,
+        "rate": 0.75,
+        "ci95": [
+          0.531,
+          0.888
+        ],
+        "absent": 1
+      },
+      "paren": {
+        "n": 20,
+        "qualified": 12,
+        "rate": 0.6,
+        "ci95": [
+          0.387,
+          0.781
+        ],
+        "absent": 5
+      },
+      "paired": {
+        "pairs": 20,
+        "field_only": 6,
+        "paren_only": 3,
+        "both": 9,
+        "neither": 2,
+        "mcnemar_exact_p": 0.50781
+      },
+      "delta": 0.15
+    },
+    "extreme": {
+      "field": {
+        "n": 20,
+        "qualified": 17,
+        "rate": 0.85,
+        "ci95": [
+          0.64,
+          0.948
+        ],
+        "absent": 1
+      },
+      "paren": {
+        "n": 20,
+        "qualified": 14,
+        "rate": 0.7,
+        "ci95": [
+          0.481,
+          0.855
+        ],
+        "absent": 1
+      },
+      "paired": {
+        "pairs": 20,
+        "field_only": 6,
+        "paren_only": 3,
+        "both": 11,
+        "neither": 0,
+        "mcnemar_exact_p": 0.50781
+      },
+      "delta": 0.15
+    }
+  },
+  "pooled_paired": {
+    "pairs": 80,
+    "field_only": 21,
+    "paren_only": 7,
+    "mcnemar_exact_p": 0.01254
+  },
+  "telemetry": {
+    "calls": 320,
+    "tokens_in": 56190,
+    "tokens_out": 14722,
+    "latency_ms_p50": 947.0,
+    "latency_ms_max": 5649.9
+  },
+  "readout": "blind: judge sees the stored digest and the claim to look up, never the source note, the arm, or the pressure level"
+}

@@ -25,3 +25,16 @@ writeup/*.synctex.gz
 writeup/arxiv_pkg/
 writeup/*.tar.gz
 writeup/figures/*.png
+
+# Paper 2, same rules. Its raw runs ARE tracked (force-added under data/), because the
+# ethics statement promises every model output is released and that has to be true.
+writeup2/*.aux
+writeup2/*.log
+writeup2/*.out
+writeup2/*.bbl
+writeup2/*.blg
+writeup2/*.synctex.gz
+writeup2/arxiv_pkg/
+writeup2/*.tar.gz
+writeup2/figures/*.png
+writeup2/fig_*.pdf
