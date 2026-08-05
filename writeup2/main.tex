@@ -440,7 +440,9 @@ sign test across claims   & $p<0.0001$ & $p=0.0005$ \\
 \caption{\textbf{Sixty claims, two models, matched design.} Rates are not comparable
 across columns: Sonnet retains more standing overall because it is a better compressor at
 these budgets. The comparison is within a column, and it is paired down to the individual
-claim. The two models produce nearly the same difference.}
+claim. The two models produce nearly the same difference. Differences are computed from
+the raw counts and then rounded, so subtracting the two displayed percentages can differ
+from the printed difference by a tenth ($30.28-14.44=15.83$, shown as $+15.8$).}
 \label{tab:twocell}
 \end{table}
 
@@ -514,7 +516,8 @@ more often; see the Limitations.
 
 \paragraph{It is not one register.} The effect is positive on both models in six of the
 seven registers. The strongest is \emph{project} ($+0.21$ on Haiku, $+0.23$ on Sonnet,
-$17$ claims) and the weakest by a distance is \emph{conflict} ($+0.12$ and $-0.00$,
+$17$ claims) and the weakest by a distance is \emph{conflict} ($+0.12$ on Haiku and effectively zero on
+Sonnet,
 $7$ claims). A corpus that was widened precisely because a narrow one had lied to us
 should be checked for doing a smaller version of the same thing, and it is not.
 
@@ -587,8 +590,9 @@ claims favouring prose & $2$ & $1$ \\
 \end{tabular}
 \caption{\textbf{The held-out replication.} Right-hand column: sixty claims written, and
 a prediction and decision rule committed, before the run. The registered verdict is
-\textsc{replicates}, and the size prediction held. The point estimate lands $0.3$ points
-from the original.}
+\textsc{replicates}, and the size prediction held. The point estimate lands $0.2$ points
+from the original. As in Table~\ref{tab:twocell}, the difference is computed before
+rounding: $28.61-13.06=15.55$, shown as $+15.6$.}
 \label{tab:prereg}
 \end{table}
 
@@ -753,9 +757,10 @@ said Helsinki, the account plan says Berlin'' has to be crushed back into one fi
 returns the stance to a subordinate blob. Two analyses that did not know about each other
 point at the same mechanism.
 
-\paragraph{What survives for the schema.} Plain asserted prose retains stance about as
-well as the schema does on both models, and we could not detect a difference either way,
-so the schema is one way to buy retention rather than the only one. What the schema still has, and what this
+\paragraph{What survives for the schema.} We could not detect a difference between the
+schema and plain asserted prose on either model, and the interval is too wide to call them
+equivalent (\S\ref{sec:ablation}); what we can say is that the schema is not the only way
+to buy retention. What the schema still has, and what this
 ablation does not touch, is that its retention is \emph{checkable}. A four-field record can
 be compared against its source by a program with no model and no lexicon of hedged
 phrasings (\S\ref{sec:check}). Prose that retains stance has to be read by something that
@@ -995,10 +1000,11 @@ The effect survives an instrument with no model in it. & \S\ref{sec:prereg} &
 \textsc{shown}: a deterministic gate agrees on direction for both models and on magnitude
 to three decimals for Haiku, while being biased \emph{against} the field form \\
 
-\textbf{Grammatical subordination is the mechanism.} \textsc{(headline)} & \S\ref{sec:ablation} &
-\textsc{retracted}: asserted by a previous draft at $+18.3$ points. An arm using the
-bracketed form's identical words, unbracketed, recovers only $+6.7$; the remaining
-$+12.5$ is how explicitly the stance is worded \\
+\textbf{Grammatical subordination is the mechanism.} \textsc{(headline)} &
+\S\ref{sec:ablation} & \textsc{retracted}: asserted by a previous draft at $+18.3$ points,
+a figure from the four-level ladder before the sixty-claim corpus. On the current data the
+same path is $+19.2$, and it splits into $+6.7$ for unbracketing and $+12.5$ for wording;
+neither figure sums to the $+15.8$ net, which walks a different path \\
 
 Which property retains stance is the same across models. & \S\ref{sec:ablation},
 Fig.~\ref{fig:ablation} & \textsc{not shown}: the two models agree on the net

@@ -1,4 +1,5 @@
 {
+  "model": "claude-haiku-4-5",
   "rates": {
     "sentences": 0.3361,
     "field": 0.3028,
@@ -60,6 +61,15 @@
       "negative": 19,
       "tied": 23,
       "sign_p": 1.0,
+      "claims": 60
+    },
+    "sentences_vs_paren": {
+      "isolates": "the whole asserted path",
+      "mean_per_claim_delta": 0.1917,
+      "positive": 33,
+      "negative": 5,
+      "tied": 22,
+      "sign_p": 0.0,
       "claims": 60
     }
   }

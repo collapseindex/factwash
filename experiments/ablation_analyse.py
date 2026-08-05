@@ -38,6 +38,8 @@ CONTRASTS = [
     ("unlabelled", "paren", "LAYOUT", "both unlabelled, ~same length; own lines?"),
     ("padded", "paren", "LENGTH", "padding carries no stance; is it token count?"),
     ("field", "sentences", "schema vs asserted prose", "the equivalence question"),
+    ("sentences", "paren", "the whole asserted path",
+     "unbracketing and wording together; quoted in the ledger"),
 ]
 
 

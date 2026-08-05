@@ -62,6 +62,15 @@
       "tied": 25,
       "sign_p": 1.0,
       "claims": 60
+    },
+    "sentences_vs_paren": {
+      "isolates": "the whole asserted path",
+      "mean_per_claim_delta": 0.1333,
+      "positive": 31,
+      "negative": 11,
+      "tied": 18,
+      "sign_p": 0.00289,
+      "claims": 60
     }
   }
 }
