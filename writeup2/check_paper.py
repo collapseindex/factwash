@@ -114,8 +114,9 @@ def main() -> int:
             return 100 * con[key]["mean_per_claim_delta"]
 
         # the four numbers the mechanism argument rests on
-        for key, lit, sig in (("sentences_vs_padded", "+18.3", True),
+        for key, lit, sig in (("sentences_vs_promoted", "+12.5", True),
                               ("field_vs_unlabelled", "+9.7", True),
+                              ("promoted_vs_paren", "+6.7", False),
                               ("unlabelled_vs_paren", "+6.1", False),
                               ("padded_vs_paren", "+0.8", False)):
             if key not in con:
@@ -138,6 +139,20 @@ def main() -> int:
         if con.get("field_vs_sentences", {}).get("sign_p", 0) < 0.05:
             fails.append("field now differs from sentences; the retraction of "
                          "'labelled fields are the best form' no longer holds")
+
+    # --- the pre-registered replication ---------------------------------------
+    PR = SUMMARY.parent / "prereg_replication.json"
+    if PR.is_file():
+        pr = json.loads(PR.read_text(encoding="utf-8"))
+        checks += 1
+        if not pr["replicates"]:
+            fails.append("the pre-registered replication no longer passes its own "
+                         "registered rule; section 5 and the abstract are wrong")
+        checks += 1
+        if not pr["size_prediction_held"]:
+            fails.append("the registered size prediction no longer holds")
+        want(f"${100 * pr['mean_per_claim_delta']:+.1f}$", "replication effect size")
+        want(f"${pr['positive']}$", "replication claims favouring field")
 
     # judge parse health
     parse = rep["judge_parse"]
@@ -181,7 +196,7 @@ def main() -> int:
         fails.append(f"the ledger holds {word} retractions but the prose does not say "
                      f"'{word} retractions' anywhere")
 
-    expected_retractions = 7
+    expected_retractions = 8
     n_retracted = tex.lower().count(r"\textsc{retracted}")
     if n_retracted != expected_retractions:
         fails.append(f"{n_retracted} RETRACTED rows in the ledger, expected "

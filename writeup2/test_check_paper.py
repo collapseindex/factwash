@@ -22,6 +22,16 @@ SONNET = "c60/claude-sonnet-4-5"
 
 
 AB = SUMMARY.parent / "ablation_summary.json"
+PR = SUMMARY.parent / "prereg_replication.json"
+
+
+def _patch_pr(path, value):
+    d = json.loads(PR.read_text(encoding="utf-8"))
+    node = d
+    for k in path[:-1]:
+        node = node[k]
+    node[path[-1]] = value
+    PR.write_text(json.dumps(d, indent=2), encoding="utf-8")
 
 
 def _patch_ab(path, value):
@@ -51,6 +61,7 @@ def main() -> int:
     orig_tex = TEX.read_text(encoding="utf-8")
     orig_sum = SUMMARY.read_text(encoding="utf-8")
     orig_ab = AB.read_text(encoding="utf-8")
+    orig_pr = PR.read_text(encoding="utf-8")
     rep = json.loads(orig_sum)
     cc = rep["claim_clustered"]
 
@@ -94,8 +105,12 @@ def main() -> int:
                                    "ci95_claim_clustered"], [0.05, 0.3])),
         ("the padding control starts working",
          lambda: _patch_ab(["contrasts", "padded_vs_paren", "sign_p"], 0.001)),
-        ("asserting the stance stops mattering",
-         lambda: _patch_ab(["contrasts", "sentences_vs_padded", "sign_p"], 0.6)),
+        ("wording stops mattering",
+         lambda: _patch_ab(["contrasts", "sentences_vs_promoted", "sign_p"], 0.6)),
+        ("the pre-registered replication stops replicating",
+         lambda: _patch_pr(["replicates"], False)),
+        ("the registered size prediction stops holding",
+         lambda: _patch_pr(["size_prediction_held"], False)),
         ("field starts beating plain sentences",
          lambda: _patch_ab(["contrasts", "field_vs_sentences", "sign_p"], 0.01)),
         ("a judge reply became unusable",
@@ -115,6 +130,7 @@ def main() -> int:
             TEX.write_text(orig_tex, encoding="utf-8")
             SUMMARY.write_text(orig_sum, encoding="utf-8")
             AB.write_text(orig_ab, encoding="utf-8")
+            PR.write_text(orig_pr, encoding="utf-8")
         ok = rc != 0
         bad += not ok
         print(("CAUGHT " if ok else "MISSED ") + name)

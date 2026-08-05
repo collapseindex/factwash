@@ -53,8 +53,12 @@
 %       produced BOTH a false null and a false model-family split
 %   v4 "Labelled Fields Preserve Epistemic Stance" -- narrowed by the ablation: plain
 %       asserted prose does as well, so the labels were never the mechanism
-%   v5 (this one) names the mechanism the ablation actually isolated.
-\title{Asserted, Not Subordinated:\
+%   v5 "Asserted, Not Subordinated"              -- overstated: an arm using the
+%       parenthetical's EXACT words moved out of the brackets recovers only a third of
+%       the effect, so most of it is how explicitly the stance is worded
+%   v6 (this one) names the contrast the data supports, against the explanation
+%       everyone reaches for first and which measurably does nothing.
+\title{Explicit, Not Longer:\\
 What Makes Epistemic Stance Survive Memory Compression}
 
 \author{
@@ -154,23 +158,20 @@ qualifiers, so a claim's epistemic standing tends not to survive being written t
 We ask what governs whether it does. Matched notes carry the identical claim and identical
 stance and differ only in how that stance is written; the same model compresses them under
 the same budget among the same distractor notes, and a blind reader that never sees the
-condition scores the result. Across $60$ claims in seven registers, moving stance out of a
-parenthetical and into a labelled field raises retention by about $15$ points on two
-models, holding claim by claim ($37$ claims to $2$ on one, $30$ to $8$ on the other;
-permutation $p=0.00005$). An ablation on one of those models then decomposes the
-effect. Length contributes nothing: padding the parenthetical with stance-free text until
-it is the longest note of all is worth $+0.8$ points, $95\%$ CI $[-2.5,+3.9]$. The largest
-component is whether the stance is \emph{asserted} or \emph{subordinated}, worth $+18.3$
-points $[+12.2,+24.7]$ at matched length and sentence count. Labels contribute a smaller
-but real $+9.7$ $[+2.8,+16.1]$ on top of that, and putting the stance on its own line
-contributes $+6.1$ $[+0.8,+11.4]$. We did not detect a difference between the labelled
-schema and plain asserted prose, but the interval is too wide to call them equivalent:
-any difference is somewhere within $9$ points. That also
-explains a failure mode we had already found, claims whose sources disagree, where one
-field forces two attributions back into a single subordinate clause. A schema is therefore
-one way to buy retention rather than the only one, but it remains the only form here whose
-retention a program can verify without a model. We also report seven retractions, two of
-them our own headline claims.
+condition scores the result. Across $60$ claims in seven registers, writing the stance as a
+labelled field rather than a bracketed aside raises retention by about $15$ points on two
+models ($37$ claims to $2$ on one, $30$ to $8$ on the other; permutation $p=0.00005$). A
+pre-registered replication on $60$ claims written before the run, with the prediction and
+decision rule committed first, gives $+15.6$ points, $38$ claims to $1$. An ablation
+decomposes the effect and rules out the explanation most people reach for first: length
+does nothing. Padding the aside with stance-free text until it is the longest note of all
+is worth $+0.8$ points, $95\%$ CI $[-2.5,+3.9]$. What does matter is how explicitly the
+stance is stated. Wording it as a full sentence rather than a compressed clause is worth
+$+12.5$, labels $+9.7$, moving the same words out of the brackets $+6.7$, and putting them
+on their own line $+6.1$. No single component dominates and several are modest, so we
+report a ranking rather than a mechanism. A deterministic second readout that uses no
+model at all agrees on direction, despite being biased against the field form. We also
+report seven retractions, two of them our own headline claims.
 \end{abstract}
 
 % ===========================================================================
@@ -538,6 +539,72 @@ never promising structure in the first place. A schema with room for more than o
 attribution would be the obvious repair and we have not tested one.
 
 % ===========================================================================
+\section{A pre-registered replication}
+\label{sec:prereg}
+% GOAL: 0.6 page. The tuning objection, answered by a held-out run.
+% ===========================================================================
+
+Everything above shares a weakness that no re-analysis can remove. The fifty claims that
+carry the result were written \emph{after} we had seen that the original ten produced a
+null. That is an ordinary way for an experiment to develop and it is also exactly the
+condition under which stimuli get tuned: having just learned that the corpus decides the
+answer, we then wrote the corpus that produced the answer.
+
+So we wrote sixty more claims to the same seven-register specification, together with a
+prediction and a decision rule, and committed all of it to a public repository before any
+call was made against them. The registered rule was: a sign test at $p \ge 0.05$ means
+the effect does not replicate and the headline claim becomes \textsc{not shown}; a
+claim-clustered mean outside $[+8, +25]$ points means the size prediction failed, and we
+say so whatever the sign test does. One run, three replicates, two budgets, no adding
+levels or arms or replicates afterwards.
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{@{}l r r@{}}
+\toprule
+& \multicolumn{1}{c}{original $60$} & \multicolumn{1}{c}{held-out $60$} \\
+\midrule
+field retains stance   & $30.3\%$ & $28.6\%$ \\
+prose retains stance   & $14.4\%$ & $13.1\%$ \\
+difference             & $+15.9$  & $+15.6$ \\
+claim-clustered CI     & $[+10.8, +20.6]$ & $[+11.4, +20.0]$ \\
+claims favouring field & $37$ & $38$ \\
+claims favouring prose & $2$ & $1$ \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{The held-out replication.} Right-hand column: sixty claims written, and
+a prediction and decision rule committed, before the run. The registered verdict is
+\textsc{replicates}, and the size prediction held. The point estimate lands $0.3$ points
+from the original.}
+\label{tab:prereg}
+\end{table}
+
+The result is in Table~\ref{tab:prereg}: $+15.6$ points, $38$ claims to $1$,
+$p<10^{-6}$, none of the $720$ judge replies unparsable. By the registered rule this
+replicates and the size prediction held.
+
+We report the obvious caveat rather than let it pass. The new claims were written by the
+same author, in English, to a specification we had already chosen; a genuinely
+independent corpus would be stronger and was not available. What the exercise rules out
+is narrower and still worth having: that the effect is an artefact of choosing stimuli
+after seeing which ones worked.
+
+\paragraph{A readout with no model in it.} Every outcome in this paper is one model's
+judgement of another model's output, and the $98\%$ agreement between our two model
+judges is agreement between two instruments of the same kind. We therefore also scored
+the same stored memories with the deterministic gate of \citet{kwon2026factwash}, which
+uses no model at all. It agrees on direction on both models and, on Haiku, on magnitude
+to three decimals ($+0.158$ against the blind reader's $+0.158$; Sonnet $+0.311$ against
+$+0.153$). The absolute rates are not comparable, because the gate only flags stance loss
+it can detect and its recall on open-class stance plateaus near half. The agreement is
+worth more than it first appears for a different reason: the gate is biased \emph{against}
+the field form, since \texttt{CERTAINTY: hedged} contains no word its lexicon knows, and
+the field form wins under it anyway.
+
+This is not human validation, and we do not present it as such. No human annotation was
+collected for any experiment in this paper.
+
+% ===========================================================================
 \section{Labels, layout, or length?}
 \label{sec:ablation}
 % GOAL: 1.25 pages. THE MECHANISM. Four contrasts, each moving one thing.
@@ -599,9 +666,15 @@ test over per-claim differences.}
 \paragraph{Result.} Figure~\ref{fig:ablation}. Reading the contrasts in order of size:
 
 \begin{itemize}\itemsep2pt
-\item \textbf{Asserting the stance: $+18.3$ points}, $34$ claims to $6$, $p<0.0001$.
-      \textsc{sentences} against \textsc{padded}: both long, both more than one sentence,
-      differing only in whether the stance is a proposition or a parenthetical.
+\item \textbf{Wording it explicitly: $+12.5$ points}, $[+6.9,+18.1]$, $31$ claims to
+      $7$, $p=0.0001$. \textsc{sentences} against \textsc{promoted}: both assert the
+      stance outside brackets; one says ``This came from Y. It is Z.'' and the other
+      says ``Per Y; Z.''
+\item \textbf{Unbracketing alone: $+6.7$ points}, $[+1.9,+11.7]$, $21$ claims to $10$,
+      $p=0.07$. \textsc{promoted} against \textsc{paren}: the \emph{identical words},
+      moved out of the parentheses and nothing else changed. This is the tightest
+      available test of syntax, and it recovers about a third of what the earlier draft
+      credited to syntax alone.
 \item \textbf{Labels: $+9.7$ points}, $29$ to $7$, $p=0.0003$. \textsc{field} against
       \textsc{unlabelled}: the same words on the same lines, with and without
       \texttt{SOURCE:} and \texttt{CERTAINTY:} naming them.
@@ -615,10 +688,15 @@ test over per-claim differences.}
       experiment.
 \end{itemize}
 
-\noindent The components are ordered, not exclusive. Assertion is roughly twice labels
-and labels are not zero, so ``it is the syntax, not the labels'' would overstate what was
-measured; the defensible reading is that assertion is the largest single component and
-labels a real secondary one.
+\noindent The components are ordered, not exclusive, and the ordering is the result. An
+earlier draft of this paper attributed the whole gain to syntax, on the strength of a
+$+18.3$ contrast between \textsc{sentences} and \textsc{padded}. That contrast changes two
+things at once: it unbrackets the stance \emph{and} words it more explicitly. Separating
+them costs the syntactic story most of its size. Unbracketing the identical words is worth
+$+6.7$; wording them explicitly is worth $+12.5$ on top. What survives is not ``a
+compressor keeps what is asserted'' but something closer to ``a compressor keeps what is
+said plainly'', with brackets, labels and line breaks each contributing less than the
+wording does.
 
 \noindent On the schema against plain asserted prose, \textsc{field} minus
 \textsc{sentences} is $-3.3$ points with a $90\%$ interval of $[-9.2, +1.9]$. Against a
@@ -628,14 +706,15 @@ they perform the same: the study is consistent with plain prose beating the sche
 much as nine points. Saying the schema ``does as well'' would be treating a null result as
 evidence of equivalence.
 
-\paragraph{What this means.} On Haiku~4.5, a compressor asked to discard material
-keeps what is asserted more reliably than what is subordinated, with labels adding a
-smaller further gain. The ablation is one model, so read this as a decomposition of that
-model's fifteen-point effect rather than as a law about compressors; the two-cell result it explains does replicate on
-Sonnet~4.5, but the decomposition itself does not yet. It is a claim about syntax, not
-about formatting or token budgets, and it explains something the earlier framing could
-not: why a parenthetical is a poor place to put a hedge. A parenthetical is
-precisely the construction that marks its content as an aside, and a compressor obliges.
+\paragraph{What this means.} On Haiku~4.5, a compressor asked to discard material keeps
+stance in proportion to how plainly it was said, and not at all in proportion to how much
+text carried it. The ablation is one model, so read it as a decomposition of that model's
+fifteen-point effect rather than as a law about compressors; the two-cell effect it
+decomposes replicates on Sonnet~4.5, but the decomposition itself does not yet. It is a
+claim about explicitness rather than token budgets, and it still explains why a
+parenthetical is a poor place to put a hedge: brackets mark their content as an aside and
+compress a qualifier into the fewest words that will fit, which is the opposite of stating
+it plainly.
 
 It also accounts for a failure mode we had already found, before this ablation existed.
 The claims where the field form loses are the ones whose sources disagree
@@ -757,6 +836,18 @@ condition but not the only one. ``Standing recovered'' is also one model's judge
 another model's output: blind to the condition, and reproduced by a single fixed judge,
 but not a human annotation, and we did not collect one.
 
+\paragraph{The ablation is a chain, not a factorial.} The five forms move one thing at a
+time along a path; they do not independently cross assertion, labelling, line breaks and
+length. Some interactions are therefore unmeasured, and the component sizes should be read
+as a ranking under this particular chain rather than as coefficients that would survive a
+full crossing. Nor were the arms run on a second model.
+
+\paragraph{No human ever read these.} Every outcome is a model's judgement of another
+model's output. A fixed second judge agrees at $98\%$ and a deterministic gate agrees on
+direction, but those are two more instruments, not ground truth. A blinded human
+annotation on a representative subset, with more than one annotator and a reported
+agreement statistic, is the obvious missing control, and we did not collect one.
+
 \paragraph{What the schema still cannot do.} Every failure measured here is a field being
 \emph{dropped}. A field confidently filled with the wrong value, \texttt{CERTAINTY:
 asserted} on a rumour, is a worse failure and is invisible to a checker that only asks
@@ -835,10 +926,28 @@ same format as the companion paper \citep{kwon2026factwash}.
 \midrule \multicolumn{3}{r@{}}{\emph{continued on next page}}\\ \endfoot
 \bottomrule \endlastfoot
 
-Stance survives compression when it is asserted and is deleted when it is subordinated. &
-\S\ref{sec:ablation}, Fig.~\ref{fig:ablation} & \textsc{shown on one model}: at matched
-length and matched sentence count, asserting the stance is worth $+18.3$ points, $34$
-claims to $6$, $p<0.0001$. The ablation ran on Haiku~4.5 only \\
+The field-over-bracketed effect replicates on claims chosen before the result was known.
+& \S\ref{sec:prereg}, Tab.~\ref{tab:prereg} & \textsc{shown}: pre-registered at a public
+commit before any call, $+15.6$ points $[+11.4,+20.0]$, $38$ claims to $1$, size
+prediction held \\
+
+The effect survives an instrument with no model in it. & \S\ref{sec:prereg} &
+\textsc{shown}: a deterministic gate agrees on direction for both models and on magnitude
+to three decimals for Haiku, while being biased \emph{against} the field form \\
+
+\textbf{Grammatical subordination is the mechanism.} & \S\ref{sec:ablation} &
+\textsc{retracted}: asserted by a previous draft at $+18.3$ points. An arm using the
+bracketed form's identical words, unbracketed, recovers only $+6.7$; the remaining
+$+12.5$ is how explicitly the stance is worded \\
+
+Stance is retained in proportion to how plainly it is stated. & \S\ref{sec:ablation},
+Fig.~\ref{fig:ablation} & \textsc{shown on one model}: wording $+12.5$, labels $+9.7$,
+unbracketing $+6.7$, own line $+6.1$, length $+0.8$. No component dominates; the ablation
+ran on Haiku~4.5 only \\
+
+The result rests on model judges alone. & \S\ref{sec:prereg} & \textsc{shown, and it is a
+limitation}: two model judges plus one deterministic gate. No human annotation was
+collected for any experiment here \\
 
 The effect is a matter of length or token count. & \S\ref{sec:ablation} &
 \textsc{not shown}: the longest arm in the experiment, a parenthetical padded with

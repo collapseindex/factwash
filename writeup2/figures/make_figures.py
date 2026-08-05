@@ -38,14 +38,15 @@ BASE = "#c3c2b7"
 NICE = {"claude-haiku-4-5": "Haiku 4.5", "claude-sonnet-4-5": "Sonnet 4.5"}
 
 ARM_LABEL = {
-    "sentences": ("asserted, no labels", "X. This came from Y. It is Z."),
-    "field":     ("asserted, labelled", "X / SOURCE: Y / CERTAINTY: Z"),
+    "sentences": ("explicit sentences", "X. This came from Y. It is Z."),
+    "field":     ("labelled fields", "X / SOURCE: Y / CERTAINTY: Z"),
     "unlabelled": ("own lines, no labels", "X / from Y / Z"),
-    "padded":    ("subordinated + padding", "X (per Y; Z). Filed with the rest."),
-    "paren":     ("subordinated", "X (per Y; Z)"),
+    "promoted":  ("same words, unbracketed", "X. Per Y; Z."),
+    "padded":    ("bracketed + padding", "X (per Y; Z). Filed with the rest."),
+    "paren":     ("bracketed", "X (per Y; Z)"),
 }
-ARM_ORDER = ["sentences", "field", "unlabelled", "padded", "paren"]
-ASSERTED = {"sentences", "field"}
+ARM_ORDER = ["sentences", "field", "promoted", "unlabelled", "padded", "paren"]
+ASSERTED = {"sentences", "field", "unlabelled", "promoted"}
 
 plt.rcParams.update({
     "font.family": "sans-serif",
@@ -78,7 +79,7 @@ def fig_ablation(ab):
     rates, cons = ab["rates"], ab["contrasts"]
     arms = [a for a in ARM_ORDER if a in rates]
 
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(7.0, 2.85),
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(7.0, 3.1),
                                    gridspec_kw={"width_ratios": [1.25, 1]})
 
     # --- left: retention by form -------------------------------------------
@@ -90,16 +91,17 @@ def fig_ablation(ab):
                  fontsize=7.5, color=INK)
     ax1.set_yticks(y)
     ax1.set_yticklabels([ARM_LABEL[a][0] for a in arms], fontsize=7.5)
-    ax1.set_xlim(0, 0.42)
+    ax1.set_xlim(0, 0.44)
     ax1.set_xlabel("stance retained after compression", labelpad=3)
     ax1.set_title("what the note looked like", fontsize=8.5, color=INK, pad=4)
     _spines(ax1)
 
     # --- right: the contrasts ----------------------------------------------
     show = [("padded_vs_paren", "length alone"),
-            ("unlabelled_vs_paren", "own lines alone"),
+            ("unlabelled_vs_paren", "own lines"),
+            ("promoted_vs_paren", "unbracketing"),
             ("field_vs_unlabelled", "labels"),
-            ("sentences_vs_padded", "asserting the stance")]
+            ("sentences_vs_promoted", "wording it explicitly")]
     show = [(k, lab) for k, lab in show if k in cons]
     y2 = list(range(len(show)))[::-1]
     for yy, (k, lab) in zip(y2, show):
