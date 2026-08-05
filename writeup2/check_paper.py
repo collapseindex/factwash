@@ -368,7 +368,7 @@ def main() -> int:
         fails.append(f"the ledger holds {word} retractions but the prose does not say "
                      f"'{word} retractions' anywhere")
 
-    expected_retractions = 8
+    expected_retractions = 9
     n_retracted = tex.lower().count(r"\textsc{retracted}")
     if n_retracted != expected_retractions:
         fails.append(f"{n_retracted} RETRACTED rows in the ledger, expected "
@@ -387,17 +387,34 @@ def main() -> int:
     hd = SUMMARY.parent / "human_direction.json"
     hb = SUMMARY.parent / "human_bootstrap.json"
     ha = SUMMARY.parent / "human_agreement.json"
+    hdis = SUMMARY.parent / "human_disputed.json"
     if hd.is_file() and hb.is_file() and ha.is_file():
         d, b, a = (json.loads(f.read_text(encoding="utf-8")) for f in (hd, hb, ha))
 
+        # This check used to REQUIRE the prose to say the judge "understates", which is
+        # the claim the paper has since withdrawn: the human-scored surplus turned out to
+        # be annotator misses concentrated in one arm. So the gate now enforces the
+        # opposite obligation. If the prose ever reads that margin as making the paper
+        # conservative again, it has to argue past this.
         checks += 1
-        if d["human"]["delta"] < d["judge"]["delta"]:
-            fails.append(
-                f"the paper says the judge UNDERSTATES the effect, but the data now "
-                f"says human {d['human']['delta']:+.4f} < judge "
-                f"{d['judge']['delta']:+.4f}. That is a threat to the result, not a "
-                f"footnote: rewrite the paragraph before touching this check")
-        want(r"\emph{understates}", "the direction of the human/judge disagreement")
+        flat_lower = re.sub(r"\s+", " ", tex.lower())
+        for bad in ("judge understates", "the judge \\emph{understates}",
+                    "paper's number is conservative", "so the paper's number is"):
+            i = flat_lower.find(bad.lower())
+            while i != -1:
+                # look BOTH ways. A ledger row states the withdrawn claim first and tags
+                # it RETRACTED after, so a backward-only window flagged the retraction
+                # itself as the overclaim.
+                ctx = flat_lower[max(0, i - 220):i + len(bad) + 260]
+                if not re.search(r"retracted|withdraw|withdrew|drafted|we do not|"
+                                 r"no longer|would have made", ctx):
+                    fails.append(
+                        f"the paper asserts {bad!r} again. That reading was withdrawn: "
+                        f"five of seven disagreements are the annotator answering "
+                        f"absent where the content was present, and six of seven are in "
+                        f"one arm")
+                    break
+                i = flat_lower.find(bad.lower(), i + 1)
 
         # Every figure here is stated in more than one place: the section, the abstract
         # and the ledger. `want` only asks whether a number appears SOMEWHERE, so
@@ -502,6 +519,74 @@ def main() -> int:
                          f"{headline:.1f}-point effect, and the paragraph reporting it "
                          f"does not say it fails to exclude a shift that size. A null "
                          f"stated without its width is the overclaim available here")
+
+        # the disputed-item appendix. Its whole point is that nothing about the seven is
+        # taken on trust, so the counts it states must come from the file that produced
+        # the table, and the table itself must actually be included.
+        if hdis.is_file():
+            dd = json.loads(hdis.read_text(encoding="utf-8"))
+            n, nt, rw = dd["n_disputed"], dd["n_no_trace"], dd["n_reworded"]
+            NUMW = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six",
+                    7: "seven", 8: "eight", 9: "nine", 10: "ten"}
+            checks += 1
+            if NUMW.get(n) and f"{NUMW[n]} disagreements" not in flat_tex.lower() \
+                    and f"disagreed on {NUMW[n]}" not in flat_tex.lower():
+                fails.append(f"the annotation produced {n} disagreements and the prose "
+                             f"does not say so")
+            # "six of the seven" appears three times meaning two different things (the
+            # containment count, and how many disputed items sit in the prose arm), so
+            # a bare substring test is not a check on either. Anchor to the sentences
+            # that state the containment ratio, and require every one of them to agree.
+            checks += 1
+            got = re.findall(
+                r"(\w+) of the " + NUMW.get(n, str(n))
+                + r" (?:the claim's content|memories carry)", flat_tex.lower())
+            if len(got) < 2:
+                fails.append(f"the containment ratio ({rw} of {n}) is stated in fewer "
+                             f"than both places that should carry it (S5 and the "
+                             f"appendix); found {len(got)}")
+            elif any(g != NUMW.get(rw) for g in got):
+                fails.append(f"the prose states the containment ratio as {set(got)}, "
+                             f"data says {NUMW.get(rw)} of {NUMW.get(n)}")
+            # and how many disputed items are in the prose arm, which is what carries
+            # the retraction argument
+            n_prose = sum(1 for r in dd["items"] if r["arm"] == "paren")
+            checks += 1
+            if NUMW.get(n_prose) and \
+                    f"{NUMW[n_prose]} of the {NUMW.get(n)} sit in the prose arm" \
+                    not in flat_tex.lower():
+                fails.append(f"{n_prose} of {n} disputed items are in the prose arm, "
+                             f"which is why the human-scored surplus is uninterpretable, "
+                             f"and the prose does not say so")
+            checks += 1
+            if rw <= nt and not re.search(r"matching text that is not there", flat_tex):
+                fails.append(f"only {rw} of {n} disputed memories contain the claim's "
+                             f"content, so the judge IS largely matching text that is "
+                             f"not there. That is a threat to the result and the paper "
+                             f"must say so before this check is edited")
+            # the containment range quoted in S5 must bracket what the file holds
+            conts = [r["containment"] for r in dd["items"]
+                     if r["reading"] == "reworded"]
+            checks += 1
+            if conts:
+                m = re.search(r"containment \$([\d.]+)\$ to \$([\d.]+)\$", flat_tex)
+                if not m:
+                    fails.append("S5 does not state the containment range of the "
+                                 "disputed items")
+                elif (abs(float(m.group(1)) - min(conts)) > 5e-3
+                      or abs(float(m.group(2)) - max(conts)) > 5e-3):
+                    fails.append(f"S5 states containment {m.group(1)} to {m.group(2)}, "
+                                 f"data says {min(conts):.2f} to {max(conts):.2f}")
+            checks += 1
+            if r"\input{disputed_table}" not in tex:
+                fails.append("the disputed-item table is not included; the appendix "
+                             "promises the reader every item and delivers none")
+            checks += 1
+            tbl = HERE / "disputed_table.tex"
+            if tbl.is_file() and tbl.read_text(encoding="utf-8").count(r"\midrule") \
+                    != n - 1:
+                fails.append(f"disputed_table.tex does not hold {n} rows; regenerate it "
+                             f"with experiments/human_disputed.py")
 
         # and the claim it must NOT make
         checks += 1

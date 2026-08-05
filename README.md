@@ -409,6 +409,7 @@ and its numbers may still move, but everything it rests on is here:
 | pre-registration, committed before the run it describes | `writeup2/PREREGISTRATION.md` |
 | a second readout that uses no model at all | `experiments/mechanical_readout.py` |
 | 50 blind hand labels: the sheet as presented, and the judge key withheld until it was filled in | `experiments/human_annotate.py`, `data/annotation/` |
+| all 7 human/judge disagreements, verbatim, with a no-model content-overlap check | `experiments/human_disputed.py`, `writeup2/disputed_table.tex` |
 | every scored trial, one JSON line each | `data/raw/*twocellpress*`, `*ablation*` |
 | superseded runs, kept and explained rather than deleted | `data/raw/superseded/` |
 
@@ -419,14 +420,22 @@ claims written before the run reproduces it to within 0.2 points. What the ablat
 components, and only labels and length behave the same way on both.
 
 Every outcome there is a model judging another model's output, so 50 of the stored
-memories were also hand-labelled blind (86% agreement, kappa 0.75). On that sample the
-judge *understates* the effect, +21.2 points by hand against +20.8 by the judge, which is
-the direction the paper needed to check. It is one rater and that rater is the author, so
-it is a check on the instrument rather than validation of it; a larger annotation by
-people with no stake in the result, with inter-rater agreement, is listed as future work
-and has not been done.
+memories were also hand-labelled blind (86% agreement, kappa 0.75). The judge disagreed on
+seven, and rather than report the statistic and ask to be believed, **all seven are
+printed verbatim** in the paper's appendix with both labels and a no-model content-overlap
+check. That check is what killed the first reading: hand-scoring gives +21.2 points
+against the judge's +20.8, which looked like the judge being conservative, but six of the
+seven disputed memories do contain the claim's content and five are the *annotator*
+answering "absent" anyway, six of them in the same arm. So the surplus is annotator misses,
+not judge caution, and that claim is now in the withdrawn ledger. What survives is the
+part worth having: the judge is not inventing claim presence.
 
-The paper carries a ledger of **eight withdrawn claims**, three of which were at some
+It is still one rater and that rater is the author, so it is a check on the instrument
+rather than validation of it. A larger annotation by people with no stake in the result,
+with inter-rater agreement, is future work and has not been done; printing the disputed
+items is the part of it we could supply without finding anyone.
+
+The paper carries a ledger of **nine withdrawn claims**, three of which were at some
 point its title. One of them is about this project's own tooling: the consistency gate
 re-derived every published number from the run data and still missed six internal
 contradictions, because each was a sentence that survived a rewrite rather than a number

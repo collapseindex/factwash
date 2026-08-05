@@ -28,6 +28,8 @@ ABS = SUMMARY.parent / "ablation_summary_sonnet-4-5.json"
 HD = SUMMARY.parent / "human_direction.json"
 HB = SUMMARY.parent / "human_bootstrap.json"
 HA = SUMMARY.parent / "human_agreement.json"
+HDIS = SUMMARY.parent / "human_disputed.json"
+TBL = HERE / "disputed_table.tex"
 
 
 def _patch_abs(path, value):
@@ -66,6 +68,13 @@ def _patch_hd(path, value):
     HD.write_text(json.dumps(d, indent=2), encoding="utf-8")
 
 
+def _patch_hdis_counts(n_reworded, n_no_trace):
+    """Make the disputed items look like the judge WAS matching absent text."""
+    d = json.loads(HDIS.read_text(encoding="utf-8"))
+    d["n_reworded"], d["n_no_trace"] = n_reworded, n_no_trace
+    HDIS.write_text(json.dumps(d, indent=2), encoding="utf-8")
+
+
 def run():
     return subprocess.run([sys.executable, str(CHECK)],
                           capture_output=True, text=True).returncode
@@ -87,6 +96,9 @@ def main() -> int:
     orig_pr = PR.read_text(encoding="utf-8")
     orig_abs = ABS.read_text(encoding="utf-8")
     orig_hd = HD.read_text(encoding="utf-8")
+    orig_hdis = HDIS.read_text(encoding="utf-8")
+    orig_tbl = TBL.read_text(encoding="utf-8")
+    hdis = json.loads(orig_hdis)
     hd = json.loads(orig_hd)
     hb = json.loads(HB.read_text(encoding="utf-8"))
     ha = json.loads(HA.read_text(encoding="utf-8"))
@@ -184,12 +196,42 @@ def main() -> int:
         # Every case here is a way the paragraph could claim more than fifty labels
         # by the paper's own author can support. Targets are read out of the result
         # files so they cannot go stale into no-ops.
-        ("the human-scored effect falls BELOW the judge's",
-         lambda: _patch_hd(["human", "delta"], hd["judge"]["delta"] - 0.05)),
-        ("the prose flips understates -> inflates",
+        # The paper once read the +0.4 margin as the judge being conservative. That was
+        # withdrawn when the disputed items turned out to be annotator misses in one
+        # arm, so the mutations that used to defend it now try to REINSTATE it.
+        ("the withdrawn 'judge understates' reading is asserted again",
          lambda: TEX.write_text(
-             orig_tex.replace(r"\emph{understates}", r"\emph{inflates}", 1),
+             orig_tex.replace(
+                 "We drafted that margin as the judge understating the effect, which "
+                 "would have made the\npaper's number conservative. Reading the disputed "
+                 "items withdrew it.",
+                 "The judge understates the effect, so the paper's number is "
+                 "conservative."), encoding="utf-8")),
+        ("the disputed-item table stops being included",
+         lambda: TEX.write_text(
+             orig_tex.replace(r"\input{disputed_table}", "", 1), encoding="utf-8")),
+        (f"the disputed-item count drifts ({hdis['n_disputed']})",
+         lambda: TEX.write_text(
+             re.sub(r"\bseven\b", "five", orig_tex), encoding="utf-8")),
+        (f"the content-overlap ratio drifts ({hdis['n_reworded']}/"
+         f"{hdis['n_disputed']})",
+         lambda: TEX.write_text(
+             re.sub("six of the seven", "four of the seven", orig_tex,
+                    flags=re.I), encoding="utf-8")),
+        ("the prose-arm concentration of disputed items drifts",
+         lambda: TEX.write_text(
+             re.sub(r"six of the seven sit in the prose arm",
+                    "two of the seven sit in the prose arm", orig_tex, flags=re.I),
              encoding="utf-8")),
+        ("the containment range drifts",
+         lambda: TEX.write_text(
+             orig_tex.replace(r"containment $0.25$ to $0.83$",
+                              r"containment $0.55$ to $0.83$", 1), encoding="utf-8")),
+        ("the disputed memories stop containing the claim (data)",
+         lambda: _patch_hdis_counts(1, 6)),
+        ("disputed_table.tex loses a row",
+         lambda: TBL.write_text(
+             orig_tbl.replace("\\midrule", "", 1), encoding="utf-8")),
         (f"raw agreement drifts ({100 * ha['raw_agreement']:.1f}%)",
          lambda: TEX.write_text(
              orig_tex.replace(f"${100 * ha['raw_agreement']:.1f}" + r"\%$",
@@ -233,8 +275,8 @@ def main() -> int:
              encoding="utf-8")),
         ("the wide null is reported as if it were tight",
          lambda: TEX.write_text(
-             re.sub(r"it also fails to exclude a\s+shift the size of the entire\s+"
-                    r"effect\.", "The scorer makes no difference.",
+             re.sub(r"(?:it|which) also fails to exclude a\s+shift the size of "
+                    r"the entire\s+effect\.", "The scorer makes no difference.",
                     orig_tex.replace("does not exclude a shift the size of the effect",
                                      "is tight")), encoding="utf-8")),
         ("the single-rater caveat is dropped",
@@ -275,6 +317,8 @@ def main() -> int:
             PR.write_text(orig_pr, encoding="utf-8")
             ABS.write_text(orig_abs, encoding="utf-8")
             HD.write_text(orig_hd, encoding="utf-8")
+            HDIS.write_text(orig_hdis, encoding="utf-8")
+            TBL.write_text(orig_tbl, encoding="utf-8")
         ok = rc != 0
         bad += not ok
         print(("CAUGHT " if ok else "MISSED ") + name)

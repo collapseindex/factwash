@@ -171,8 +171,8 @@ model, wording the stance as a full sentence ($+12.5$), is worth nothing on the 
 ($+0.6$). Either model alone would have licensed a confident and different mechanism. We
 report the intersection: make the stance explicit, do not merely make the note longer, and
 expect the best way of being explicit to depend on the model. A deterministic readout using
-no model agrees on direction, as do $50$ hand labels ($\kappa=0.75$), on which the judge
-understates the effect rather than inflating it. We also report eight withdrawn claims, three of them former title claims of this paper.
+no model agrees on direction, as do $50$ hand labels ($\kappa=0.75$) whose seven
+disagreements we print in full. We also report nine withdrawn claims, three of them former title claims of this paper.
 \end{abstract}
 
 % ===========================================================================
@@ -230,7 +230,7 @@ short one.
 (4)~A failure mode that the mechanism predicts and that we found separately: claims whose
 sources disagree, where a single field forces two attributions back into one subordinate
 clause (\S\ref{sec:errors}).
-(5)~Eight withdrawn claims, three of them former title claims of this paper, plus an instrument bug in our
+(5)~Nine withdrawn claims, three of them former title claims of this paper, plus an instrument bug in our
 own blind reader and a ten-claim corpus that manufactured both a false null and a false
 model-family split (\S\ref{sec:negatives}, \S\ref{sec:twocell}).
 
@@ -630,27 +630,39 @@ same blinding the model judge got: the annotator sees the stored memory and the 
 look up, and nothing about arm, model, pressure or claim id. The judge's verdicts were
 held in a separate key file, and the scorer refuses a partially completed sheet.
 
-Agreement is $86.0\%$, Cohen's $\kappa = 0.75$. Scoring those same fifty items both ways
-gives $+20.8$ points by the judge and $+21.2$ by hand, so on this sample the judge
-\emph{understates} the difference rather than manufacturing it.
+Agreement is $86.0\%$, Cohen's $\kappa = 0.75$, on seven disagreements. Scoring those
+same fifty items both ways gives $+20.8$ points by the judge and $+21.2$ by hand.
 
-Three things must be said against that. First, the disagreement is not spread evenly: it
-runs $1/26$ on field records and $6/24$ on bracketed ones, a real asymmetry (Fisher exact
-$p=0.045$) and exactly the shape that could fabricate an effect. Second, the one field
-disagreement is the flattering kind, the judge reading standing into a record where the
-annotator found the claim absent. It does not inflate the gap only because two of the six
-prose disagreements are the same error on the other arm and cancel it; three more are
-\emph{established fact} against \emph{absent}, two labels that both count as stance lost,
-so they never touch the difference at all. That is a small number of errors happening to
-balance, not a judge that is even-handed by construction. Third, and most limiting, the
-shift from changing scorer is $+0.3$ points with a claim-clustered $95\%$ interval of
-$[-15.9, +16.0]$. That contains zero, so no shift was detected; it also fails to exclude a
-shift the size of the entire effect. Fifty items can show the \emph{direction} of scorer
-disagreement and cannot bound its magnitude.
+We drafted that margin as the judge understating the effect, which would have made the
+paper's number conservative. Reading the disputed items withdrew it. All seven are printed
+verbatim in Appendix~\ref{app:disputed}, and a third instrument was run over them:
+content-word containment, the same no-model measure the companion gate uses to decide
+whether a stored claim is matched to a source claim at all. On six of the seven the
+claim's content is in the memory at or above the overlap the companion gate requires
+before it will match a stored claim at all (containment $0.25$ to $0.83$, two of the six
+sitting exactly on that threshold), so these are not the
+judge matching text that is not there, which is the failure mode that would have
+threatened the result. But in five of the seven the annotator answered \emph{absent} while
+the content was present, and six of the seven sit in the prose arm, whose memories under
+these budgets are dense comma-separated lists in which a four-word entry is easy to read
+past. Annotator misses concentrated in one arm are exactly what produces a small
+human-scored surplus in the other. The sign of those $0.4$ points is therefore
+uninterpretable, and we withdraw the reading that it makes the judge conservative.
+
+What survives is narrower and still worth having. The judge is not inventing claim
+presence, and it agrees with a careful independent reading at $\kappa=0.75$. What does not
+survive is any bound on the effect: the shift from changing scorer is $+0.3$ points with a
+claim-clustered $95\%$ interval of $[-15.9, +16.0]$, which contains zero, so no shift was
+detected, and which also fails to exclude a shift the size of the entire effect.
+Disagreement is not spread evenly either, running $1/26$ on field records against $6/24$
+on prose (Fisher exact $p=0.045$), and an asymmetry of that shape is the one that could
+fabricate an effect even where, as here, it runs the other way.
 
 And this is one rater, who is the paper's author: blind to condition, not blind to
-hypothesis, with no second annotator and therefore no inter-rater agreement to report. It
-is a check on the instrument, not validation of it.
+hypothesis, with no second annotator and therefore no inter-rater agreement to report.
+Printing all seven disputed items is the part of a second annotator we could supply
+without one, since it lets a reader adjudicate them instead of taking our reading on
+trust. It is a check on the instrument, not validation of it.
 
 % ===========================================================================
 \section{Labels, layout, or length?}
@@ -881,7 +893,7 @@ false model-family split, and we believed the second long enough to verify it ag
 independent judge and find the check reassuring. Our own scorer discarded its clearest
 verdicts and inflated an effect twofold. A single-model ablation named a mechanism that
 the second model declined to confirm. Every number above is stated at the level the last
-surviving control allows, and the ledger in Appendix~\ref{app:claims} lists the eight
+surviving control allows, and the ledger in Appendix~\ref{app:claims} lists the nine
 claims we have withdrawn.
 
 \section*{Limitations}
@@ -911,7 +923,7 @@ statement is that this matters when a memory system is short of room, which is t
 condition but not the only one. ``Standing recovered'' is also one model's judgement of
 another model's output: blind to the condition, reproduced by a single fixed judge, and
 checked against $50$ hand labels ($\kappa=0.75$, \S\ref{sec:prereg}) that are themselves
-the author's.
+the author's and whose disagreements are printed rather than summarised.
 
 \paragraph{The ablation is a chain, not a factorial, and it does not transfer.} The six
 forms move one thing at a time along a path; they do not independently cross labelling,
@@ -923,11 +935,13 @@ enough to show the decomposition does not transfer and not enough to say what go
 
 \paragraph{One human read fifty of these, and that human wrote the paper.} Outcomes are
 model judgements, checked against a fixed second judge ($98\%$), a deterministic gate, and
-$50$ hand labels ($\kappa=0.75$, \S\ref{sec:prereg}) on which the judge understates rather
-than inflates the effect. The annotator was blind to condition but is the author, so blind
+$50$ hand labels ($\kappa=0.75$, \S\ref{sec:prereg}) whose seven disagreements are printed
+in Appendix~\ref{app:disputed} rather than summarised away. The annotator was blind to condition but is the author, so blind
 to condition is not blind to hypothesis, and one rater yields no inter-annotator
 agreement. The sample also cannot bound the thing it was drawn to check: the interval on
-the scorer-swap shift spans about the size of the effect. The missing control is a larger
+the scorer-swap shift spans about the size of the effect. Reading the disputed items found
+the annotator, not the judge, to be the one missing claims, which is a reason to trust the
+judge slightly more and the hand labels rather less. The missing control is a larger
 blinded annotation by people with no stake in the result, reported with inter-rater
 agreement. We could not obtain one, and fifty of the author's own labels do not stand in
 for it.
@@ -975,7 +989,8 @@ checked rather than taken on trust.
 \noindent
 \hyperref[app:claims]{\textbf{A}\quad Claims and evidence} \dotfill \pageref{app:claims}\\
 \hyperref[app:stimuli]{\textbf{B}\quad Stimuli and the pressure ladder} \dotfill \pageref{app:stimuli}\\
-\hyperref[app:repro]{\textbf{C}\quad Reproducibility} \dotfill \pageref{app:repro}
+\hyperref[app:disputed]{\textbf{C}\quad Every item the human and the judge disagreed on} \dotfill \pageref{app:disputed}\\
+\hyperref[app:repro]{\textbf{D}\quad Reproducibility} \dotfill \pageref{app:repro}
 \end{minipage}
 \bigskip
 
@@ -1057,9 +1072,16 @@ Fig.~\ref{fig:ablation} & \textsc{not shown}: the two models agree on the net
 effect and disagree on its composition. Wording is the largest component on
 Haiku ($+12.5$) and null on Sonnet ($+0.6$); unbracketing runs the other way \\
 
-The judge manufactures part of the effect. & \S\ref{sec:prereg} & \textsc{not shown}:
-on $50$ hand-labelled items the human-scored effect is $+21.2$ against the judge's
-$+20.8$, so the judge understates it. Agreement $86\%$, $\kappa=0.75$ \\
+The judge manufactures part of the effect. & \S\ref{sec:prereg},
+\S\ref{app:disputed} & \textsc{not shown}: on the seven items where a human reader
+disagreed, six memories contain the claim's content by a no-model containment check, so
+the judge is not matching text that is not there. Agreement $86\%$, $\kappa=0.75$ \\
+
+The judge understates the effect, so the paper's number is conservative. &
+\S\ref{sec:prereg} & \textsc{retracted}: drafted from $+21.2$ by hand against $+20.8$ by
+the judge. Five of the seven disagreements are the annotator answering \emph{absent} where
+the content was present, and six of seven are in one arm, which is what produces a surplus
+of that size in the other \\
 
 \textbf{Fifty hand labels validate the model judge.} & \S\ref{sec:prereg} &
 \textsc{not claimed}: one rater, who is the paper's author, blind to condition but not to
@@ -1239,6 +1261,28 @@ The sixty-claim runs use \textsc{brutal} and \textsc{severe}, the tight end, bec
 is where a compressor is actually forced to discard something. The four looser levels
 were run on the ten-claim corpus and are reported in \S\ref{sec:twocell} only as the
 condition under which the effect is small.
+
+% ===========================================================================
+\section{Every item the human and the judge disagreed on}
+\label{app:disputed}
+
+Fifty stored memories were labelled by hand, blind to arm and model, and the judge
+disagreed on seven. Rather than report an agreement statistic and ask to be believed about
+whether those seven are benign, all of them are below: the claim the annotator was asked
+to look up, the memory exactly as it was stored, both labels, and the content-word overlap
+between claim and memory. That last column is a no-model string measure, the same
+containment the companion gate uses to decide whether a stored claim is matched to a
+source claim at all, so it is a third instrument on this subset rather than one invented
+to settle the question.
+
+Six of the seven memories carry the claim's content, so the disagreements are about what
+standing that content is stored with, not about whether the judge matched text that is not
+there. Five of the seven are the annotator answering \emph{absent} where the content is
+present. Seven items cannot support a statistic and none is offered; the point of printing
+them is that a reader can disagree with both labellers.
+
+\medskip
+\input{disputed_table}
 
 % ===========================================================================
 \section{Reproducibility}
