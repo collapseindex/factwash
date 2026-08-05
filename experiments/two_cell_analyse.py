@@ -24,6 +24,7 @@ different instrument and pooling them would mix two measurement regimes.
 """
 import json
 import math
+import random
 import sys
 from collections import defaultdict
 from pathlib import Path
@@ -49,6 +50,80 @@ def mcnemar(b, c):
         return 1.0
     k = min(b, c)
     return round(min(1.0, 2 * sum(math.comb(n, i) for i in range(k + 1)) / 2 ** n), 6)
+
+
+def cluster_bootstrap(rows, n_boot=4000, seed=12345):
+    """Claim-clustered CI on the field-minus-prose difference.
+
+    The exact McNemar above treats every matched pair as an independent unit. They are
+    not: 950 pairs are ten claims resampled across pressure levels and replicates, so
+    the same wording recurs dozens of times and its idiosyncrasies are counted dozens of
+    times. The unit that generalises is the CLAIM, and there are ten of them.
+
+    This resamples claims with replacement and recomputes the paired difference, which
+    is the honest interval to quote for "would this hold on a new claim". It will be
+    much wider than the pair-level p-value, and that is the point.
+    """
+    by_claim = defaultdict(list)
+    for r in rows:
+        if outcome(r) != "unparsed":
+            by_claim[r["pair"]].append(r)
+    claims = sorted(by_claim)
+    if len(claims) < 3:
+        return None
+
+    def diff(sample):
+        f = [r for c in sample for r in by_claim[c] if r["arm"] == "field"]
+        p = [r for c in sample for r in by_claim[c] if r["arm"] == "paren"]
+        if not f or not p:
+            return None
+        fr = sum(outcome(r) == "kept_qualified" for r in f) / len(f)
+        pr = sum(outcome(r) == "kept_qualified" for r in p) / len(p)
+        return fr - pr
+
+    point = diff(claims)
+    rng = random.Random(seed)
+    draws = []
+    for _ in range(n_boot):
+        d = diff([claims[rng.randrange(len(claims))] for _ in claims])
+        if d is not None:
+            draws.append(d)
+    draws.sort()
+    lo = draws[int(0.025 * len(draws))]
+    hi = draws[int(0.975 * len(draws)) - 1]
+    # share of resamples where the sign flips: a crude two-sided cluster p-value
+    p = 2 * min(sum(d <= 0 for d in draws), sum(d >= 0 for d in draws)) / len(draws)
+    return {"n_claims": len(claims), "point": round(point, 4),
+            "ci95_claim_clustered": [round(lo, 4), round(hi, 4)],
+            "p_cluster_bootstrap": round(min(1.0, p), 4)}
+
+
+def sign_test_by_claim(rows):
+    """Per-claim field-minus-prose deltas, then an exact sign test across claims.
+
+    This is the diagnostic that matters most. If the effect is real it should point the
+    same way on most claims. If it is carried by two or three wordings, the pooled
+    number is describing those wordings and not the mechanism.
+    """
+    by = defaultdict(lambda: defaultdict(list))
+    for r in rows:
+        if outcome(r) != "unparsed":
+            by[r["pair"]][r["arm"]].append(outcome(r) == "kept_qualified")
+    deltas = {}
+    for claim, arms in by.items():
+        if arms["field"] and arms["paren"]:
+            deltas[claim] = (sum(arms["field"]) / len(arms["field"])
+                             - sum(arms["paren"]) / len(arms["paren"]))
+    if len(deltas) < 3:
+        return None
+    pos = sum(1 for v in deltas.values() if v > 0)
+    neg = sum(1 for v in deltas.values() if v < 0)
+    n = pos + neg
+    p = (min(1.0, 2 * sum(math.comb(n, i) for i in range(min(pos, neg) + 1)) / 2 ** n)
+         if n else 1.0)
+    return {"claims": len(deltas), "positive": pos, "negative": neg,
+            "tied": len(deltas) - n, "p": round(p, 4),
+            "deltas": {k: round(v, 3) for k, v in sorted(deltas.items())}}
 
 
 def load():
@@ -191,6 +266,32 @@ def main():
             k = f"pressure={lv}"
             report["blocks"][k] = block(sub, k)
             print(render(report["blocks"][k]))
+
+    # --- the unit-of-analysis correction ------------------------------------
+    # Everything above treats a matched pair as independent. It is not: the pairs are
+    # ten claims resampled, so a claim's idiosyncrasies are counted dozens of times.
+    # Cluster on the claim and report the sign test across claims, which is the
+    # question "does this hold for a NEW claim" rather than "for another replicate of
+    # these ten".
+    print("\nclaim-clustered (the unit that generalises; n=10 claims, not 950 pairs)")
+    print(f"{'':<22} {'point':>7}  {'95% CI (cluster boot)':<24} {'boot p':>7} "
+          f"{'sign test across claims':>26}")
+    report["claim_clustered"] = {}
+    for label, sel in (("ALL", lambda r: True),
+                       *[(f"model={m}", (lambda k: lambda r: r["model"] == k)(m))
+                         for m in models],
+                       ("opus severe", lambda r: r["model"] == "claude-opus-4-5"
+                        and r["pressure"] == "severe")):
+        sub = [r for r in rows if sel(r)]
+        cb = cluster_bootstrap(sub)
+        st = sign_test_by_claim(sub)
+        if not cb or not st:
+            continue
+        report["claim_clustered"][label] = {**cb, "sign_test": st}
+        print(f"{label:<22} {cb['point']:+7.3f}  "
+              f"[{cb['ci95_claim_clustered'][0]:+.3f}, {cb['ci95_claim_clustered'][1]:+.3f}]"
+              f"{'':<7} {cb['p_cluster_bootstrap']:>7.3f} "
+              f"{st['positive']:>10}+/{st['negative']}- p={st['p']:.3f}")
 
     parse = defaultdict(int)
     for r in rows:

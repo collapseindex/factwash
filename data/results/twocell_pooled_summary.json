@@ -1352,6 +1352,176 @@
       }
     }
   },
+  "claim_clustered": {
+    "ALL": {
+      "n_claims": 10,
+      "point": 0.0547,
+      "ci95_claim_clustered": [
+        -0.0326,
+        0.1442
+      ],
+      "p_cluster_bootstrap": 0.247,
+      "sign_test": {
+        "claims": 10,
+        "positive": 6,
+        "negative": 4,
+        "tied": 0,
+        "p": 0.7539,
+        "deltas": {
+          "admin": 0.042,
+          "backup": -0.042,
+          "budget": 0.179,
+          "dana": 0.305,
+          "hire": 0.253,
+          "migration": -0.053,
+          "outage": -0.168,
+          "pricing": 0.095,
+          "ratelimit": -0.084,
+          "vendor": 0.021
+        }
+      }
+    },
+    "model=claude-haiku-4-5": {
+      "n_claims": 10,
+      "point": 0.0719,
+      "ci95_claim_clustered": [
+        -0.0094,
+        0.1562
+      ],
+      "p_cluster_bootstrap": 0.096,
+      "sign_test": {
+        "claims": 10,
+        "positive": 6,
+        "negative": 4,
+        "tied": 0,
+        "p": 0.7539,
+        "deltas": {
+          "admin": 0.031,
+          "backup": -0.062,
+          "budget": 0.25,
+          "dana": 0.281,
+          "hire": 0.25,
+          "migration": -0.094,
+          "outage": -0.062,
+          "pricing": 0.125,
+          "ratelimit": 0.031,
+          "vendor": -0.031
+        }
+      }
+    },
+    "model=claude-opus-4-5": {
+      "n_claims": 10,
+      "point": 0.1038,
+      "ci95_claim_clustered": [
+        -0.0192,
+        0.2423
+      ],
+      "p_cluster_bootstrap": 0.1185,
+      "sign_test": {
+        "claims": 10,
+        "positive": 6,
+        "negative": 2,
+        "tied": 2,
+        "p": 0.2891,
+        "deltas": {
+          "admin": 0.115,
+          "backup": 0.0,
+          "budget": 0.308,
+          "dana": 0.615,
+          "hire": 0.154,
+          "migration": 0.0,
+          "outage": -0.192,
+          "pricing": 0.038,
+          "ratelimit": -0.115,
+          "vendor": 0.115
+        }
+      }
+    },
+    "model=claude-sonnet-4-5": {
+      "n_claims": 10,
+      "point": 0.0042,
+      "ci95_claim_clustered": [
+        -0.0875,
+        0.0833
+      ],
+      "p_cluster_bootstrap": 0.9595,
+      "sign_test": {
+        "claims": 10,
+        "positive": 4,
+        "negative": 3,
+        "tied": 3,
+        "p": 1.0,
+        "deltas": {
+          "admin": 0.0,
+          "backup": -0.083,
+          "budget": 0.083,
+          "dana": 0.042,
+          "hire": 0.208,
+          "migration": -0.042,
+          "outage": -0.333,
+          "pricing": 0.167,
+          "ratelimit": 0.0,
+          "vendor": 0.0
+        }
+      }
+    },
+    "model=claude-sonnet-5": {
+      "n_claims": 10,
+      "point": 0.0077,
+      "ci95_claim_clustered": [
+        -0.1385,
+        0.1615
+      ],
+      "p_cluster_bootstrap": 0.999,
+      "sign_test": {
+        "claims": 10,
+        "positive": 2,
+        "negative": 4,
+        "tied": 4,
+        "p": 0.6875,
+        "deltas": {
+          "admin": 0.0,
+          "backup": 0.0,
+          "budget": -0.077,
+          "dana": 0.231,
+          "hire": 0.538,
+          "migration": -0.077,
+          "outage": -0.077,
+          "pricing": 0.0,
+          "ratelimit": -0.462,
+          "vendor": 0.0
+        }
+      }
+    },
+    "opus severe": {
+      "n_claims": 10,
+      "point": 0.18,
+      "ci95_claim_clustered": [
+        0.0,
+        0.4
+      ],
+      "p_cluster_bootstrap": 0.063,
+      "sign_test": {
+        "claims": 10,
+        "positive": 6,
+        "negative": 2,
+        "tied": 2,
+        "p": 0.2891,
+        "deltas": {
+          "admin": 0.2,
+          "backup": 0.0,
+          "budget": 0.4,
+          "dana": 1.0,
+          "hire": 0.2,
+          "migration": 0.0,
+          "outage": -0.2,
+          "pricing": 0.1,
+          "ratelimit": -0.2,
+          "vendor": 0.3
+        }
+      }
+    }
+  },
   "judge_parse": {
     "json": 1868,
     "regex": 32
