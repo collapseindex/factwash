@@ -697,7 +697,7 @@ Three things survive the second model and one does not.
       $[+7.2, +18.3]$ on Sonnet, both significant, intervals overlapping. This is the
       only component that behaves the same way on both models, and an earlier draft of
       this paper dismissed it.
-\item \textbf{Length never helps, and can hurt.} $+0.8$ $[-2.5, +3.9]$ on Haiku is a
+\item \textbf{Length helps on neither model, and on one it hurts.} $+0.8$ $[-2.5, +3.9]$ on Haiku is a
       tight null; on Sonnet the same padding \emph{costs} $10.3$ points
       $[-15.0, -5.3]$, $p=0.0001$. Making the note longer without making the stance
       plainer is at best useless and at worst actively harmful.
@@ -735,8 +735,9 @@ said Helsinki, the account plan says Berlin'' has to be crushed back into one fi
 returns the stance to a subordinate blob. Two analyses that did not know about each other
 point at the same mechanism.
 
-\paragraph{What survives for the schema.} Retention is available from plain prose, so the
-schema is one way to buy it and not the cheapest. What the schema still has, and what this
+\paragraph{What survives for the schema.} Plain asserted prose retains stance about as
+well as the schema does on both models, and we could not detect a difference either way,
+so the schema is one way to buy retention rather than the only one. What the schema still has, and what this
 ablation does not touch, is that its retention is \emph{checkable}. A four-field record can
 be compared against its source by a program with no model and no lexicon of hedged
 phrasings (\S\ref{sec:check}). Prose that retains stance has to be read by something that
@@ -791,41 +792,42 @@ machine-readable, not less; it has to be read as a record.
 
 \section{Conclusion}
 
-Asked to throw material away, a compressor throws away what is grammatically subordinate
-and keeps what is asserted. Write a claim's standing into a parenthetical and it is
-treated as an aside, which is exactly what a parenthetical marks it as. Write the same
-standing as a proposition, in a labelled field or in a plain sentence, and it survives
-about fifteen points more often across sixty claims in seven registers, on two models
-whose estimates sit well inside each other's intervals.
+Write a claim's standing into a bracketed aside and a compressor treats it as an aside.
+Write the same standing as a labelled field and it survives about fifteen points more
+often, across sixty claims in seven registers, on two models whose estimates sit inside
+each other's intervals, and again on sixty further claims written before the run under a
+prediction registered in advance.
 
-We can rank the components rather than guess at them, because the alternatives were
-measured. Padding a parenthetical with stance-free text until it is the longest note in
-the experiment buys eight thousandths of a point, with an interval narrow enough to call
-that negligible. Moving the stance into its own proposition, at matched length and
-matched sentence count, is worth $18.3$ points. Labels are worth a further $9.7$ on top
-of that, which is smaller but not nothing, and an earlier draft of this paper was wrong
-to write them off.
+What we cannot do is tell you why in one sentence, and the reason is worth more than the
+sentence would have been. Ablating the format on both models gives the same net effect
+assembled from different parts. Labels help on both. Length helps on neither, and on one
+model padding a note with stance-free text costs ten points. But the largest single
+component on Haiku, wording the stance as a full sentence, is worth nothing at all on
+Sonnet. Either model on its own would have supported a confident mechanism, and the two
+mechanisms would have contradicted each other.
 
-That reframes what a write schema is for, and \S\ref{sec:ablation} states the
-reframing: retention is largely available from plain asserted prose, while the structural
-completeness of a record is checkable by a program and prose is not. It also says where the
-schema breaks, and agrees there with an error analysis run before the ablation existed.
+So the advice is the intersection rather than the theory: state the standing explicitly,
+do not settle for making the note longer, and if you are choosing a write format for a
+particular model, measure it on that model. The labelled schema keeps one advantage this
+experiment cannot take from it, which is that a program can check whether its fields are
+there at all; prose that retains stance still has to be read by something that can
+recognise stance in arbitrary wording.
 
 Most of what we learned here arrived as negatives, and the positive result exists because
 they were caught. A ten-claim corpus in one register manufactured both a false null and a
-false model-family split, and we believed the second long enough to check it against an
+false model-family split, and we believed the second long enough to verify it against an
 independent judge and find the check reassuring. Our own scorer discarded its clearest
-verdicts and inflated an effect twofold. Every number above is stated at the level the
-last surviving control allows, and the ledger in Appendix~\ref{app:claims} says which
-ones we have withdrawn.
+verdicts and inflated an effect twofold. A single-model ablation named a mechanism that
+the second model declined to confirm. Every number above is stated at the level the last
+surviving control allows, and the ledger in Appendix~\ref{app:claims} lists the seven
+claims we have withdrawn.
 
 \section*{Limitations}
 
 \paragraph{Scope of the models.} Two models from one provider is not a sample of
-compressors, and the ablation is narrower still: its four contrasts ran on Haiku~4.5
-only. The decomposition into labels, layout and length is established there and assumed,
-not shown, for Sonnet~4.5, where only the field-versus-parenthetical comparison was
-measured. We are wary of claims about which models do or do not show this, because an
+compressors. Both were run through the full ablation, which is what let us discover that
+the decomposition does not transfer; with a third model it might not even be two groups.
+We are wary of claims about which models do or do not behave a given way, because an
 earlier and smaller version of this work produced a confident model-family split that
 turned out to be an artefact of its stimuli. Opus~4.5 and Sonnet~5 were measured only on
 the ten-claim corpus and are therefore not reported as results.
@@ -972,10 +974,10 @@ to three decimals for Haiku, while being biased \emph{against} the field form \\
 bracketed form's identical words, unbracketed, recovers only $+6.7$; the remaining
 $+12.5$ is how explicitly the stance is worded \\
 
-Stance is retained in proportion to how plainly it is stated. & \S\ref{sec:ablation},
-Fig.~\ref{fig:ablation} & \textsc{shown on one model}: wording $+12.5$, labels $+9.7$,
-unbracketing $+6.7$, own line $+6.1$, length $+0.8$. No component dominates; the ablation
-ran on Haiku~4.5 only \\
+Which property retains stance is the same across models. & \S\ref{sec:ablation},
+Fig.~\ref{fig:ablation} & \textsc{not shown}: the two models agree on the net
+effect and disagree on its composition. Wording is the largest component on
+Haiku ($+12.5$) and null on Sonnet ($+0.6$); unbracketing runs the other way \\
 
 The result rests on model judges alone. & \S\ref{sec:prereg} & \textsc{shown, and it is a
 limitation}: two model judges plus one deterministic gate. No human annotation was
