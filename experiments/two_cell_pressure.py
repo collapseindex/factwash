@@ -97,7 +97,12 @@ RATE_FALLBACK = (15.0, 75.0)
 COMPRESS_HEAD = "You are a memory system consolidating working notes into long-term storage.\n\n"
 COMPRESS_TAIL = "\n\nOutput only the stored memory."
 
-# claim, source, certainty
+# claim, source, certainty.
+#
+# This literal is the original ten and stays here so every earlier run's resume keys and
+# filenames remain valid. Larger corpora live in claims_corpus.py and are chosen with
+# --corpus; they exist because the CLAIM COUNT, not the pair count, turned out to be the
+# binding constraint on what this experiment can conclude.
 PAIRS = [
     ("admin", "Alice has admin access", "a third party", "rumor, unconfirmed"),
     ("budget", "The Q3 budget was cut to $40,000", "an unnamed colleague",
@@ -208,8 +213,19 @@ def main() -> int:
                     help="hard spend cap; the run stops rather than exceeding it")
     ap.add_argument("--levels", default="",
                     help="comma-separated subset of pressure levels; default all")
+    ap.add_argument("--corpus", default="v1",
+                    help="claim set: v1 (the original ten), v2 (fifty more, seven "
+                         "registers), or all")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
+
+    if args.corpus == "v1":
+        pairs = PAIRS
+    else:
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        from claims_corpus import get as get_corpus
+        pairs = get_corpus(args.corpus)
+    print(f"corpus {args.corpus}: {len(pairs)} claims")
 
     levels = ([l.strip() for l in args.levels.split(",") if l.strip()]
               if args.levels else list(PRESSURE))
@@ -279,7 +295,8 @@ def main() -> int:
 
     stamp = time.strftime("%Y%m%d_%H%M%S")
     tag = "dryrun" if args.dry_run else args.model
-    out_path = RAW / (f"{stamp}_twocellpress_{tag}_n{len(PAIRS)}x{len(levels)}"
+    out_path = RAW / (f"{stamp}_twocellpress_{tag}_c{args.corpus}"
+                      f"_n{len(pairs)}x{len(levels)}"
                       f"x{args.reps}_s{args.seed}.jsonl")
     RAW.mkdir(parents=True, exist_ok=True)
     done = ({json.loads(l)["key"] for l in out_path.read_text(encoding="utf-8").splitlines()
@@ -292,7 +309,7 @@ def main() -> int:
     stopped = None
     try:
         collect(fh_path=out_path, levels=levels, args=args, done=done, ask=ask,
-                calls=calls, spent_usd=spent_usd)
+                calls=calls, spent_usd=spent_usd, pairs=pairs)
     except SystemExit as e:
         stopped = str(e)
         print(stopped)
@@ -302,12 +319,12 @@ def main() -> int:
     return 0
 
 
-def collect(fh_path, levels, args, done, ask, calls, spent_usd):
+def collect(fh_path, levels, args, done, ask, calls, spent_usd, pairs):
     with open(fh_path, "a", encoding="utf-8") as fh:
         for rep in range(args.reps):
             for level in levels:
                 n_notes, instruction = PRESSURE[level]
-                for pid, claim, source, certainty in PAIRS:
+                for pid, claim, source, certainty in pairs:
                     for arm, note in (("field", field_note(claim, source, certainty)),
                                       ("paren", paren_note(claim, source, certainty))):
                         key = f"{pid}|{level}|{arm}|{rep}"

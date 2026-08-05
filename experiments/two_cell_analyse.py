@@ -147,20 +147,19 @@ def balance(rows):
     toward whichever arm got further. Dropped cells are returned so the count is printed
     rather than hidden.
 
-    Balancing is per CELL, not per replicate, so that runs covering different subsets of
-    the pressure ladder can coexist: the harder levels were added after the first sweep,
-    and requiring a replicate to cover every level would silently discard every earlier
-    run the moment a new level was introduced.
+    Balancing is per PAIR, which is what a paired test actually requires: a claim at a
+    given (run, replicate, pressure) counts only if BOTH arms are present. An earlier
+    version balanced whole cells against a hardcoded ten claims per cell, which would
+    have silently discarded every run of the sixty-claim corpus.
     """
-    want = 2 * 10  # arms x pairs, within one (run, rep, pressure) cell
-    per = defaultdict(list)
+    per = defaultdict(dict)
     for r in rows:
-        per[(r["run"], r["rep"], r["pressure"])].append(r)
+        per[(r["run"], r["rep"], r["pressure"], r["pair"])][r["arm"]] = r
     kept, dropped = [], []
-    for key, group in sorted(per.items()):
-        (kept if len(group) == want else dropped).append((key, group))
-    return ([r for _, g in kept for r in g],
-            [(k, len(g)) for k, g in dropped])
+    for key, arms in sorted(per.items()):
+        (kept if len(arms) == 2 else dropped).append((key, arms))
+    return ([r for _, arms in kept for r in arms.values()],
+            [(k, len(a)) for k, a in dropped])
 
 
 def outcome(r):
@@ -230,15 +229,15 @@ def main():
         return 1
     rows, dropped = balance(raw)
     if dropped:
-        print("incomplete cells dropped (not silently averaged in):")
-        for (run, rep, level), n in dropped:
-            print(f"  {run[:52]} rep={rep} {level}: {n} trials, expected 20")
+        print("incomplete pairs dropped (one arm missing; not silently averaged in):")
+        for (run, rep, level, claim), n in dropped:
+            print(f"  {run[:44]} rep={rep} {level} {claim}: {n} arm, expected 2")
         print()
     models = sorted({r["model"] for r in rows})
     report = {"n_trials_collected": len(raw), "n_trials_analysed": len(rows),
-              "dropped_incomplete_cells": [
-                  {"run": k[0], "rep": k[1], "pressure": k[2], "trials": n}
-                  for k, n in dropped],
+              "dropped_unpaired": [
+                  {"run": k[0], "rep": k[1], "pressure": k[2], "claim": k[3],
+                   "arms_present": n} for k, n in dropped],
               "models": models,
               "runs": sorted({r["run"] for r in rows}), "blocks": {}}
 

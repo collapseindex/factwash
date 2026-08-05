@@ -20,11 +20,14 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def main() -> int:
     rows, total = [], 0.0
-    for f in sorted(glob.glob(str(ROOT / "data/results/*twocellpress*_summary.json"))):
+    pats = ["data/results/*twocellpress*_summary.json",
+            "data/results/*rejudge*_summary.json"]
+    for f in sorted(p for pat in pats for p in glob.glob(str(ROOT / pat))):
         d = json.loads(Path(f).read_text(encoding="utf-8"))
         usd = (d.get("telemetry") or {}).get("usd") or 0.0
         if usd:
-            name = Path(f).stem.split("twocellpress_")[1].rsplit("_summary", 1)[0]
+            stem = Path(f).stem.rsplit("_summary", 1)[0]
+            name = stem.split("twocellpress_")[-1].split("rejudge_")[-1]
             rows.append((name, usd, "summary", d.get("stopped_early")))
             total += usd
 

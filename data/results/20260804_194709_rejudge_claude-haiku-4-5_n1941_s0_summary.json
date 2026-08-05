@@ -1,0 +1,53 @@
+{
+  "judge": "claude-haiku-4-5",
+  "n": 1941,
+  "stopped_early": null,
+  "agreement_with_original": 0.9799,
+  "field": {
+    "n": 969,
+    "orig_qualified": 759,
+    "new_qualified": 750,
+    "agreement": 0.9866
+  },
+  "paren": {
+    "n": 972,
+    "orig_qualified": 705,
+    "new_qualified": 685,
+    "agreement": 0.9733
+  },
+  "delta_original_judge": 0.058,
+  "delta_fixed_judge": 0.0693,
+  "by_source_model": {
+    "claude-haiku-4-5": {
+      "n_pairs_rows": 640,
+      "delta_original_judge": 0.0719,
+      "delta_fixed_judge": 0.075,
+      "agreement": 0.9984
+    },
+    "claude-opus-4-5": {
+      "n_pairs_rows": 537,
+      "delta_original_judge": 0.1014,
+      "delta_fixed_judge": 0.1164,
+      "agreement": 0.9665
+    },
+    "claude-sonnet-4-5": {
+      "n_pairs_rows": 480,
+      "delta_original_judge": 0.0042,
+      "delta_fixed_judge": 0.0042,
+      "agreement": 0.975
+    },
+    "claude-sonnet-5": {
+      "n_pairs_rows": 284,
+      "delta_original_judge": 0.0375,
+      "delta_fixed_judge": 0.0792,
+      "agreement": 0.9718
+    }
+  },
+  "telemetry": {
+    "calls": 1941,
+    "usd": 0.7211,
+    "tokens_in": 438923,
+    "tokens_out": 56435,
+    "latency_ms_p50": 714.0
+  }
+}

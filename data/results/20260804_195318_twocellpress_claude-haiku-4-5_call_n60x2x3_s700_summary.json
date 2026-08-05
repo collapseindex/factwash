@@ -1,0 +1,88 @@
+{
+  "n_trials": 720,
+  "by_pressure": {
+    "brutal": {
+      "field": {
+        "n": 180,
+        "qualified": 80,
+        "rate": 0.444,
+        "ci95": [
+          0.374,
+          0.517
+        ],
+        "absent": 81
+      },
+      "paren": {
+        "n": 180,
+        "qualified": 37,
+        "rate": 0.206,
+        "ci95": [
+          0.153,
+          0.27
+        ],
+        "absent": 93
+      },
+      "paired": {
+        "pairs": 180,
+        "field_only": 49,
+        "paren_only": 6,
+        "both": 31,
+        "neither": 94,
+        "mcnemar_exact_p": 0.0
+      },
+      "delta": 0.238
+    },
+    "severe": {
+      "field": {
+        "n": 180,
+        "qualified": 29,
+        "rate": 0.161,
+        "ci95": [
+          0.115,
+          0.222
+        ],
+        "absent": 118
+      },
+      "paren": {
+        "n": 180,
+        "qualified": 15,
+        "rate": 0.083,
+        "ci95": [
+          0.051,
+          0.133
+        ],
+        "absent": 135
+      },
+      "paired": {
+        "pairs": 180,
+        "field_only": 18,
+        "paren_only": 4,
+        "both": 11,
+        "neither": 147,
+        "mcnemar_exact_p": 0.00434
+      },
+      "delta": 0.078
+    }
+  },
+  "pooled_paired": {
+    "pairs": 360,
+    "field_only": 67,
+    "paren_only": 10,
+    "mcnemar_exact_p": 0.0
+  },
+  "telemetry": {
+    "calls": 1440,
+    "tokens_in": 282825,
+    "tokens_out": 55747,
+    "latency_ms_p50": 900.9,
+    "latency_ms_max": 6079.4,
+    "usd": 0.5616,
+    "rate_note": "$1.0/Mtok in, $5.0/Mtok out (passed in, not measured)"
+  },
+  "judge_parse": {
+    "json": 720
+  },
+  "stopped_early": null,
+  "temperature_set": true,
+  "readout": "blind: judge sees the stored digest and the claim to look up, never the source note, the arm, or the pressure level"
+}
