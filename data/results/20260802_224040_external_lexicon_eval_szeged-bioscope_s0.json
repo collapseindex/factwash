@@ -1,0 +1,3430 @@
+{
+  "generated": "2026-08-02T22:40:38",
+  "note": "cue detection only; says nothing about verdict accuracy",
+  "splits": {
+    "dev": {
+      "corpora": {
+        "bio_bmc": {
+          "hedge": {
+            "tp": 131,
+            "fp": 20,
+            "fn": 98,
+            "precision": 0.8675496688741722,
+            "recall": 0.5720524017467249,
+            "f1": 0.6894736842105263,
+            "n": 1530,
+            "skipped_out_of_scope": 48,
+            "cue_recall": 0.49491525423728816,
+            "top_missed_cues": [
+              [
+                "or",
+                19
+              ],
+              [
+                "can",
+                18
+              ],
+              [
+                "possible",
+                15
+              ],
+              [
+                "predicted",
+                8
+              ],
+              [
+                "estimated",
+                7
+              ],
+              [
+                "assumption",
+                6
+              ],
+              [
+                "implies",
+                5
+              ],
+              [
+                "expect",
+                4
+              ],
+              [
+                "putative",
+                4
+              ],
+              [
+                "expected",
+                4
+              ],
+              [
+                "should",
+                3
+              ],
+              [
+                "possibility",
+                3
+              ],
+              [
+                "believe",
+                3
+              ],
+              [
+                "either",
+                3
+              ],
+              [
+                "putatively",
+                2
+              ]
+            ],
+            "top_false_positive_terms": [
+              [
+                "indicate",
+                8
+              ],
+              [
+                "likely",
+                4
+              ],
+              [
+                "appears",
+                2
+              ],
+              [
+                "could be",
+                2
+              ],
+              [
+                "assume",
+                2
+              ],
+              [
+                "uncertain",
+                1
+              ],
+              [
+                "may ",
+                1
+              ]
+            ]
+          },
+          "conditional": {
+            "tp": 48,
+            "fp": 29,
+            "fn": 15,
+            "precision": 0.6233766233766234,
+            "recall": 0.7619047619047619,
+            "f1": 0.6857142857142857,
+            "n": 1530,
+            "skipped_out_of_scope": 0,
+            "cue_recall": 0.5208333333333334,
+            "top_missed_cues": [
+              [
+                "will",
+                19
+              ],
+              [
+                "would",
+                13
+              ],
+              [
+                "should",
+                7
+              ],
+              [
+                "when",
+                4
+              ],
+              [
+                "could",
+                2
+              ],
+              [
+                "once",
+                1
+              ]
+            ],
+            "top_false_positive_terms": [
+              [
+                "if",
+                25
+              ],
+              [
+                "assuming",
+                3
+              ],
+              [
+                "depending on",
+                2
+              ],
+              [
+                "subject to",
+                1
+              ]
+            ]
+          }
+        },
+        "bio_fly": {
+          "hedge": {
+            "tp": 230,
+            "fp": 32,
+            "fn": 150,
+            "precision": 0.8778625954198473,
+            "recall": 0.6052631578947368,
+            "f1": 0.7165109034267911,
+            "n": 1917,
+            "skipped_out_of_scope": 51,
+            "cue_recall": 0.5503080082135524,
+            "top_missed_cues": [
+              [
+                "or",
+                20
+              ],
+              [
+                "indicating",
+                19
+              ],
+              [
+                "can",
+                16
+              ],
+              [
+                "appear",
+                14
+              ],
+              [
+                "possibility",
+                12
+              ],
+              [
+                "possible",
+                12
+              ],
+              [
+                "could",
+                11
+              ],
+              [
+                "hypothesis",
+                10
+              ],
+              [
+                "unclear",
+                9
+              ],
+              [
+                "proposed",
+                8
+              ],
+              [
+                "idea",
+                6
+              ],
+              [
+                "appeared",
+                6
+              ],
+              [
+                "potentially",
+                5
+              ],
+              [
+                "potential",
+                5
+              ],
+              [
+                "either",
+                5
+              ]
+            ],
+            "top_false_positive_terms": [
+              [
+                "indicate",
+                25
+              ],
+              [
+                "could be",
+                6
+              ],
+              [
+                "uncertain",
+                1
+              ]
+            ]
+          },
+          "conditional": {
+            "tp": 12,
+            "fp": 16,
+            "fn": 12,
+            "precision": 0.42857142857142855,
+            "recall": 0.5,
+            "f1": 0.4615384615384615,
+            "n": 1917,
+            "skipped_out_of_scope": 0,
+            "cue_recall": 0.34285714285714286,
+            "top_missed_cues": [
+              [
+                "would",
+                16
+              ],
+              [
+                "should",
+                3
+              ],
+              [
+                "could",
+                2
+              ],
+              [
+                "until",
+                1
+              ],
+              [
+                "can",
+                1
+              ]
+            ],
+            "top_false_positive_terms": [
+              [
+                "if",
+                10
+              ],
+              [
+                "depending on",
+                4
+              ],
+              [
+                "unless",
+                3
+              ],
+              [
+                "subject to",
+                1
+              ]
+            ]
+          }
+        },
+        "bio_hbc": {
+          "hedge": {
+            "tp": 806,
+            "fp": 62,
+            "fn": 322,
+            "precision": 0.9285714285714286,
+            "recall": 0.7145390070921985,
+            "f1": 0.807615230460922,
+            "n": 6302,
+            "skipped_out_of_scope": 290,
+            "cue_recall": 0.6571428571428571,
+            "top_missed_cues": [
+              [
+                "or",
+                72
+              ],
+              [
+                "indicating",
+                36
+              ],
+              [
+                "possible",
+                31
+              ],
+              [
+                "can",
+                26
+              ],
+              [
+                "putative",
+                26
+              ],
+              [
+                "potential",
+                25
+              ],
+              [
+                "could",
+                24
+              ],
+              [
+                "appear",
+                22
+              ],
+              [
+                "propose",
+                17
+              ],
+              [
+                "potentially",
+                16
+              ],
+              [
+                "either",
+                16
+              ],
+              [
+                "implicated",
+                13
+              ],
+              [
+                "possibility",
+                13
+              ],
+              [
+                "unknown",
+                12
+              ],
+              [
+                "little is known",
+                12
+              ]
+            ],
+            "top_false_positive_terms": [
+              [
+                "indicate",
+                28
+              ],
+              [
+                "could be",
+                16
+              ],
+              [
+                "apparently",
+                9
+              ],
+              [
+                "appears",
+                7
+              ],
+              [
+                "uncertain",
+                1
+              ],
+              [
+                "ostensibly",
+                1
+              ],
+              [
+                "may ",
+                1
+              ]
+            ]
+          },
+          "conditional": {
+            "tp": 7,
+            "fp": 36,
+            "fn": 5,
+            "precision": 0.16279069767441862,
+            "recall": 0.5833333333333334,
+            "f1": 0.2545454545454546,
+            "n": 6302,
+            "skipped_out_of_scope": 0,
+            "cue_recall": 0.5,
+            "top_missed_cues": [
+              [
+                "would",
+                5
+              ],
+              [
+                "until",
+                1
+              ]
+            ],
+            "top_false_positive_terms": [
+              [
+                "if",
+                16
+              ],
+              [
+                "depending on",
+                7
+              ],
+              [
+                "unless",
+                5
+              ],
+              [
+                "subject to",
+                5
+              ],
+              [
+                "only if",
+                2
+              ],
+              [
+                "assuming",
+                1
+              ],
+              [
+                "only when",
+                1
+              ]
+            ]
+          }
+        },
+        "bioscope_abstracts": {
+          "hedge": {
+            "tp": 743,
+            "fp": 50,
+            "fn": 284,
+            "precision": 0.9369482976040353,
+            "recall": 0.7234664070107109,
+            "f1": 0.8164835164835166,
+            "n": 5800,
+            "skipped_out_of_scope": 0,
+            "cue_recall": 0.6686792452830189,
+            "top_missed_cues": [
+              [
+                "or",
+                64
+              ],
+              [
+                "whether",
+                43
+              ],
+              [
+                "possible",
+                30
+              ],
+              [
+                "indicating that",
+                22
+              ],
+              [
+                "can",
+                22
+              ],
+              [
+                "putative",
+                19
+              ],
+              [
+                "appear",
+                19
+              ],
+              [
+                "potential",
+                18
+              ],
+              [
+                "propose",
+                17
+              ],
+              [
+                "either",
+                16
+              ],
+              [
+                "could",
+                13
+              ],
+              [
+                "should",
+                10
+              ],
+              [
+                "unknown",
+                10
+              ],
+              [
+                "hypothesized",
+                8
+              ],
+              [
+                "imply",
+                7
+              ]
+            ],
+            "top_false_positive_terms": [
+              [
+                "could be",
+                13
+              ],
+              [
+                "appears",
+                10
+              ],
+              [
+                "indicate",
+                10
+              ],
+              [
+                "apparently",
+                7
+              ],
+              [
+                "considered to",
+                4
+              ],
+              [
+                "assume",
+                2
+              ],
+              [
+                "uncertain",
+                1
+              ],
+              [
+                "believed that",
+                1
+              ],
+              [
+                "thought to",
+                1
+              ],
+              [
+                "may ",
+                1
+              ],
+              [
+                "perhaps",
+                1
+              ]
+            ]
+          },
+          "negation": {
+            "tp": 689,
+            "fp": 76,
+            "fn": 92,
+            "precision": 0.9006535947712418,
+            "recall": 0.882202304737516,
+            "f1": 0.8913324708926262,
+            "n": 5800,
+            "skipped_out_of_scope": 0,
+            "cue_recall": 0.8668197474167624,
+            "top_missed_cues": [
+              [
+                "absence",
+                27
+              ],
+              [
+                "failed",
+                22
+              ],
+              [
+                "unable",
+                18
+              ],
+              [
+                "lacking",
+                12
+              ],
+              [
+                "rather than",
+                8
+              ],
+              [
+                "fails",
+                7
+              ],
+              [
+                "absent",
+                6
+              ],
+              [
+                "fail",
+                4
+              ],
+              [
+                "failure",
+                3
+              ],
+              [
+                "with the exception of",
+                2
+              ],
+              [
+                "instead of",
+                2
+              ],
+              [
+                "either",
+                1
+              ],
+              [
+                "negative",
+                1
+              ],
+              [
+                "lacked",
+                1
+              ],
+              [
+                "with the notable exception of",
+                1
+              ]
+            ],
+            "top_false_positive_terms": [
+              [
+                "not",
+                50
+              ],
+              [
+                "no",
+                17
+              ],
+              [
+                "decline",
+                8
+              ],
+              [
+                "declined",
+                1
+              ],
+              [
+                "denied",
+                1
+              ],
+              [
+                "none",
+                1
+              ],
+              [
+                "n't",
+                1
+              ],
+              [
+                "never",
+                1
+              ],
+              [
+                "declines",
+                1
+              ]
+            ]
+          }
+        },
+        "bioscope_papers": {
+          "hedge": {
+            "tp": 196,
+            "fp": 25,
+            "fn": 138,
+            "precision": 0.8868778280542986,
+            "recall": 0.5868263473053892,
+            "f1": 0.7063063063063063,
+            "n": 1619,
+            "skipped_out_of_scope": 0,
+            "cue_recall": 0.5217391304347826,
+            "top_missed_cues": [
+              [
+                "or",
+                19
+              ],
+              [
+                "whether",
+                17
+              ],
+              [
+                "would",
+                15
+              ],
+              [
+                "possible",
+                14
+              ],
+              [
+                "can",
+                13
+              ],
+              [
+                "indicating that",
+                12
+              ],
+              [
+                "appear",
+                7
+              ],
+              [
+                "either",
+                6
+              ],
+              [
+                "estimated",
+                6
+              ],
+              [
+                "could",
+                6
+              ],
+              [
+                "assumption",
+                5
+              ],
+              [
+                "unclear",
+                4
+              ],
+              [
+                "putative",
+                4
+              ],
+              [
+                "should",
+                4
+              ],
+              [
+                "possibility",
+                3
+              ]
+            ],
+            "top_false_positive_terms": [
+              [
+                "indicate",
+                8
+              ],
+              [
+                "likely",
+                5
+              ],
+              [
+                "could be",
+                4
+              ],
+              [
+                "assume",
+                3
+              ],
+              [
+                "considered to",
+                2
+              ],
+              [
+                "appears",
+                1
+              ],
+              [
+                "uncertain",
+                1
+              ],
+              [
+                "may ",
+                1
+              ]
+            ]
+          },
+          "negation": {
+            "tp": 195,
+            "fp": 32,
+            "fn": 24,
+            "precision": 0.8590308370044053,
+            "recall": 0.8904109589041096,
+            "f1": 0.8744394618834082,
+            "n": 1619,
+            "skipped_out_of_scope": 0,
+            "cue_recall": 0.8811475409836066,
+            "top_missed_cues": [
+              [
+                "failed",
+                6
+              ],
+              [
+                "absence",
+                5
+              ],
+              [
+                "rather than",
+                5
+              ],
+              [
+                "instead of",
+                4
+              ],
+              [
+                "lacking",
+                4
+              ],
+              [
+                "absent",
+                3
+              ],
+              [
+                "fail",
+                1
+              ],
+              [
+                "fails",
+                1
+              ]
+            ],
+            "top_false_positive_terms": [
+              [
+                "not",
+                25
+              ],
+              [
+                "no",
+                5
+              ],
+              [
+                "excluded",
+                2
+              ]
+            ]
+          }
+        },
+        "factbank": {
+          "hedge": {
+            "tp": 111,
+            "fp": 21,
+            "fn": 130,
+            "precision": 0.8409090909090909,
+            "recall": 0.4605809128630705,
+            "f1": 0.5951742627345844,
+            "n": 1641,
+            "skipped_out_of_scope": 14,
+            "cue_recall": 0.4070175438596491,
+            "top_missed_cues": [
+              [
+                "possible",
+                12
+              ],
+              [
+                "expects",
+                12
+              ],
+              [
+                "could",
+                11
+              ],
+              [
+                "believe",
+                10
+              ],
+              [
+                "potential",
+                5
+              ],
+              [
+                "think",
+                5
+              ],
+              [
+                "can",
+                4
+              ],
+              [
+                "seem",
+                4
+              ],
+              [
+                "likelihood",
+                4
+              ],
+              [
+                "appeared",
+                4
+              ],
+              [
+                "accused",
+                4
+              ],
+              [
+                "expected",
+                4
+              ],
+              [
+                "seemed",
+                4
+              ],
+              [
+                "expect",
+                3
+              ],
+              [
+                "would",
+                3
+              ]
+            ],
+            "top_false_positive_terms": [
+              [
+                "indicate",
+                8
+              ],
+              [
+                "may ",
+                3
+              ],
+              [
+                "assume",
+                2
+              ],
+              [
+                "could be",
+                2
+              ],
+              [
+                "i think",
+                2
+              ],
+              [
+                "suggest",
+                1
+              ],
+              [
+                "uncertain",
+                1
+              ],
+              [
+                "likely",
+                1
+              ],
+              [
+                "might",
+                1
+              ]
+            ]
+          },
+          "conditional": {
+            "tp": 37,
+            "fp": 8,
+            "fn": 22,
+            "precision": 0.8222222222222222,
+            "recall": 0.6271186440677966,
+            "f1": 0.7115384615384616,
+            "n": 1641,
+            "skipped_out_of_scope": 0,
+            "cue_recall": 0.4175824175824176,
+            "top_missed_cues": [
+              [
+                "would",
+                24
+              ],
+              [
+                "will",
+                10
+              ],
+              [
+                "until",
+                8
+              ],
+              [
+                "could",
+                3
+              ],
+              [
+                "wo",
+                2
+              ],
+              [
+                "should",
+                2
+              ],
+              [
+                "provided",
+                1
+              ],
+              [
+                "as",
+                1
+              ],
+              [
+                "won't",
+                1
+              ],
+              [
+                "when",
+                1
+              ]
+            ],
+            "top_false_positive_terms": [
+              [
+                "if",
+                5
+              ],
+              [
+                "as long as",
+                1
+              ],
+              [
+                "subject to",
+                1
+              ],
+              [
+                "depending on",
+                1
+              ]
+            ]
+          }
+        },
+        "wiki_weasel": {
+          "hedge": {
+            "tp": 728,
+            "fp": 177,
+            "fn": 431,
+            "precision": 0.8044198895027624,
+            "recall": 0.6281276962899051,
+            "f1": 0.7054263565891473,
+            "n": 10268,
+            "skipped_out_of_scope": 26,
+            "cue_recall": 0.5817774458551157,
+            "top_missed_cues": [
+              [
+                "considered",
+                91
+              ],
+              [
+                "believe",
+                37
+              ],
+              [
+                "regarded",
+                23
+              ],
+              [
+                "could",
+                21
+              ],
+              [
+                "thought",
+                20
+              ],
+              [
+                "possible",
+                19
+              ],
+              [
+                "seen",
+                17
+              ],
+              [
+                "seem",
+                16
+              ],
+              [
+                "consider",
+                16
+              ],
+              [
+                "accused",
+                15
+              ],
+              [
+                "idea",
+                12
+              ],
+              [
+                "believed",
+                10
+              ],
+              [
+                "can",
+                10
+              ],
+              [
+                "view",
+                9
+              ],
+              [
+                "think",
+                8
+              ]
+            ],
+            "top_false_positive_terms": [
+              [
+                "may ",
+                57
+              ],
+              [
+                "could be",
+                18
+              ],
+              [
+                "suggest",
+                16
+              ],
+              [
+                "appears",
+                16
+              ],
+              [
+                "indicate",
+                12
+              ],
+              [
+                "apparently",
+                10
+              ],
+              [
+                "arguably",
+                7
+              ],
+              [
+                "suggested",
+                7
+              ],
+              [
+                "might",
+                7
+              ],
+              [
+                "assume",
+                5
+              ],
+              [
+                "suggests",
+                4
+              ],
+              [
+                "reportedly",
+                4
+              ],
+              [
+                "rumor",
+                4
+              ],
+              [
+                "likely",
+                4
+              ],
+              [
+                "possibly",
+                3
+              ]
+            ]
+          },
+          "conditional": {
+            "tp": 128,
+            "fp": 83,
+            "fn": 60,
+            "precision": 0.6066350710900474,
+            "recall": 0.6808510638297872,
+            "f1": 0.6416040100250626,
+            "n": 10268,
+            "skipped_out_of_scope": 0,
+            "cue_recall": 0.5057915057915058,
+            "top_missed_cues": [
+              [
+                "would",
+                88
+              ],
+              [
+                "will",
+                21
+              ],
+              [
+                "could",
+                7
+              ],
+              [
+                "until",
+                5
+              ],
+              [
+                "should",
+                4
+              ],
+              [
+                "provided",
+                1
+              ],
+              [
+                "wouldn't",
+                1
+              ],
+              [
+                "once",
+                1
+              ]
+            ],
+            "top_false_positive_terms": [
+              [
+                "if",
+                42
+              ],
+              [
+                "depending on",
+                17
+              ],
+              [
+                "only if",
+                8
+              ],
+              [
+                "as long as",
+                7
+              ],
+              [
+                "subject to",
+                5
+              ],
+              [
+                "in case",
+                4
+              ],
+              [
+                "unless",
+                2
+              ],
+              [
+                "assuming",
+                2
+              ],
+              [
+                "only when",
+                2
+              ],
+              [
+                "so long as",
+                2
+              ],
+              [
+                "contingent on",
+                1
+              ],
+              [
+                "provided that",
+                1
+              ]
+            ]
+          }
+        }
+      },
+      "pooled": {
+        "hedge": {
+          "tp": 2945,
+          "fp": 387,
+          "fn": 1553,
+          "precision": 0.8838535414165666,
+          "recall": 0.6547354379724322,
+          "f1": 0.752234993614304,
+          "top_missed_cues": [
+            [
+              "or",
+              194
+            ],
+            [
+              "possible",
+              133
+            ],
+            [
+              "can",
+              109
+            ],
+            [
+              "considered",
+              91
+            ],
+            [
+              "could",
+              86
+            ],
+            [
+              "appear",
+              62
+            ],
+            [
+              "whether",
+              60
+            ],
+            [
+              "indicating",
+              55
+            ],
+            [
+              "putative",
+              53
+            ],
+            [
+              "potential",
+              53
+            ],
+            [
+              "believe",
+              50
+            ],
+            [
+              "either",
+              46
+            ],
+            [
+              "propose",
+              34
+            ],
+            [
+              "indicating that",
+              34
+            ],
+            [
+              "possibility",
+              31
+            ],
+            [
+              "regarded",
+              23
+            ],
+            [
+              "unknown",
+              22
+            ],
+            [
+              "potentially",
+              21
+            ],
+            [
+              "seem",
+              20
+            ],
+            [
+              "thought",
+              20
+            ],
+            [
+              "accused",
+              19
+            ],
+            [
+              "idea",
+              18
+            ],
+            [
+              "would",
+              18
+            ],
+            [
+              "should",
+              17
+            ],
+            [
+              "seen",
+              17
+            ],
+            [
+              "consider",
+              16
+            ],
+            [
+              "estimated",
+              13
+            ],
+            [
+              "unclear",
+              13
+            ],
+            [
+              "implicated",
+              13
+            ],
+            [
+              "think",
+              13
+            ]
+          ],
+          "top_false_positive_terms": [
+            [
+              "indicate",
+              99
+            ],
+            [
+              "may ",
+              64
+            ],
+            [
+              "could be",
+              61
+            ],
+            [
+              "appears",
+              36
+            ],
+            [
+              "apparently",
+              26
+            ],
+            [
+              "suggest",
+              17
+            ],
+            [
+              "likely",
+              14
+            ],
+            [
+              "assume",
+              14
+            ],
+            [
+              "might",
+              8
+            ],
+            [
+              "arguably",
+              7
+            ],
+            [
+              "suggested",
+              7
+            ],
+            [
+              "uncertain",
+              6
+            ],
+            [
+              "considered to",
+              6
+            ],
+            [
+              "suggests",
+              4
+            ],
+            [
+              "reportedly",
+              4
+            ],
+            [
+              "rumor",
+              4
+            ],
+            [
+              "possibly",
+              3
+            ],
+            [
+              "i think",
+              2
+            ],
+            [
+              "ostensibly",
+              1
+            ],
+            [
+              "believed that",
+              1
+            ]
+          ]
+        },
+        "conditional": {
+          "tp": 232,
+          "fp": 172,
+          "fn": 114,
+          "precision": 0.5742574257425742,
+          "recall": 0.6705202312138728,
+          "f1": 0.6186666666666666,
+          "top_missed_cues": [
+            [
+              "would",
+              146
+            ],
+            [
+              "will",
+              50
+            ],
+            [
+              "should",
+              16
+            ],
+            [
+              "until",
+              15
+            ],
+            [
+              "could",
+              14
+            ],
+            [
+              "when",
+              5
+            ],
+            [
+              "once",
+              2
+            ],
+            [
+              "wo",
+              2
+            ],
+            [
+              "provided",
+              2
+            ],
+            [
+              "can",
+              1
+            ],
+            [
+              "as",
+              1
+            ],
+            [
+              "won't",
+              1
+            ],
+            [
+              "wouldn't",
+              1
+            ]
+          ],
+          "top_false_positive_terms": [
+            [
+              "if",
+              98
+            ],
+            [
+              "depending on",
+              31
+            ],
+            [
+              "subject to",
+              13
+            ],
+            [
+              "unless",
+              10
+            ],
+            [
+              "only if",
+              10
+            ],
+            [
+              "as long as",
+              8
+            ],
+            [
+              "assuming",
+              6
+            ],
+            [
+              "in case",
+              4
+            ],
+            [
+              "only when",
+              3
+            ],
+            [
+              "so long as",
+              2
+            ],
+            [
+              "contingent on",
+              1
+            ],
+            [
+              "provided that",
+              1
+            ]
+          ]
+        },
+        "negation": {
+          "tp": 884,
+          "fp": 108,
+          "fn": 116,
+          "precision": 0.8911290322580645,
+          "recall": 0.884,
+          "f1": 0.8875502008032129,
+          "top_missed_cues": [
+            [
+              "absence",
+              32
+            ],
+            [
+              "failed",
+              28
+            ],
+            [
+              "unable",
+              18
+            ],
+            [
+              "lacking",
+              16
+            ],
+            [
+              "rather than",
+              13
+            ],
+            [
+              "absent",
+              9
+            ],
+            [
+              "fails",
+              8
+            ],
+            [
+              "instead of",
+              6
+            ],
+            [
+              "fail",
+              5
+            ],
+            [
+              "failure",
+              3
+            ],
+            [
+              "with the exception of",
+              2
+            ],
+            [
+              "either",
+              1
+            ],
+            [
+              "negative",
+              1
+            ],
+            [
+              "lacked",
+              1
+            ],
+            [
+              "with the notable exception of",
+              1
+            ]
+          ],
+          "top_false_positive_terms": [
+            [
+              "not",
+              75
+            ],
+            [
+              "no",
+              22
+            ],
+            [
+              "decline",
+              8
+            ],
+            [
+              "excluded",
+              2
+            ],
+            [
+              "declined",
+              1
+            ],
+            [
+              "denied",
+              1
+            ],
+            [
+              "none",
+              1
+            ],
+            [
+              "n't",
+              1
+            ],
+            [
+              "never",
+              1
+            ],
+            [
+              "declines",
+              1
+            ]
+          ]
+        }
+      }
+    },
+    "test": {
+      "corpora": {
+        "bio_bmc": {
+          "hedge": {
+            "tp": 97,
+            "fp": 16,
+            "fn": 50,
+            "precision": 0.8584070796460177,
+            "recall": 0.6598639455782312,
+            "f1": 0.7461538461538462,
+            "n": 1243,
+            "skipped_out_of_scope": 4,
+            "cue_recall": 0.5487179487179488,
+            "top_missed_cues": [
+              [
+                "can",
+                21
+              ],
+              [
+                "or",
+                15
+              ],
+              [
+                "possible",
+                9
+              ],
+              [
+                "either",
+                6
+              ],
+              [
+                "could",
+                4
+              ],
+              [
+                "seem",
+                3
+              ],
+              [
+                "believe",
+                3
+              ],
+              [
+                "putative",
+                3
+              ],
+              [
+                "potentially",
+                2
+              ],
+              [
+                "seen",
+                2
+              ],
+              [
+                "potential",
+                2
+              ],
+              [
+                "indicating",
+                2
+              ],
+              [
+                "proposed",
+                2
+              ],
+              [
+                "viewed",
+                1
+              ],
+              [
+                "demonstrate",
+                1
+              ]
+            ],
+            "top_false_positive_terms": [
+              [
+                "indicate",
+                9
+              ],
+              [
+                "may ",
+                3
+              ],
+              [
+                "uncertain",
+                1
+              ],
+              [
+                "indicates that",
+                1
+              ],
+              [
+                "could be",
+                1
+              ],
+              [
+                "likely",
+                1
+              ],
+              [
+                "apparently",
+                1
+              ],
+              [
+                "arguably",
+                1
+              ],
+              [
+                "assuming",
+                1
+              ]
+            ]
+          },
+          "conditional": {
+            "tp": 10,
+            "fp": 15,
+            "fn": 5,
+            "precision": 0.4,
+            "recall": 0.6666666666666666,
+            "f1": 0.5,
+            "n": 1243,
+            "skipped_out_of_scope": 0,
+            "cue_recall": 0.55,
+            "top_missed_cues": [
+              [
+                "would",
+                5
+              ],
+              [
+                "until",
+                2
+              ],
+              [
+                "could",
+                1
+              ],
+              [
+                "will",
+                1
+              ]
+            ],
+            "top_false_positive_terms": [
+              [
+                "if",
+                13
+              ],
+              [
+                "assuming",
+                2
+              ],
+              [
+                "subject to",
+                1
+              ]
+            ]
+          }
+        },
+        "bio_fly": {
+          "hedge": {
+            "tp": 131,
+            "fp": 30,
+            "fn": 112,
+            "precision": 0.8136645962732919,
+            "recall": 0.5390946502057613,
+            "f1": 0.6485148514851484,
+            "n": 1553,
+            "skipped_out_of_scope": 26,
+            "cue_recall": 0.4886731391585761,
+            "top_missed_cues": [
+              [
+                "putative",
+                20
+              ],
+              [
+                "or",
+                10
+              ],
+              [
+                "indicating",
+                10
+              ],
+              [
+                "can",
+                9
+              ],
+              [
+                "feasible",
+                8
+              ],
+              [
+                "could",
+                7
+              ],
+              [
+                "possibility",
+                6
+              ],
+              [
+                "either",
+                5
+              ],
+              [
+                "possible",
+                5
+              ],
+              [
+                "implying",
+                5
+              ],
+              [
+                "appear",
+                5
+              ],
+              [
+                "unclear",
+                4
+              ],
+              [
+                "hypothesis",
+                4
+              ],
+              [
+                "expected",
+                3
+              ],
+              [
+                "appeared",
+                3
+              ]
+            ],
+            "top_false_positive_terms": [
+              [
+                "indicate",
+                26
+              ],
+              [
+                "could be",
+                2
+              ],
+              [
+                "not confirmed",
+                1
+              ],
+              [
+                "yet to be confirmed",
+                1
+              ],
+              [
+                "to be confirmed",
+                1
+              ],
+              [
+                "indicates that",
+                1
+              ]
+            ]
+          },
+          "conditional": {
+            "tp": 10,
+            "fp": 8,
+            "fn": 7,
+            "precision": 0.5555555555555556,
+            "recall": 0.5882352941176471,
+            "f1": 0.5714285714285715,
+            "n": 1553,
+            "skipped_out_of_scope": 0,
+            "cue_recall": 0.45454545454545453,
+            "top_missed_cues": [
+              [
+                "would",
+                5
+              ],
+              [
+                "until",
+                4
+              ],
+              [
+                "could",
+                2
+              ],
+              [
+                "should",
+                1
+              ]
+            ],
+            "top_false_positive_terms": [
+              [
+                "if",
+                3
+              ],
+              [
+                "depending on",
+                2
+              ],
+              [
+                "unless",
+                2
+              ],
+              [
+                "subject to",
+                1
+              ]
+            ]
+          }
+        },
+        "bio_hbc": {
+          "hedge": {
+            "tp": 858,
+            "fp": 56,
+            "fn": 364,
+            "precision": 0.9387308533916849,
+            "recall": 0.7021276595744681,
+            "f1": 0.8033707865168539,
+            "n": 6928,
+            "skipped_out_of_scope": 330,
+            "cue_recall": 0.6496774193548387,
+            "top_missed_cues": [
+              [
+                "or",
+                61
+              ],
+              [
+                "indicating",
+                46
+              ],
+              [
+                "potential",
+                34
+              ],
+              [
+                "possible",
+                28
+              ],
+              [
+                "can",
+                27
+              ],
+              [
+                "unknown",
+                24
+              ],
+              [
+                "appeared",
+                19
+              ],
+              [
+                "putative",
+                19
+              ],
+              [
+                "hypothesis",
+                18
+              ],
+              [
+                "propose",
+                18
+              ],
+              [
+                "appear",
+                16
+              ],
+              [
+                "either",
+                13
+              ],
+              [
+                "possibility",
+                11
+              ],
+              [
+                "could",
+                11
+              ],
+              [
+                "unclear",
+                10
+              ]
+            ],
+            "top_false_positive_terms": [
+              [
+                "indicate",
+                25
+              ],
+              [
+                "could be",
+                17
+              ],
+              [
+                "appears",
+                7
+              ],
+              [
+                "apparently",
+                4
+              ],
+              [
+                "assume",
+                1
+              ],
+              [
+                "uncertain",
+                1
+              ],
+              [
+                "considered to",
+                1
+              ]
+            ]
+          },
+          "conditional": {
+            "tp": 13,
+            "fp": 29,
+            "fn": 7,
+            "precision": 0.30952380952380953,
+            "recall": 0.65,
+            "f1": 0.41935483870967744,
+            "n": 6928,
+            "skipped_out_of_scope": 0,
+            "cue_recall": 0.5384615384615384,
+            "top_missed_cues": [
+              [
+                "would",
+                8
+              ],
+              [
+                "could",
+                3
+              ],
+              [
+                "until",
+                1
+              ]
+            ],
+            "top_false_positive_terms": [
+              [
+                "if",
+                17
+              ],
+              [
+                "depending on",
+                5
+              ],
+              [
+                "only when",
+                4
+              ],
+              [
+                "subject to",
+                2
+              ],
+              [
+                "unless",
+                1
+              ],
+              [
+                "assuming",
+                1
+              ],
+              [
+                "as long as",
+                1
+              ]
+            ]
+          }
+        },
+        "bioscope_abstracts": {
+          "hedge": {
+            "tp": 754,
+            "fp": 41,
+            "fn": 320,
+            "precision": 0.9484276729559749,
+            "recall": 0.702048417132216,
+            "f1": 0.8068485821294809,
+            "n": 6071,
+            "skipped_out_of_scope": 0,
+            "cue_recall": 0.6376917457998539,
+            "top_missed_cues": [
+              [
+                "or",
+                56
+              ],
+              [
+                "whether",
+                52
+              ],
+              [
+                "indicating that",
+                33
+              ],
+              [
+                "potential",
+                29
+              ],
+              [
+                "possible",
+                24
+              ],
+              [
+                "could",
+                22
+              ],
+              [
+                "can",
+                22
+              ],
+              [
+                "putative",
+                20
+              ],
+              [
+                "appeared",
+                19
+              ],
+              [
+                "appear",
+                16
+              ],
+              [
+                "unknown",
+                16
+              ],
+              [
+                "potentially",
+                15
+              ],
+              [
+                "propose",
+                15
+              ],
+              [
+                "either",
+                12
+              ],
+              [
+                "hypothesis",
+                11
+              ]
+            ],
+            "top_false_positive_terms": [
+              [
+                "could be",
+                17
+              ],
+              [
+                "indicate",
+                9
+              ],
+              [
+                "apparently",
+                4
+              ],
+              [
+                "appears",
+                4
+              ],
+              [
+                "assume",
+                3
+              ],
+              [
+                "ostensibly",
+                1
+              ],
+              [
+                "believed to",
+                1
+              ],
+              [
+                "suggested",
+                1
+              ],
+              [
+                "suggest",
+                1
+              ],
+              [
+                "considered to",
+                1
+              ]
+            ]
+          },
+          "negation": {
+            "tp": 720,
+            "fp": 76,
+            "fn": 96,
+            "precision": 0.9045226130653267,
+            "recall": 0.8823529411764706,
+            "f1": 0.8933002481389579,
+            "n": 6071,
+            "skipped_out_of_scope": 0,
+            "cue_recall": 0.8645598194130926,
+            "top_missed_cues": [
+              [
+                "absence",
+                30
+              ],
+              [
+                "lacking",
+                17
+              ],
+              [
+                "failed",
+                17
+              ],
+              [
+                "unable",
+                12
+              ],
+              [
+                "rather than",
+                12
+              ],
+              [
+                "absent",
+                7
+              ],
+              [
+                "failure",
+                5
+              ],
+              [
+                "fail",
+                4
+              ],
+              [
+                "lacked",
+                3
+              ],
+              [
+                "with the exception of",
+                3
+              ],
+              [
+                "fails",
+                3
+              ],
+              [
+                "impossible",
+                1
+              ],
+              [
+                "either",
+                1
+              ],
+              [
+                "loss",
+                1
+              ],
+              [
+                "except",
+                1
+              ]
+            ],
+            "top_false_positive_terms": [
+              [
+                "not",
+                42
+              ],
+              [
+                "no",
+                21
+              ],
+              [
+                "decline",
+                8
+              ],
+              [
+                "declined",
+                3
+              ],
+              [
+                "none",
+                2
+              ],
+              [
+                "cannot",
+                1
+              ],
+              [
+                "excluded",
+                1
+              ]
+            ]
+          }
+        },
+        "bioscope_papers": {
+          "hedge": {
+            "tp": 111,
+            "fp": 22,
+            "fn": 74,
+            "precision": 0.8345864661654135,
+            "recall": 0.6,
+            "f1": 0.6981132075471698,
+            "n": 1051,
+            "skipped_out_of_scope": 0,
+            "cue_recall": 0.5102040816326531,
+            "top_missed_cues": [
+              [
+                "possible",
+                11
+              ],
+              [
+                "can",
+                7
+              ],
+              [
+                "or",
+                7
+              ],
+              [
+                "could",
+                7
+              ],
+              [
+                "would",
+                6
+              ],
+              [
+                "whether",
+                6
+              ],
+              [
+                "appear",
+                5
+              ],
+              [
+                "should",
+                5
+              ],
+              [
+                "hypothesis",
+                4
+              ],
+              [
+                "indicating that",
+                4
+              ],
+              [
+                "putative",
+                4
+              ],
+              [
+                "possibility",
+                3
+              ],
+              [
+                "proposed",
+                2
+              ],
+              [
+                "indication",
+                2
+              ],
+              [
+                "not clear",
+                2
+              ]
+            ],
+            "top_false_positive_terms": [
+              [
+                "indicate",
+                16
+              ],
+              [
+                "apparently",
+                1
+              ],
+              [
+                "arguably",
+                1
+              ],
+              [
+                "assuming",
+                1
+              ],
+              [
+                "assume",
+                1
+              ],
+              [
+                "indicates that",
+                1
+              ],
+              [
+                "probably",
+                1
+              ],
+              [
+                "could be",
+                1
+              ]
+            ]
+          },
+          "negation": {
+            "tp": 106,
+            "fp": 25,
+            "fn": 14,
+            "precision": 0.8091603053435115,
+            "recall": 0.8833333333333333,
+            "f1": 0.8446215139442231,
+            "n": 1051,
+            "skipped_out_of_scope": 0,
+            "cue_recall": 0.8582089552238806,
+            "top_missed_cues": [
+              [
+                "rather than",
+                8
+              ],
+              [
+                "failed",
+                2
+              ],
+              [
+                "fail",
+                2
+              ],
+              [
+                "failure",
+                2
+              ],
+              [
+                "fails",
+                1
+              ],
+              [
+                "lacking",
+                1
+              ],
+              [
+                "missing",
+                1
+              ],
+              [
+                "excluding",
+                1
+              ],
+              [
+                "absence",
+                1
+              ]
+            ],
+            "top_false_positive_terms": [
+              [
+                "not",
+                14
+              ],
+              [
+                "no",
+                5
+              ],
+              [
+                "cannot",
+                2
+              ],
+              [
+                "excluded",
+                2
+              ],
+              [
+                "never",
+                1
+              ],
+              [
+                "none",
+                1
+              ]
+            ]
+          }
+        },
+        "factbank": {
+          "hedge": {
+            "tp": 87,
+            "fp": 20,
+            "fn": 115,
+            "precision": 0.8130841121495327,
+            "recall": 0.4306930693069307,
+            "f1": 0.5631067961165048,
+            "n": 1488,
+            "skipped_out_of_scope": 11,
+            "cue_recall": 0.39819004524886875,
+            "top_missed_cues": [
+              [
+                "could",
+                15
+              ],
+              [
+                "expects",
+                14
+              ],
+              [
+                "expect",
+                9
+              ],
+              [
+                "possibility",
+                5
+              ],
+              [
+                "believe",
+                5
+              ],
+              [
+                "estimated",
+                5
+              ],
+              [
+                "possible",
+                5
+              ],
+              [
+                "should",
+                4
+              ],
+              [
+                "think",
+                4
+              ],
+              [
+                "potential",
+                4
+              ],
+              [
+                "unknown",
+                3
+              ],
+              [
+                "fearing",
+                2
+              ],
+              [
+                "confident",
+                2
+              ],
+              [
+                "believes",
+                2
+              ],
+              [
+                "probable",
+                2
+              ]
+            ],
+            "top_false_positive_terms": [
+              [
+                "could be",
+                5
+              ],
+              [
+                "indicate",
+                3
+              ],
+              [
+                "apparently",
+                3
+              ],
+              [
+                "may ",
+                2
+              ],
+              [
+                "assume",
+                2
+              ],
+              [
+                "appears",
+                1
+              ],
+              [
+                "might",
+                1
+              ],
+              [
+                "might have",
+                1
+              ],
+              [
+                "assuming",
+                1
+              ],
+              [
+                "expected to",
+                1
+              ],
+              [
+                "heard from",
+                1
+              ]
+            ]
+          },
+          "conditional": {
+            "tp": 32,
+            "fp": 19,
+            "fn": 28,
+            "precision": 0.6274509803921569,
+            "recall": 0.5333333333333333,
+            "f1": 0.5765765765765766,
+            "n": 1488,
+            "skipped_out_of_scope": 0,
+            "cue_recall": 0.3793103448275862,
+            "top_missed_cues": [
+              [
+                "would",
+                26
+              ],
+              [
+                "will",
+                11
+              ],
+              [
+                "until",
+                8
+              ],
+              [
+                "could",
+                6
+              ],
+              [
+                "once",
+                2
+              ],
+              [
+                "when",
+                1
+              ]
+            ],
+            "top_false_positive_terms": [
+              [
+                "subject to",
+                8
+              ],
+              [
+                "if",
+                5
+              ],
+              [
+                "conditional on",
+                2
+              ],
+              [
+                "assuming",
+                2
+              ],
+              [
+                "in case",
+                1
+              ],
+              [
+                "depending on",
+                1
+              ]
+            ]
+          }
+        },
+        "wiki_weasel": {
+          "hedge": {
+            "tp": 748,
+            "fp": 143,
+            "fn": 423,
+            "precision": 0.8395061728395061,
+            "recall": 0.6387702818104184,
+            "f1": 0.725509214354995,
+            "n": 10480,
+            "skipped_out_of_scope": 17,
+            "cue_recall": 0.5928411633109619,
+            "top_missed_cues": [
+              [
+                "considered",
+                84
+              ],
+              [
+                "believe",
+                48
+              ],
+              [
+                "regarded",
+                28
+              ],
+              [
+                "possible",
+                23
+              ],
+              [
+                "thought",
+                22
+              ],
+              [
+                "can",
+                18
+              ],
+              [
+                "seen",
+                14
+              ],
+              [
+                "could",
+                14
+              ],
+              [
+                "consider",
+                12
+              ],
+              [
+                "accused",
+                11
+              ],
+              [
+                "view",
+                10
+              ],
+              [
+                "would",
+                9
+              ],
+              [
+                "think",
+                8
+              ],
+              [
+                "believed",
+                8
+              ],
+              [
+                "unclear",
+                8
+              ]
+            ],
+            "top_false_positive_terms": [
+              [
+                "may ",
+                56
+              ],
+              [
+                "appears",
+                12
+              ],
+              [
+                "apparently",
+                11
+              ],
+              [
+                "could be",
+                10
+              ],
+              [
+                "suggest",
+                9
+              ],
+              [
+                "arguably",
+                8
+              ],
+              [
+                "assume",
+                4
+              ],
+              [
+                "uncertain",
+                4
+              ],
+              [
+                "perhaps",
+                4
+              ],
+              [
+                "indicate",
+                3
+              ],
+              [
+                "possibly",
+                3
+              ],
+              [
+                "suggested",
+                3
+              ],
+              [
+                "rumor",
+                3
+              ],
+              [
+                "likely",
+                3
+              ],
+              [
+                "might",
+                2
+              ]
+            ]
+          },
+          "conditional": {
+            "tp": 127,
+            "fp": 85,
+            "fn": 43,
+            "precision": 0.5990566037735849,
+            "recall": 0.7470588235294118,
+            "f1": 0.6649214659685865,
+            "n": 10480,
+            "skipped_out_of_scope": 0,
+            "cue_recall": 0.5948275862068966,
+            "top_missed_cues": [
+              [
+                "would",
+                49
+              ],
+              [
+                "will",
+                18
+              ],
+              [
+                "until",
+                10
+              ],
+              [
+                "should",
+                8
+              ],
+              [
+                "could",
+                4
+              ],
+              [
+                "won't",
+                1
+              ],
+              [
+                "shouldn't",
+                1
+              ],
+              [
+                "providing",
+                1
+              ],
+              [
+                "when",
+                1
+              ],
+              [
+                "insofar",
+                1
+              ]
+            ],
+            "top_false_positive_terms": [
+              [
+                "if",
+                46
+              ],
+              [
+                "depending on",
+                17
+              ],
+              [
+                "subject to",
+                10
+              ],
+              [
+                "assuming",
+                4
+              ],
+              [
+                "unless",
+                3
+              ],
+              [
+                "as long as",
+                3
+              ],
+              [
+                "only if",
+                2
+              ],
+              [
+                "in case",
+                2
+              ],
+              [
+                "so long as",
+                2
+              ]
+            ]
+          }
+        }
+      },
+      "pooled": {
+        "hedge": {
+          "tp": 2786,
+          "fp": 328,
+          "fn": 1458,
+          "precision": 0.8946692357096981,
+          "recall": 0.6564561734213007,
+          "f1": 0.7572709975536831,
+          "top_missed_cues": [
+            [
+              "or",
+              149
+            ],
+            [
+              "possible",
+              105
+            ],
+            [
+              "can",
+              104
+            ],
+            [
+              "considered",
+              84
+            ],
+            [
+              "could",
+              80
+            ],
+            [
+              "potential",
+              69
+            ],
+            [
+              "putative",
+              66
+            ],
+            [
+              "indicating",
+              58
+            ],
+            [
+              "whether",
+              58
+            ],
+            [
+              "believe",
+              56
+            ],
+            [
+              "unknown",
+              43
+            ],
+            [
+              "appear",
+              42
+            ],
+            [
+              "appeared",
+              41
+            ],
+            [
+              "hypothesis",
+              37
+            ],
+            [
+              "indicating that",
+              37
+            ],
+            [
+              "either",
+              36
+            ],
+            [
+              "propose",
+              33
+            ],
+            [
+              "regarded",
+              28
+            ],
+            [
+              "possibility",
+              25
+            ],
+            [
+              "unclear",
+              22
+            ],
+            [
+              "thought",
+              22
+            ],
+            [
+              "potentially",
+              17
+            ],
+            [
+              "seen",
+              16
+            ],
+            [
+              "would",
+              15
+            ],
+            [
+              "expects",
+              14
+            ],
+            [
+              "think",
+              12
+            ],
+            [
+              "consider",
+              12
+            ],
+            [
+              "accused",
+              11
+            ],
+            [
+              "view",
+              10
+            ],
+            [
+              "should",
+              9
+            ]
+          ],
+          "top_false_positive_terms": [
+            [
+              "indicate",
+              91
+            ],
+            [
+              "may ",
+              61
+            ],
+            [
+              "could be",
+              53
+            ],
+            [
+              "apparently",
+              24
+            ],
+            [
+              "appears",
+              24
+            ],
+            [
+              "assume",
+              11
+            ],
+            [
+              "arguably",
+              10
+            ],
+            [
+              "suggest",
+              10
+            ],
+            [
+              "uncertain",
+              6
+            ],
+            [
+              "likely",
+              4
+            ],
+            [
+              "suggested",
+              4
+            ],
+            [
+              "perhaps",
+              4
+            ],
+            [
+              "indicates that",
+              3
+            ],
+            [
+              "assuming",
+              3
+            ],
+            [
+              "might",
+              3
+            ],
+            [
+              "possibly",
+              3
+            ],
+            [
+              "rumor",
+              3
+            ],
+            [
+              "considered to",
+              2
+            ],
+            [
+              "not confirmed",
+              1
+            ],
+            [
+              "yet to be confirmed",
+              1
+            ]
+          ]
+        },
+        "conditional": {
+          "tp": 192,
+          "fp": 156,
+          "fn": 90,
+          "precision": 0.5517241379310345,
+          "recall": 0.6808510638297872,
+          "f1": 0.6095238095238096,
+          "top_missed_cues": [
+            [
+              "would",
+              93
+            ],
+            [
+              "will",
+              30
+            ],
+            [
+              "until",
+              25
+            ],
+            [
+              "could",
+              16
+            ],
+            [
+              "should",
+              9
+            ],
+            [
+              "once",
+              2
+            ],
+            [
+              "when",
+              2
+            ],
+            [
+              "won't",
+              1
+            ],
+            [
+              "shouldn't",
+              1
+            ],
+            [
+              "providing",
+              1
+            ],
+            [
+              "insofar",
+              1
+            ]
+          ],
+          "top_false_positive_terms": [
+            [
+              "if",
+              84
+            ],
+            [
+              "depending on",
+              25
+            ],
+            [
+              "subject to",
+              22
+            ],
+            [
+              "assuming",
+              9
+            ],
+            [
+              "unless",
+              6
+            ],
+            [
+              "only when",
+              4
+            ],
+            [
+              "as long as",
+              4
+            ],
+            [
+              "in case",
+              3
+            ],
+            [
+              "conditional on",
+              2
+            ],
+            [
+              "only if",
+              2
+            ],
+            [
+              "so long as",
+              2
+            ]
+          ]
+        },
+        "negation": {
+          "tp": 826,
+          "fp": 101,
+          "fn": 110,
+          "precision": 0.8910463861920173,
+          "recall": 0.8824786324786325,
+          "f1": 0.8867418142780461,
+          "top_missed_cues": [
+            [
+              "absence",
+              31
+            ],
+            [
+              "rather than",
+              20
+            ],
+            [
+              "failed",
+              19
+            ],
+            [
+              "lacking",
+              18
+            ],
+            [
+              "unable",
+              12
+            ],
+            [
+              "absent",
+              7
+            ],
+            [
+              "failure",
+              7
+            ],
+            [
+              "fail",
+              6
+            ],
+            [
+              "fails",
+              4
+            ],
+            [
+              "lacked",
+              3
+            ],
+            [
+              "with the exception of",
+              3
+            ],
+            [
+              "impossible",
+              1
+            ],
+            [
+              "either",
+              1
+            ],
+            [
+              "loss",
+              1
+            ],
+            [
+              "except",
+              1
+            ],
+            [
+              "missing",
+              1
+            ],
+            [
+              "excluding",
+              1
+            ]
+          ],
+          "top_false_positive_terms": [
+            [
+              "not",
+              56
+            ],
+            [
+              "no",
+              26
+            ],
+            [
+              "decline",
+              8
+            ],
+            [
+              "declined",
+              3
+            ],
+            [
+              "none",
+              3
+            ],
+            [
+              "cannot",
+              3
+            ],
+            [
+              "excluded",
+              3
+            ],
+            [
+              "never",
+              1
+            ]
+          ]
+        }
+      }
+    }
+  }
+}

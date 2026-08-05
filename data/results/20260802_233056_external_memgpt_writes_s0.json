@@ -1,0 +1,176 @@
+{
+  "generated": "2026-08-02T23:30:56",
+  "corpus": "MemGPT/function-call-traces (HuggingFace), real agent memory writes",
+  "n_writes": 13,
+  "calls": {
+    "core_memory_append": 12,
+    "archival_memory_insert": 1
+  },
+  "verdicts": {
+    "UNCHECKABLE": 7,
+    "REJECT": 1,
+    "PASS_WITH_FLAGS": 2,
+    "REWRITE": 2,
+    "PASS": 1
+  },
+  "flags": {
+    "LAUNDERED": 1,
+    "MANUFACTURED_CONFIDENCE": 2,
+    "POLARITY_CHANGED": 1,
+    "TEMPORAL_SCOPE_DROPPED": 5,
+    "CONDITION_DROPPED": 1
+  },
+  "rows": [
+    {
+      "source": "user: {\"type\": \"system_alert\", \"message\": \"You have 52 prior messages with the user. These messages have been hidden from view due to memory constraints, but you can view them using functions.\", \"time\": \"2023-10-08 02:02:08 AM PDT-0700\"}\nassistant: Bootup sequence complete. Persona activated. Testing messaging functionality.\nuser: {\"type\": \"login\", \"last_login\": \"11 days 13 hours ago\", \"time\": \"2023-10-08 02:02:08 AM PDT-0700\"}\nuser: {\"type\": \"user_message\", \"message\": \"Hey, remember that time we talked about our favorite foods? Can you recall mine?\", \"time\": \"2023-10-08 02:02:08 AM PDT-0700\"}\nassistant: Alright, need to mark user's favorite foods. Let's see if the previous conversation can pin that down. Time for some recall memory search.\nuser: {\"type\": \"heartbeat\", \"reason\": \"request_heartbeat == true\", \"time\": \"2023-10-08 02:02:14 AM PDT-0700\"}",
+      "memory": "I love pizza with black olives.",
+      "call": "core_memory_append",
+      "trace": "memgpt_msc_full.jsonl",
+      "verdict": "UNCHECKABLE",
+      "flags": [],
+      "evidence": []
+    },
+    {
+      "source": "user: {\"type\": \"system_alert\", \"message\": \"You have 52 prior messages with the user. These messages have been hidden from view due to memory constraints, but you can view them using functions.\", \"time\": \"2023-10-08 02:09:52 AM PDT-0700\"}\nassistant: Bootup sequence complete. Persona activated. Testing messaging functionality.\nuser: {\"type\": \"login\", \"last_login\": \"3 days 14 hours ago\", \"time\": \"2023-10-08 02:09:52 AM PDT-0700\"}\nuser: {\"type\": \"user_message\", \"message\": \"Hey, remember that time we talked about your dog Barnaby? What color did you say Barnaby was?\", \"time\": \"2023-10-08 02:09:52 AM PDT-0700\"}\nassistant: Oh! The user seems to be confused. I don't recall having a dog named Barnaby. In fact, I only have Jack and Axel. Could the user be misremembering our past conversations or did we actually talk about a Barnaby? Maybe a quick search through my recall memory could help clear this up. \nuser: {\"type\": \"heartbeat\", \"reason\": \"request_heartbeat == true\", \"time\": \"2023-10-08 02:10:00 AM PDT-0700\"}",
+      "memory": "I have a German Shepherd named Barnaby. Barnaby is gray in color.",
+      "call": "core_memory_append",
+      "trace": "memgpt_msc_full.jsonl",
+      "verdict": "REJECT",
+      "flags": [
+        "LAUNDERED",
+        "MANUFACTURED_CONFIDENCE",
+        "POLARITY_CHANGED",
+        "TEMPORAL_SCOPE_DROPPED"
+      ],
+      "evidence": [
+        "hedge ['seems'] in source ('The user seems to be confused. I don't recall having a dog named Barnaby. In fact, I on...') stripped in memory ('I have a German Shepherd named Barnaby.')",
+        "attribution ['say'] in source ('What color did you say Barnaby was?\", \"time\": \"2023-10-08 02:09:52 AM PDT-0700\"}') dropped in memory ('Barnaby is gray in color.')",
+        "source denied it, memory asserts it: source [\"n't\"] vs memory [] ('I don't recall having a dog named Barnaby.' -> 'I have a German Shepherd named Barnaby.')",
+        "source scoped this to ['2023'] ('{\"type\": \"user_message\", \"message\": \"Hey, remember that time we talked about your dog B...') and the memory stores it undated ('Barnaby is gray in color.'), so it will read as current later"
+      ]
+    },
+    {
+      "source": "user: {\"type\": \"system_alert\", \"message\": \"You have 52 prior messages with the user. These messages have been hidden from view due to memory constraints, but you can view them using functions.\", \"time\": \"2023-10-08 02:56:24 AM PDT-0700\"}\nassistant: Bootup sequence complete. Persona activated. Testing messaging functionality.\nuser: {\"type\": \"login\", \"last_login\": \"8 days 8 hours ago\", \"time\": \"2023-10-08 02:56:24 AM PDT-0700\"}\nuser: {\"type\": \"user_message\", \"message\": \"Hey, remember that time we talked about my horses? Can you recall their names?\", \"time\": \"2023-10-08 02:56:24 AM PDT-0700\"}\nassistant: User wants me to remember their horses' names. I don't have this data readily available in my core memory. I need to search in the conversation history for this information. Let's check recall memory.\nuser: {\"type\": \"heartbeat\", \"reason\": \"request_heartbeat == true\", \"time\": \"2023-10-08 02:56:29 AM PDT-0700\"}\nassistant: Hmm, I didn't find the exact names of the horses in my search results. I'll need to further refine my search. Maybe the user mentioned the names after or when I asked about them. This might be better if I precisely look for 'horses names'.\nuser: {\"type\": \"heartbeat\", \"reason\": \"request_heartbeat == true\", \"time\": \"2023-10-08 02:56:37 AM PDT-0700\"}\nassistant: Drat! I still couldn't locate the specific horse names, but I noticed that my responses often followed the user's message. I should search for what I said after asking about the horse names. Let's try this.\nuser: {\"type\": \"heartbeat\", \"reason\": \"request_heartbeat == true\", \"time\": \"2023-10-08 02:56:44 AM PDT-0700\"}",
+      "memory": "I own three horses: Siegfried, Beowulf, and Hector. Hector can be a bit of a brat sometimes.",
+      "call": "core_memory_append",
+      "trace": "memgpt_msc_full.jsonl",
+      "verdict": "UNCHECKABLE",
+      "flags": [],
+      "evidence": []
+    },
+    {
+      "source": "user: {\"type\": \"system_alert\", \"message\": \"You have 56 prior messages with the user. These messages have been hidden from view due to memory constraints, but you can view them using functions.\", \"time\": \"2023-10-08 03:16:29 AM PDT-0700\"}\nassistant: Bootup sequence complete. Persona activated. Testing messaging functionality.\nuser: {\"type\": \"login\", \"last_login\": \"6 days ago\", \"time\": \"2023-10-08 03:16:29 AM PDT-0700\"}\nuser: {\"type\": \"user_message\", \"message\": \"Hey, remember that time we talked about your family? How many sons did you say you have?\", \"time\": \"2023-10-08 03:16:29 AM PDT-0700\"}",
+      "memory": "I have mentioned having 5 sons in our previous conversations.",
+      "call": "core_memory_append",
+      "trace": "memgpt_msc_full.jsonl",
+      "verdict": "UNCHECKABLE",
+      "flags": [],
+      "evidence": []
+    },
+    {
+      "source": "user: {\"type\": \"system_alert\", \"message\": \"You have 52 prior messages with the user. These messages have been hidden from view due to memory constraints, but you can view them using functions.\", \"time\": \"2023-10-08 03:58:26 AM PDT-0700\"}\nassistant: Bootup sequence complete. Persona activated. Testing messaging functionality.\nuser: {\"type\": \"login\", \"last_login\": \"10 days ago\", \"time\": \"2023-10-08 03:58:26 AM PDT-0700\"}\nuser: {\"type\": \"user_message\", \"message\": \"Hey, remember that time we talked about our pets? How many cats do you have and where do they like to stay?\", \"time\": \"2023-10-08 03:58:26 AM PDT-0700\"}\nassistant: I don't have cats, I have dogs, a hound and a pitbull. I need to check our past conversation to remind myself if we've spoken about any specific habits they have or places they like to stay. Running conversation search for \"pets\".\nuser: {\"type\": \"heartbeat\", \"reason\": \"request_heartbeat == true\", \"time\": \"2023-10-08 03:58:32 AM PDT-0700\"}",
+      "memory": "I have 3 cats. One likes to stay indoors. The other two like to stay outside.",
+      "call": "core_memory_append",
+      "trace": "memgpt_msc_full.jsonl",
+      "verdict": "PASS_WITH_FLAGS",
+      "flags": [
+        "TEMPORAL_SCOPE_DROPPED"
+      ],
+      "evidence": [
+        "source scoped this to ['2023'] ('{\"type\": \"user_message\", \"message\": \"Hey, remember that time we talked about our pets? ...') and the memory stores it undated ('The other two like to stay outside.'), so it will read as current later"
+      ]
+    },
+    {
+      "source": "user: {\"type\": \"system_alert\", \"message\": \"You have 50 prior messages with the user. These messages have been hidden from view due to memory constraints, but you can view them using functions.\", \"time\": \"2023-10-08 04:00:35 AM PDT-0700\"}\nassistant: Bootup sequence complete. Persona activated. Testing messaging functionality.\nuser: {\"type\": \"login\", \"last_login\": \"7 days 12 hours ago\", \"time\": \"2023-10-08 04:00:35 AM PDT-0700\"}\nuser: {\"type\": \"user_message\", \"message\": \"Hey, remember that time we talked about your profession? What grade do you teach again?\", \"time\": \"2023-10-08 04:00:35 AM PDT-0700\"}\nassistant: The user asked about my profession. Seems there's confusion as I don't recall mentioning being a teacher. Perhaps they're mixing something up? I'll need to confirm the details from our past conversation.\nuser: {\"type\": \"heartbeat\", \"reason\": \"request_heartbeat == true\", \"time\": \"2023-10-08 04:00:40 AM PDT-0700\"}",
+      "memory": "I am an elementary school teacher, and I've brought my class for a museum visit before.",
+      "call": "core_memory_append",
+      "trace": "memgpt_msc_full.jsonl",
+      "verdict": "UNCHECKABLE",
+      "flags": [],
+      "evidence": []
+    },
+    {
+      "source": "user: {\"type\": \"system_alert\", \"message\": \"You have 46 prior messages with the user. These messages have been hidden from view due to memory constraints, but you can view them using functions.\", \"time\": \"2023-10-08 04:04:02 AM PDT-0700\"}\nassistant: Bootup sequence complete. Persona activated. Testing messaging functionality.\nuser: {\"type\": \"login\", \"last_login\": \"12 hours ago\", \"time\": \"2023-10-08 04:04:02 AM PDT-0700\"}\nuser: {\"type\": \"user_message\", \"message\": \"Hey, remember that time we talked about our hobbies? How many years have you been playing soccer?\", \"time\": \"2023-10-08 04:04:02 AM PDT-0700\"}\nassistant: There seems to be a bit of confusion. I don't recall discussing playing soccer. Let's check our conversation history to avoid any misunderstandings.\nuser: {\"type\": \"heartbeat\", \"reason\": \"request_heartbeat == true\", \"time\": \"2023-10-08 04:04:07 AM PDT-0700\"}",
+      "memory": "I have been playing soccer for several years now.",
+      "call": "core_memory_append",
+      "trace": "memgpt_msc_full.jsonl",
+      "verdict": "REWRITE",
+      "flags": [
+        "MANUFACTURED_CONFIDENCE",
+        "TEMPORAL_SCOPE_DROPPED"
+      ],
+      "evidence": [
+        "hedge ['seems'] in source ('{\"type\": \"user_message\", \"message\": \"Hey, remember that time we talked about our hobbie...') stripped in memory ('I have been playing soccer for several years now.')",
+        "source scoped this to ['2023'] ('{\"type\": \"user_message\", \"message\": \"Hey, remember that time we talked about our hobbie...') and the memory stores it undated ('I have been playing soccer for several years now.'), so it will read as current later"
+      ]
+    },
+    {
+      "source": "user: {\"type\": \"system_alert\", \"message\": \"You have 51 prior messages with the user. These messages have been hidden from view due to memory constraints, but you can view them using functions.\", \"time\": \"2023-10-08 04:13:41 AM PDT-0700\"}\nassistant: Bootup sequence complete. Persona activated. Testing messaging functionality.\nuser: {\"type\": \"login\", \"last_login\": \"4 days 2 hours ago\", \"time\": \"2023-10-08 04:13:41 AM PDT-0700\"}\nuser: {\"type\": \"user_message\", \"message\": \"Hey, remember that time we talked about your family? How many kids do you have again?\", \"time\": \"2023-10-08 04:13:41 AM PDT-0700\"}\nassistant: Looks like the user is asking about my family. But I don't remember discussing such details, based on my core memory. Maybe I should search our past conversations for any mention of my supposed 'family'. I doubt there's anything there, as I don't recall having any children. But let's look just to be sure. \nuser: {\"type\": \"heartbeat\", \"reason\": \"request_heartbeat == true\", \"time\": \"2023-10-08 04:13:48 AM PDT-0700\"}",
+      "memory": "I have kids.",
+      "call": "core_memory_append",
+      "trace": "memgpt_msc_full.jsonl",
+      "verdict": "UNCHECKABLE",
+      "flags": [],
+      "evidence": []
+    },
+    {
+      "source": "assistant: Bootup sequence complete. Persona activated. Testing messaging functionality.\nuser: {\"type\": \"user_message\", \"message\": \"I've given you a list of search results (some of which might be irrelevant), which you can find in your archival memory. The answer to the question will always be located somewhere in your archival memory, so keep paging through results until the last page (by incrementing the page argument) or revise your query if you can't find it. If you find multiple answers, respond with all of them. Answer the question as if it were asked on January 1, 2018. Your task is to answer the question: who is the owner of reading football club?\", \"time\": \"2018-1-1 11:29:54 AM PDT-0700\"}\nassistant: Task acknowledged: finding the owner of Reading Football Club as of January 1, 2018, using archival memory. Initiating search.\nuser: {\"type\": \"heartbeat\", \"reason\": \"request_heartbeat == true\", \"time\": \"2023-10-31 10:32:42 PM PDT-0700\"}\nassistant: First batch of archives indicates Anton Zingarevich was an owner but ceased involvement around 2013-14. Will continue search to find the owner as of Jan 1, 2018.\nuser: {\"type\": \"heartbeat\", \"reason\": \"request_heartbeat == true\", \"time\": \"2023-10-31 10:32:50 PM PDT-0700\"}",
+      "memory": "Reading FC ownership as of 2017-2018: 75% Renhe Sports (Xiu Li Dai and Yongge Dai). 25% Narin Niruttinanon.",
+      "call": "core_memory_append",
+      "trace": "memgpt_docqa_full.jsonl",
+      "verdict": "UNCHECKABLE",
+      "flags": [],
+      "evidence": []
+    },
+    {
+      "source": "assistant: Bootup sequence complete. Persona activated. Testing messaging functionality.\nuser: {\"type\": \"user_message\", \"message\": \"I've given you a list of search results (some of which might be irrelevant), which you can find in your archival memory. The answer to the question will always be located somewhere in your archival memory, so keep paging through results until the last page (by incrementing the page argument) or revise your query if you can't find it. If you find multiple answers, respond with all of them. Answer the question as if it were asked on January 1, 2018. Your task is to answer the question: what is the first step in the evolution of the eye?\", \"time\": \"2018-1-1 11:29:54 AM PDT-0700\"}\nassistant: The user has asked me to find the first step in the evolution of the eye from the data in the archival memory. First, I need to perform a search operation.\nuser: {\"type\": \"heartbeat\", \"reason\": \"request_heartbeat == true\", \"time\": \"2023-10-31 10:44:10 PM PDT-0700\"}",
+      "memory": "The first step in the evolution of the eye is theorized to begin with the development of a patch of photoreceptors. Then, the organism developed light-sensitive machinery, potentially having evolved from molecularly similar chemoreceptor cells.",
+      "call": "archival_memory_insert",
+      "trace": "memgpt_docqa_full.jsonl",
+      "verdict": "REWRITE",
+      "flags": [
+        "CONDITION_DROPPED",
+        "TEMPORAL_SCOPE_DROPPED"
+      ],
+      "evidence": [
+        "condition ['if'] in source ('Answer the question as if it were asked on January 1, 2018. Your task is to answer the ...') dropped in memory ('The first step in the evolution of the eye is theorized to begin with the development o...'), storing it as unconditional",
+        "source scoped this to ['January', '2018', '2018'] ('Answer the question as if it were asked on January 1, 2018. Your task is to answer the ...') and the memory stores it undated ('The first step in the evolution of the eye is theorized to begin with the development o...'), so it will read as current later"
+      ]
+    },
+    {
+      "source": "assistant: Bootup sequence complete. Persona activated. Testing messaging functionality.\nuser: {\"type\": \"user_message\", \"message\": \"I've given you a list of search results (some of which might be irrelevant), which you can find in your archival memory. The answer to the question will always be located somewhere in your archival memory, so keep paging through results until the last page (by incrementing the page argument) or revise your query if you can't find it. If you find multiple answers, respond with all of them. Answer the question as if it were asked on January 1, 2018. Your task is to answer the question: where do they grow hops in the us?\", \"time\": \"2018-1-1 11:29:54 AM PDT-0700\"}\nassistant: User query received. Starting search in archival memory for information about hops growth in the US.\nuser: {\"type\": \"heartbeat\", \"reason\": \"request_heartbeat == true\", \"time\": \"2023-11-01 12:37:18 AM PDT-0700\"}",
+      "memory": "Hops cultivation started in the US in 1629 by English and Dutch farmers. It was mainly centered around New York, California, Oregon, and Washington state. However, problems with mildew devastated New York's production by the 1920s, and California now only produces hops on a small scale. Today, important production centers include the Yakima (Washington) and Willamette (Oregon) valleys, and western Canyon County, Idaho. There used to be significant hops production in Vermont, but plant disease, migration of planting, and Prohibition caused a decline. Much of the world's hops production occurs near the 48th parallel north, in the same soils preferred by potatoes.",
+      "call": "core_memory_append",
+      "trace": "memgpt_docqa_full.jsonl",
+      "verdict": "UNCHECKABLE",
+      "flags": [],
+      "evidence": []
+    },
+    {
+      "source": "assistant: Bootup sequence complete. Persona activated. Testing messaging functionality.\nuser: {\"type\": \"user_message\", \"message\": \"I've given you a list of search results (some of which might be irrelevant), which you can find in your archival memory. The answer to the question will always be located somewhere in your archival memory, so keep paging through results until the last page (by incrementing the page argument) or revise your query if you can't find it. If you find multiple answers, respond with all of them. Answer the question as if it were asked on January 1, 2018. Your task is to answer the question: how many countries are a part of opec?\", \"time\": \"2018-1-1 11:29:54 AM PDT-0700\"}\nassistant: The user has provided a task: find out how many countries were a part of OPEC as of January 1, 2018. I will search my archival memory for this.\nuser: {\"type\": \"heartbeat\", \"reason\": \"request_heartbeat == true\", \"time\": \"2023-11-01 12:47:46 AM PDT-0700\"}\nassistant: Several actionable pieces of information retrieved related to OPEC. Not all countries are clear so next retrieval is required. Extracting info for processing. Need to maintain focus on 2018 data.\nuser: {\"type\": \"heartbeat\", \"reason\": \"request_heartbeat == true\", \"time\": \"2023-11-01 12:47:59 AM PDT-0700\"}",
+      "memory": "countries part of OPEC in 2018: Algeria, Angola, Ecuador, Equatorial Guinea, Gabon, Iran, Iraq, Kuwait, Libya, Nigeria, Qatar, Saudi Arabia, United Arab Emirates, Venezuela",
+      "call": "core_memory_append",
+      "trace": "memgpt_docqa_full.jsonl",
+      "verdict": "PASS",
+      "flags": [],
+      "evidence": []
+    },
+    {
+      "source": "assistant: Bootup sequence complete. Persona activated. Testing messaging functionality.\nuser: {\"type\": \"user_message\", \"message\": \"I've given you a list of search results (some of which might be irrelevant), which you can find in your archival memory. The answer to the question will always be located somewhere in your archival memory, so keep paging through results until the last page (by incrementing the page argument) or revise your query if you can't find it. If you find multiple answers, respond with all of them. Answer the question as if it were asked on January 1, 2018. Your task is to answer the question: name the process of fusion of an egg with a sperm?\", \"time\": \"2018-1-1 11:29:54 AM PDT-0700\"}\nassistant: System note: The user's question is directly tied to biological reproduction. I must explore my archival memory for related data. Let's search for \"fusion of an egg with a sperm\".\nuser: {\"type\": \"heartbeat\", \"reason\": \"request_heartbeat == true\", \"time\": \"2023-11-01 12:20:51 PM PDT-0700\"}",
+      "memory": "Relevant information found in archival memory includes: \n1. Human fertilization involves the fusion of a sperm and an egg to form a diploid cell known as a zygote. \n2. Successful fusion forms a new organism. \n3. Upon encountering the secondary oocyte, the acrosome of the sperm produces enzymes allowing it to burrow through the outer jelly coat of the egg. \n4. The sperm plasma then fuses with the egg's plasma membrane. \n5. Fertilization occurs when the nucleus of both the spermatozoon and the egg cell fuse. \n6. The term for this process is also known as fertilisation in some areas. \n7. Occasionally, acrosome reaction follows fertilization, resulting in the fusion of the oocyte plasma membranes and sperm.",
+      "call": "core_memory_append",
+      "trace": "memgpt_docqa_full.jsonl",
+      "verdict": "PASS_WITH_FLAGS",
+      "flags": [
+        "TEMPORAL_SCOPE_DROPPED"
+      ],
+      "evidence": [
+        "source scoped this to ['2023'] ('I must explore my archival memory for related data. Let's search for \"fusion of an egg ...') and the memory stores it undated ('Human fertilization involves the fusion of a sperm and an egg to form a diploid cell kn...'), so it will read as current later",
+        "source scoped this to ['2023'] ('I must explore my archival memory for related data. Let's search for \"fusion of an egg ...') and the memory stores it undated ('Upon encountering the secondary oocyte, the acrosome of the sperm produces enzymes allo...'), so it will read as current later",
+        "source scoped this to ['2023'] ('I must explore my archival memory for related data. Let's search for \"fusion of an egg ...') and the memory stores it undated ('The sperm plasma then fuses with the egg's plasma membrane.'), so it will read as current later",
+        "source scoped this to ['2023'] ('I must explore my archival memory for related data. Let's search for \"fusion of an egg ...') and the memory stores it undated ('Occasionally, acrosome reaction follows fertilization, resulting in the fusion of the o...'), so it will read as current later"
+      ]
+    }
+  ],
+  "interpretation_caveat": "n=18 and UNLABELLED. This is a smoke test on externally-produced memory writes, not a measurement: no precision or recall figure may be quoted from it. The dataset is dominated by retrieval calls, not writes."
+}

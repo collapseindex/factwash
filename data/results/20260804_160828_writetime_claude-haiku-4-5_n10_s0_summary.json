@@ -1,0 +1,60 @@
+{
+  "n": 10,
+  "model": "claude-haiku-4-5",
+  "outcome_source_to_final_memory": {
+    "A_baseline_clean": 4,
+    "B_writetime_clean": 4,
+    "A_flagged": 6,
+    "B_flagged": 6,
+    "recovered_by_repair": 0,
+    "broken_by_repair": 0
+  },
+  "repair_triggered_on": 8,
+  "telemetry": {
+    "arm_A": {
+      "calls": 20,
+      "tokens_in": 1565,
+      "tokens_out": 582,
+      "latency_ms_total": 21251.1,
+      "latency_ms_mean": 1062.6,
+      "latency_ms_p50": 1049.3,
+      "latency_ms_max": 1720.1
+    },
+    "arm_B": {
+      "calls": 18,
+      "tokens_in": 2554,
+      "tokens_out": 594,
+      "latency_ms_total": 17061.4,
+      "latency_ms_mean": 947.9,
+      "latency_ms_p50": 900.1,
+      "latency_ms_max": 1668.1
+    },
+    "by_role": {
+      "note": {
+        "calls": 10,
+        "tokens_out": 349,
+        "latency_ms_mean": 1234.0
+      },
+      "repair": {
+        "calls": 8,
+        "tokens_out": 328,
+        "latency_ms_mean": 1065.7
+      },
+      "compress": {
+        "calls": 20,
+        "tokens_out": 499,
+        "latency_ms_mean": 872.4
+      }
+    }
+  },
+  "cost": {
+    "rate_note": "$1.0/Mtok in, $5.0/Mtok out (passed in, not measured)",
+    "arm_A_usd": 0.00447,
+    "arm_B_usd": 0.00552,
+    "overhead_usd_per_write": 0.000105,
+    "overhead_pct": 23.4,
+    "overhead_ms_per_write": -419.0,
+    "gate_cost": "the deterministic check itself is $0 and sub-millisecond; it adds no call"
+  },
+  "caveat": "the outcome metric is this project's own gate, so it is not an independent judge of its own repair loop; it measures whether the stored memory still carries the source's stance tokens, which is what the gate is validated to detect. n is small, one model, one prompt set. Arm B reuses arm A's note verbatim so the only difference between arms is the check and its repair."
+}

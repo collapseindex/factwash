@@ -1,0 +1,69 @@
+{
+  "generated": "2026-08-02T22:23:26",
+  "corpus": "FRANK (Pagnoni et al. 2021), human_annotations_sentence.json",
+  "n_sentences": 4942,
+  "n_checkable": 4800,
+  "n_uncheckable": 142,
+  "base_flag_rate": 0.6933333333333334,
+  "clean_sentences": 3482,
+  "false_positive_rate_on_clean": 0.6539345203905801,
+  "per_category": {
+    "CircE": {
+      "n": 154,
+      "flag_rate": 0.8636363636363636,
+      "lift_over_base": 1.2456293706293706,
+      "targeted": true
+    },
+    "EntE": {
+      "n": 482,
+      "flag_rate": 0.7572614107883817,
+      "lift_over_base": 1.0922039578678582,
+      "targeted": false
+    },
+    "RelE": {
+      "n": 135,
+      "flag_rate": 0.7703703703703704,
+      "lift_over_base": 1.1111111111111112,
+      "targeted": false
+    },
+    "CorefE": {
+      "n": 131,
+      "flag_rate": 0.6870229007633588,
+      "lift_over_base": 0.9908984145625367,
+      "targeted": false
+    },
+    "LinkE": {
+      "n": 39,
+      "flag_rate": 0.6410256410256411,
+      "lift_over_base": 0.9245562130177515,
+      "targeted": false
+    },
+    "OutE": {
+      "n": 408,
+      "flag_rate": 0.9264705882352942,
+      "lift_over_base": 1.3362556561085972,
+      "targeted": false
+    },
+    "GramE": {
+      "n": 129,
+      "flag_rate": 0.7829457364341085,
+      "lift_over_base": 1.1292486583184256,
+      "targeted": false
+    },
+    "OtherE": {
+      "n": 11,
+      "flag_rate": 0.2727272727272727,
+      "lift_over_base": 0.39335664335664333,
+      "targeted": false
+    }
+  },
+  "checks_fired": {
+    "MANUFACTURED_CONFIDENCE": 1146,
+    "POLARITY_CHANGED": 1743,
+    "TEMPORAL_SCOPE_DROPPED": 2459,
+    "LAUNDERED": 2034,
+    "CONDITION_DROPPED": 529,
+    "BRITTLE": 21
+  },
+  "caveat": "FRANK is dominated by hallucination categories MemLint does not target; the informative numbers are the CircE lift and the false-positive rate on NoE sentences."
+}

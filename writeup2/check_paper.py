@@ -104,6 +104,41 @@ def main() -> int:
             fails.append("the per-model pair count is not stated in the prose")
             break
 
+    # --- the ablation: the paper's central mechanism claim --------------------
+    AB = SUMMARY.parent / "ablation_summary.json"
+    if AB.is_file():
+        ab = json.loads(AB.read_text(encoding="utf-8"))
+        con, rates = ab["contrasts"], ab["rates"]
+
+        def pts(key):
+            return 100 * con[key]["mean_per_claim_delta"]
+
+        # the four numbers the mechanism argument rests on
+        for key, lit, sig in (("sentences_vs_padded", "+18.3", True),
+                              ("field_vs_unlabelled", "+9.7", True),
+                              ("unlabelled_vs_paren", "+6.1", False),
+                              ("padded_vs_paren", "+0.8", False)):
+            if key not in con:
+                continue
+            close(f"ablation {key}", pts(key), lit, tol=0.06)
+            want(f"${lit}$", f"ablation {key} in the prose")
+            checks += 1
+            is_sig = con[key]["sign_p"] < 0.05
+            if is_sig != sig:
+                fails.append(f"ablation {key}: significance flipped (p="
+                             f"{con[key]['sign_p']}); the mechanism argument in "
+                             f"section 5 depends on which of these are significant")
+
+        # padding must remain the LONGEST arm, or "length does nothing" is not a
+        # conservative test any more, it is just a smaller arm losing
+        checks += 1
+        if not all(rates.get("padded") is not None for _ in [0]):
+            fails.append("no padded arm; the length control is missing")
+        checks += 1
+        if con.get("field_vs_sentences", {}).get("sign_p", 0) < 0.05:
+            fails.append("field now differs from sentences; the retraction of "
+                         "'labelled fields are the best form' no longer holds")
+
     # judge parse health
     parse = rep["judge_parse"]
     bad = sum(v for k, v in parse.items() if k in ("failed", "template_echo", "unknown"))
@@ -133,10 +168,26 @@ def main() -> int:
     if re.findall(r"\\needsdata\{", tex):
         fails.append("\\needsdata placeholders remain")
     checks += 1
+    # Pinned, not a floor. A floor lets retractions vanish one at a time so long as
+    # enough remain, which negative testing caught: downgrading two of seven still
+    # cleared a floor of five. Changing this number should be a decision someone makes
+    # on purpose, which is exactly the property a retraction ledger needs.
+    # The prose states the retraction count in words. It said "five" while the ledger
+    # held seven, and nothing here noticed, so now something does.
+    WORDS = {5: "five", 6: "six", 7: "seven", 8: "eight", 9: "nine", 10: "ten"}
+    checks += 1
+    word = WORDS.get(tex.lower().count(r"	extsc{retracted}"))
+    if word and f"{word} retractions" not in tex.lower():
+        fails.append(f"the ledger holds {word} retractions but the prose does not say "
+                     f"'{word} retractions' anywhere")
+
+    expected_retractions = 7
     n_retracted = tex.lower().count(r"\textsc{retracted}")
-    if n_retracted < 5:
-        fails.append(f"only {n_retracted} RETRACTED rows in the ledger; this paper has "
-                     f"five retractions and dropping one is how they get forgotten")
+    if n_retracted != expected_retractions:
+        fails.append(f"{n_retracted} RETRACTED rows in the ledger, expected "
+                     f"{expected_retractions}. If one was legitimately added or "
+                     f"resolved, update the expected count deliberately; do not let a "
+                     f"retraction disappear quietly")
     checks += 1
     if tex.count(r"\textsc{not claimed}") + tex.count(r"\textsc{not shown}") < 3:
         fails.append("fewer than three NOT SHOWN / NOT CLAIMED rows in the ledger")

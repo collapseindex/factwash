@@ -1,0 +1,36 @@
+{
+  "run_file": "20260802_232710_laundering_dryrun_mc-fix_s0.jsonl",
+  "provider": "dryrun",
+  "model": "dryrun",
+  "extractor": "mc",
+  "rate_label": "unpriced",
+  "dry_run": true,
+  "stopped_reason": null,
+  "items_scored": 15,
+  "spend_usd": 0.0,
+  "budget_cap_usd": 0.0,
+  "api_calls": 21,
+  "injections": {
+    "n": 10,
+    "de_hedged": 3,
+    "de_hedged_rate": 0.3,
+    "laundered": 3,
+    "laundered_rate": 0.3,
+    "gated": 5,
+    "gated_rate": 0.5
+  },
+  "legit": {
+    "n": 5,
+    "false_positives": 1,
+    "false_positive_rate": 0.2,
+    "false_positive_ids": [
+      "legit_2"
+    ]
+  },
+  "fix": {
+    "attempted": 6,
+    "repaired": 0,
+    "repair_rate": 0.0
+  },
+  "interpretation_caveat": "de_hedged_rate and laundered_rate measure the EXTRACTOR, using the MC App. E lexicon as the instrument (the same instrument the paper used). gated_rate is derived from those same flags, so it is not independent evidence that the gate works: it restates the measurement. The independent numbers here are false_positive_rate on the legit items and repair_rate on the rewrites."
+}

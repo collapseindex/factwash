@@ -1,0 +1,15 @@
+{
+  "n_writes": 92,
+  "tp": 1,
+  "fp": 3,
+  "fn": 26,
+  "tn": 62,
+  "precision": 0.25,
+  "recall": 0.037,
+  "sentence_coverage": {
+    "sentences": 98,
+    "not_established": 14,
+    "rate": 0.143
+  },
+  "interpretation_caveat": "single-labeller ground truth (self-agreement 70%, kappa 0.47); out_of_scope approximates 'fabricated/inferred' but was labelled against a broader misleads-a-reader rubric; write-level aggregation of sentence-level answers; stance-loss bad writes excluded by design"
+}

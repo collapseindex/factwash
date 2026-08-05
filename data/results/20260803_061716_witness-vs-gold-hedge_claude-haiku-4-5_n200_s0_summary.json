@@ -1,0 +1,26 @@
+{
+  "task": "hedge",
+  "model": "claude-haiku-4-5",
+  "n": 200,
+  "seed": 0,
+  "split": "test",
+  "witness": {
+    "tp": 79,
+    "fp": 3,
+    "fn": 21,
+    "precision": 0.9634146341463414,
+    "recall": 0.79,
+    "f1": 0.8681318681318682
+  },
+  "lexicon": {
+    "tp": 62,
+    "fp": 2,
+    "fn": 38,
+    "precision": 0.96875,
+    "recall": 0.62,
+    "f1": 0.7560975609756097
+  },
+  "unusable_witness_replies": 3,
+  "spend_usd": 0.0794,
+  "interpretation_caveat": "Stance perception on single sentences, not verdict accuracy. No memory writes are involved. An unusable witness reply is counted as a MISS, not skipped, because in the shipped gate it leaves the deterministic verdict standing and therefore behaves like one."
+}

@@ -48,12 +48,14 @@
 
 % Title history, kept because it is the argument of the paper in miniature.
 %   v1 "Structure Survives Compression"           -- too general on the evidence then
-%   v2 "...Helps Where the Compressor Is Weakest" -- falsified once the pressure ladder
-%       was extended: the strongest model showed the largest effect
+%   v2 "...Helps Where the Compressor Is Weakest" -- falsified when the ladder extended
 %   v3 "...Under Compression Pressure"            -- built on a ten-claim corpus that
 %       produced BOTH a false null and a false model-family split
-%   v4 (this one) states the effect and its unit of analysis, which is the claim.
-\title{Labelled Fields Preserve Epistemic Stance\\ Under Memory Compression}
+%   v4 "Labelled Fields Preserve Epistemic Stance" -- narrowed by the ablation: plain
+%       asserted prose does as well, so the labels were never the mechanism
+%   v5 (this one) names the mechanism the ablation actually isolated.
+\title{Asserted, Not Subordinated:\
+What Makes Epistemic Stance Survive Memory Compression}
 
 \author{
   Alex Kwon \\
@@ -148,25 +150,25 @@ the schema does not mainly keep claims in memory; it keeps them \emph{qualified}
 % ===========================================================================
 \begin{abstract}
 Agent memory systems compress what they store, and compression is designed to drop
-qualifiers. A natural fix is to stop writing a claim's epistemic standing as prose
-(``reportedly'', ``(unconfirmed)'') and write it as a labelled field instead, on the
-theory that a compressor treats prose as phrasing and a field as content. We test that
-with matched pairs: the same claim and the same stance, written once as a field and once
-as a parenthetical, in the same distractor notes at the same positions, compressed by the
-same model under the same budget, scored by a blind reader that never sees the source or
-the condition. Across $60$ claims in seven registers the field form retains stance about
-$15$ points more often, on two models that agree closely (Haiku~4.5 $+15.9$,
-Sonnet~4.5 $+15.3$). Treating the \emph{claim} as the unit of analysis, which is what
-generalises, it holds on $37$ of $60$ claims against $2$ for Haiku and $30$ against $8$
-for Sonnet, both $p<0.001$ claim-clustered. The mechanism is washing rather than
-deletion: under a hard budget the parenthetical is stored as bare fact more than twice as
-often, while eviction rates are similar. We also report what it took to get here. An earlier version of this work
-used ten claims from one register, and that corpus manufactured two confident
-conclusions that are both false: that the effect disappears under claim-clustered
-inference, and that it splits by model family. Sixty claims dissolve both. We report
-those retractions and an instrument bug in our own blind reader that inflated the effect
-twofold until we caught it. Schema, checker, harness, corpus and every raw run are
-released.
+qualifiers, so a claim's epistemic standing tends not to survive being written to memory.
+We ask what governs whether it does. Matched notes carry the identical claim and identical
+stance and differ only in how that stance is written; the same model compresses them under
+the same budget among the same distractor notes, and a blind reader that never sees the
+condition scores the result. Across $60$ claims in seven registers, moving stance out of a
+parenthetical and into a labelled field raises retention by about $15$ points on two
+models that agree closely, holding claim by claim ($37$ of $60$ claims to $2$ on one
+model, $30$ to $8$ on the other; permutation $p=0.00005$). An ablation then shows the
+labels are not the mechanism. Padding the parenthetical with stance-free text until it is
+the longest note of all changes nothing ($+0.8$ points, $p=0.48$), and plain prose stating
+the stance as its own sentence does as well as the labelled schema ($p=1.0$). What matters
+is whether stance is \emph{asserted} or \emph{subordinated}: at matched length and
+sentence count, asserting it is worth $+18.3$ points ($p<0.0001$), while labels add a real
+but secondary $+9.7$. Compressors delete subordinated material and keep asserted material.
+That predicts the failure mode we find independently, claims whose sources disagree, where
+one field forces two attributions back into a single subordinate blob. A schema is
+therefore one way to buy retention rather than the only one, but it remains the only form
+here whose retention a program can verify without a model. We also report seven
+retractions, two of them our own headline claims.
 \end{abstract}
 
 % ===========================================================================
@@ -201,30 +203,29 @@ CERTAINTY: asserted | hedged | rumor | unverified\\
 AS\_OF: <when it held>
 \end{promptbox}
 
-It is right, with two conditions attached. The compressor has to be short of room: given
-slack, both forms survive and the schema buys nothing. And the effect has to be measured
-over enough different claims to see, which sounds like a truism and was in fact the thing
-that took us longest to learn.
+It is right about the outcome and wrong about the reason, which took an ablation to find.
+Labelled fields do retain stance far better than parentheticals. But so does plain prose
+that states the stance in a sentence, and padding a parenthetical until it is longer than
+the schema retains nothing extra. What the compressor is responding to is not the labels
+and not the line breaks. It is whether the stance is \emph{asserted} or
+\emph{subordinated}.
 
 \paragraph{Contributions.}
-(1)~A controlled two-cell test of form, holding claim, stance, distractors and position
-constant, over $60$ claims in seven registers on two models, with a blind readout that
-never sees the condition (\S\ref{sec:twocell}). The field form retains stance about
-$15$ points more often, and the two models agree to within six thousandths.
-(2)~Inference at the unit that generalises. Matched pairs are not independent
-observations when sixty claims are resampled into hundreds of pairs, so we report
-claim-clustered intervals and an exact sign test over per-claim differences: $37$ claims
-to $2$ on one model, $30$ to $8$ on the other.
-(3)~Evidence that the mechanism is \emph{washing} rather than eviction. Under a hard
-budget the parenthetical is stored as bare fact more than twice as often, while the two
-forms are dropped from memory at similar rates (\S\ref{sec:twocell}).
-(4)~A deterministic field-level check that needs no model and no lexicon of hedged
-phrasings on the memory side (\S\ref{sec:check}).
-(5)~Three negative results and two retractions, reported because they were more
-instructive than the effect: where the loss actually occurs, why repairing prose fails,
-an instrument bug in our own blind reader that inflated the effect twofold, and a
-ten-claim corpus that manufactured both a false null and a false model-family split
-(\S\ref{sec:negatives}, \S\ref{sec:twocell}).
+(1)~A controlled test of form over $60$ claims in seven registers on two models, holding
+claim, stance, distractors and position constant, with a blind readout
+(\S\ref{sec:twocell}). Inference is at the claim, which is the unit that generalises.
+(2)~An ablation that separates \emph{labels}, \emph{layout} and \emph{length} and finds
+the mechanism is none of the first two and not the third: what matters is whether the
+stance is asserted or subordinated (\S\ref{sec:ablation}).
+(3)~The finding that this is not about tokens. A parenthetical padded with stance-free
+text until it is the longest note in the experiment retains no more stance than the
+short one.
+(4)~A failure mode that the mechanism predicts and that we found separately: claims whose
+sources disagree, where a single field forces two attributions back into one subordinate
+clause (\S\ref{sec:errors}).
+(5)~Seven retractions, two of them our own headline claims, plus an instrument bug in our
+own blind reader and a ten-claim corpus that manufactured both a false null and a false
+model-family split (\S\ref{sec:negatives}, \S\ref{sec:twocell}).
 
 % ===========================================================================
 \section{Related work}
@@ -496,6 +497,147 @@ that up as a real price of the schema. It does not survive either the full press
 ladder or the larger corpus.
 
 % ===========================================================================
+% ===========================================================================
+\section{Where it holds and where it fails}
+\label{sec:errors}
+% GOAL: 0.75 page. Register breakdown, the failure mode, and the assumption-free test.
+% ===========================================================================
+
+\paragraph{It is not one register.} The effect is positive in six of the seven registers
+on both models. The strongest is \emph{project} ($+0.21$ on Haiku, $+0.23$ on Sonnet,
+$17$ claims) and the weakest by a distance is \emph{conflict} ($+0.12$ and $-0.00$,
+$7$ claims). A corpus that was widened precisely because a narrow one had lied to us
+should be checked for doing a smaller version of the same thing, and it is not.
+
+\paragraph{An assumption-free test.} The sign test discards effect size and the cluster
+bootstrap assumes its resampling distribution behaves. Shuffling the arm label within each
+claim assumes neither. Over $20{,}000$ permutations the observed mean per-claim difference
+is beyond every shuffled value on both models, $p=0.00005$, which is the resolution floor
+of the test.
+
+\paragraph{Ties are the tightest budget.} A third of claims tie, and on Haiku $12$ of
+those $21$ are ties at zero: at \textsc{severe} both arms lose the claim entirely, so $43$
+of $60$ claims tie there. That dilutes the sign test rather than biasing it, and both
+budgets remain significant separately (Haiku $p<0.0001$ and $p=0.0023$; Sonnet $p=0.011$
+and $p=0.0005$).
+
+\paragraph{The failure mode is disagreement.} The claims where the field form loses are
+not scattered. Three of the six worst across the two models are claims whose sources
+conflict:
+
+\begin{promptbox}[the schema's blind spot]
+CLAIM: The Helsinki office owns the relationship\\
+SOURCE: sales said Helsinki, the account plan says Berlin\\
+CERTAINTY: contested
+\end{promptbox}
+
+\noindent \texttt{SOURCE} and \texttt{CERTAINTY} are single slots. A claim with two
+disagreeing attributions does not have one source, so the schema forces both back into
+one field as a compressed clause, which is the same subordinate construction the schema
+exists to avoid. The parenthetical carries the disagreement without strain because it was
+never promising structure in the first place. A schema with room for more than one
+attribution would be the obvious repair and we have not tested one.
+
+% ===========================================================================
+\section{Labels, layout, or length?}
+\label{sec:ablation}
+% GOAL: 1.25 pages. THE MECHANISM. Four contrasts, each moving one thing.
+% ===========================================================================
+
+The comparison in \S\ref{sec:twocell} moves three things at once. The labelled record
+names its parts, puts them on their own lines, and is slightly longer than the
+parenthetical. Attributing the whole effect to the first of those, as an earlier draft of
+this paper did, is not something the two-cell design can support.
+
+The length check available from that data cannot settle it either, and it is worth saying
+why, because the answer looked reassuring. Correlating each claim's effect against how
+much longer its field form is returns $r=0.000$. That is not evidence of no confound: both
+templates wrap the same three strings, so the difference is a constant twelve characters
+for every claim and the predictor has no variance. A correlation of zero there is evidence
+of no experiment.
+
+\paragraph{Four forms, three more contrasts.} We therefore ran three further arms on the
+same sixty claims, the same two budgets, the same seed and the same replicate count. The
+filler notes and the target's position are drawn from a generator that does not depend on
+the arm, so every arm saw byte-identical surroundings and the already-collected field and
+paren data could be reused rather than paid for again.
+
+\begin{promptbox}[the five forms, mean length over the sixty claims]
+\textbf{sentences} \hfill 120 chars\\
+\quad X. This came from Y. It is Z.\\[2pt]
+\textbf{field} \hfill 115 chars\\
+\quad X / SOURCE: Y / CERTAINTY: Z\\[2pt]
+\textbf{padded} \hfill 125 chars\\
+\quad X (per Y; Z). Filed with the rest.\\[2pt]
+\textbf{unlabelled} \hfill 101 chars\\
+\quad X / from Y / Z\\[2pt]
+\textbf{paren} \hfill 103 chars\\
+\quad X (per Y; Z)
+\end{promptbox}
+
+\textsc{padded} is the control that does the work. It leaves the stance exactly where the
+parenthetical puts it and appends a stance-free sentence, so it matches \textsc{sentences}
+in token count and in having more than one sentence while carrying no additional
+information about source, certainty or time. It is in fact the longest of the five, which
+makes it a conservative test: if length were the mechanism, padding should have won
+outright.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{fig_ablation.pdf}
+\caption{\textbf{Length does nothing; subordination does everything.} \textbf{Left:}
+share of stored memories from which a blind reader can still recover the claim's standing,
+by the form the stance was written in. Blue forms state the stance as its own proposition;
+orange forms subordinate it. \textbf{Right:} each contrast changes exactly one thing.
+Padding the parenthetical until it is the longest note of all is worth eight thousandths
+of a point and does not approach significance; moving the same stance into its own
+proposition, at matched length and matched sentence count, is worth $18.3$ points. Grey
+bars are not significant at $0.05$. Sixty claims, Haiku~4.5, both hard budgets, exact sign
+test over per-claim differences.}
+\label{fig:ablation}
+\end{figure*}
+
+\paragraph{Result.} Figure~\ref{fig:ablation}. Reading the contrasts in order of size:
+
+\begin{itemize}\itemsep2pt
+\item \textbf{Asserting the stance: $+18.3$ points}, $34$ claims to $6$, $p<0.0001$.
+      \textsc{sentences} against \textsc{padded}: both long, both more than one sentence,
+      differing only in whether the stance is a proposition or a parenthetical.
+\item \textbf{Labels: $+9.7$ points}, $29$ to $7$, $p=0.0003$. \textsc{field} against
+      \textsc{unlabelled}: the same words on the same lines, with and without
+      \texttt{SOURCE:} and \texttt{CERTAINTY:} naming them.
+\item \textbf{Own lines alone: $+6.1$ points}, $19$ to $10$, $p=0.14$. Not significant.
+\item \textbf{Length alone: $+0.8$ points}, $11$ to $7$, $p=0.48$. Nothing, from the
+      longest arm in the experiment.
+\end{itemize}
+
+\noindent And the contrast that constrains the paper's own claim: \textsc{field} against
+\textsc{sentences} is $-3.3$ points, $18$ claims each way, $p=1.0$. \textbf{The labelled
+schema is not better than plain prose that states the stance in a sentence.}
+
+\paragraph{What this means.} A compressor asked to discard material discards what is
+grammatically subordinate and keeps what is asserted. This is a claim about syntax, not
+about formatting or token budgets, and it explains something the earlier framing could
+not: why a parenthetical was always the wrong place to put a hedge. A parenthetical is
+precisely the construction that marks its content as an aside, and a compressor obliges.
+
+It also predicts the failure mode we found independently and before running this ablation.
+The claims where the field form loses are the ones whose sources disagree
+(\S\ref{sec:errors}): \texttt{SOURCE} and \texttt{CERTAINTY} are single slots, so ``sales
+said Helsinki, the account plan says Berlin'' has to be crushed back into one field, which
+returns the stance to a subordinate blob. Two analyses that did not know about each other
+point at the same mechanism.
+
+\paragraph{What survives for the schema.} Retention is available from plain prose, so the
+schema is one way to buy it and not the cheapest. What the schema still has, and what this
+ablation does not touch, is that its retention is \emph{checkable}. A four-field record can
+be compared against its source by a program with no model and no lexicon of hedged
+phrasings (\S\ref{sec:check}). Prose that retains stance has to be read by something that
+can recognise stance in arbitrary wording, which is the open-class problem that plateaus
+near half recall \citep{kwon2026factwash}. Retention and verifiability were conflated in
+earlier drafts of this work; they are separate, and only one of them is about labels.
+
+% ===========================================================================
 \section{The schema end to end}
 \label{sec:endtoend}
 % GOAL: 1 page. Does it hold in a pipeline, and on a real memory system?
@@ -564,35 +706,42 @@ half of the problem, recognising stance in the rewrite.
 
 \section{Conclusion}
 
-Write a claim's standing as a labelled field and a compressor treats it as content;
-write the same standing into the sentence and it is treated as phrasing and removed.
-Across sixty claims in seven registers, on two models, the field form retains stance
-about fifteen points more often, and it does so on $37$ claims against $2$ on one model
-and $30$ against $8$ on the other. The gain is in what the memory still says about how
-much to trust a claim, not in whether the claim is there at all.
+A compressor asked to throw material away throws away what is grammatically subordinate
+and keeps what is asserted. Write a claim's standing into a parenthetical and it is
+treated as an aside, which is exactly what a parenthetical marks it as. Write the same
+standing as a proposition, in a labelled field or in a plain sentence, and it survives
+about fifteen points more often across sixty claims in seven registers, on two models
+that agree to within six thousandths.
 
-The first condition is pressure. Given slack, both forms survive and the schema buys
-nothing; take the slack away and the parenthetical loses its standing first. We had a
-version of this backwards in an earlier draft, where the strongest model looked immune
-and we concluded the schema was a crutch for weak compressors. It was not immune; the
-test was too easy. A ceiling in both arms is a statement about your stimulus, not about
-the world.
+The mechanism is syntactic, and we can say that rather than guess it because the
+alternatives were measured and failed. Padding a parenthetical with stance-free text until
+it is the longest note in the experiment buys eight thousandths of a point. Putting the
+same words on their own lines without labels does not reach significance. Only moving the
+stance into its own proposition moves the outcome, and it moves it by $18.3$ points at
+matched length and matched sentence count.
 
-The second condition is that you have to look at enough claims. This is the part we got
-wrong for longest. Measured on ten claims in a single office-work register, the same
-experiment on the same models returns $+3.7$ points with per-claim differences splitting
-four to five, and we wrote that up as a null that survived clustering. Worse, the ten
-claims happened to arrange themselves so that two models looked null and two looked
-positive, and we wrote \emph{that} up as a model-family split, checked it against an
-independent judge, and found the check reassuring. Sixty claims dissolve both. Nothing
-about the models changed; only the claims we asked about.
+That reframes what the write schema is for. It is not the only way to keep stance through
+compression and it is not the best one: plain prose that asserts the stance does as well.
+What a schema still buys, and what nothing else here buys, is that its retention can be
+checked by a program with no model and no lexicon of hedged phrasings. Prose that retains
+stance must still be read by something able to recognise stance in arbitrary wording, and
+that is the open-class problem which plateaus near half recall. Retention and verifiability
+were conflated in every earlier draft of this work. They are separate, and only the second
+one is about labels.
 
-Three of the four things we have learned on this problem arrived as negatives, and they
-were each more useful than the positive we were chasing at the time. The loss is at
-recording, not at compression. Repairing the prose afterwards is perfectly undone by the
-next compression step. Our own scorer was silently discarding its clearest verdicts and
-inflating the headline twofold. The fourth is the result above, and it exists because the
-corpus finally got large enough to show it.
+The mechanism also tells you where it breaks, and it agrees with an error analysis run
+before the ablation existed. Claims whose sources disagree are where the field form loses,
+because one \texttt{SOURCE} slot cannot hold two attributions and the schema compresses
+them back into the subordinate clause it was meant to replace.
+
+Most of what we learned here arrived as negatives. The loss is at recording rather than at
+compression. Repairing prose after the fact is perfectly undone by the next compression
+step. Our own scorer was discarding its clearest verdicts and inflating an effect twofold.
+A ten-claim corpus in a single register manufactured both a false null and a false
+model-family split, and we believed the second one long enough to check it against an
+independent judge and find the check reassuring. The positive result in this paper exists
+because those were caught, and it is stated at the level the last surviving control
+allows.
 
 \section*{Limitations}
 
@@ -620,6 +769,8 @@ systems are usually run but not the only one. Finally, ``standing recovered'' is
 model's judgement of another model's output. It is blind to the condition, and we
 verified that a single fixed judge reproduces the same picture, but it is not a human
 annotation and we did not collect one.
+
+The ablation is one model. Its four contrasts were run on Haiku~4.5 only, so the decomposition into labels, layout and length is established there and assumed, not shown, for Sonnet~4.5, where only the field-versus-parenthetical comparison was measured. The padding sentence is a single fixed string; a different filler might behave differently, though it is hard to see how a stance-free sentence could do more than the longest arm already failed to do.
 
 The end-to-end pilot ($n=10$, one model) is reported as a pilot and nothing in the
 conclusion rests on it. Metered API spend for everything reported here is under
@@ -680,6 +831,31 @@ same format as the companion paper \citep{kwon2026factwash}.
 \endhead
 \midrule \multicolumn{3}{r@{}}{\emph{continued on next page}}\\ \endfoot
 \bottomrule \endlastfoot
+
+Stance survives compression when it is asserted and is deleted when it is subordinated. &
+\S\ref{sec:ablation}, Fig.~\ref{fig:ablation} & \textsc{shown}: at matched length and
+matched sentence count, asserting the stance is worth $+18.3$ points, $34$ claims to $6$,
+$p<0.0001$ \\
+
+The effect is a matter of length or token count. & \S\ref{sec:ablation} &
+\textsc{not shown}: the longest arm in the experiment, a parenthetical padded with
+stance-free text, gains $+0.8$ points ($p=0.48$) \\
+
+\textbf{The labelled schema is the best form for retaining stance.} & \S\ref{sec:ablation}
+& \textsc{retracted}: plain asserted prose does as well or better; \textsc{field} vs
+\textsc{sentences} is $-3.3$ points, $18$ claims each way, $p=1.0$ \\
+
+Labels contribute nothing once the stance is on its own lines. & \S\ref{sec:ablation} &
+\textsc{not shown}: labels are worth a further $+9.7$ points over the same words on the
+same lines, $29$ to $7$, $p=0.0003$ \\
+
+A labelled record's retention can be verified without a model. & \S\ref{sec:check} &
+\textsc{shown} by construction, and it is the schema's remaining advantage over prose,
+which this ablation does not touch \\
+
+The schema handles claims whose sources disagree. & \S\ref{sec:errors} &
+\textsc{not shown}: those are where it loses. One \texttt{SOURCE} slot cannot hold two
+attributions, so they are compressed back into a subordinate clause \\
 
 Stance written as a labelled field survives compression more often than the same stance
 written as prose. & \S\ref{sec:twocell}, Fig.~\ref{fig:perclaim} & \textsc{shown} on

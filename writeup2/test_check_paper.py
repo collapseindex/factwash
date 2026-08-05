@@ -21,6 +21,18 @@ HAIKU = "c60/claude-haiku-4-5"
 SONNET = "c60/claude-sonnet-4-5"
 
 
+AB = SUMMARY.parent / "ablation_summary.json"
+
+
+def _patch_ab(path, value):
+    d = json.loads(AB.read_text(encoding="utf-8"))
+    node = d
+    for k in path[:-1]:
+        node = node[k]
+    node[path[-1]] = value
+    AB.write_text(json.dumps(d, indent=2), encoding="utf-8")
+
+
 def run():
     return subprocess.run([sys.executable, str(CHECK)],
                           capture_output=True, text=True).returncode
@@ -38,6 +50,7 @@ def _patch(orig, path, value):
 def main() -> int:
     orig_tex = TEX.read_text(encoding="utf-8")
     orig_sum = SUMMARY.read_text(encoding="utf-8")
+    orig_ab = AB.read_text(encoding="utf-8")
     rep = json.loads(orig_sum)
     cc = rep["claim_clustered"]
 
@@ -79,6 +92,12 @@ def main() -> int:
         ("the ten-claim corpus starts showing the effect",
          lambda: _patch(orig_sum, ["claim_clustered", "c10/claude-haiku-4-5",
                                    "ci95_claim_clustered"], [0.05, 0.3])),
+        ("the padding control starts working",
+         lambda: _patch_ab(["contrasts", "padded_vs_paren", "sign_p"], 0.001)),
+        ("asserting the stance stops mattering",
+         lambda: _patch_ab(["contrasts", "sentences_vs_padded", "sign_p"], 0.6)),
+        ("field starts beating plain sentences",
+         lambda: _patch_ab(["contrasts", "field_vs_sentences", "sign_p"], 0.01)),
         ("a judge reply became unusable",
          lambda: _patch(orig_sum, ["judge_parse", "failed"], 3)),
     ]
@@ -95,6 +114,7 @@ def main() -> int:
         finally:
             TEX.write_text(orig_tex, encoding="utf-8")
             SUMMARY.write_text(orig_sum, encoding="utf-8")
+            AB.write_text(orig_ab, encoding="utf-8")
         ok = rc != 0
         bad += not ok
         print(("CAUGHT " if ok else "MISSED ") + name)

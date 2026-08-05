@@ -1,0 +1,34 @@
+{
+  "run_file": "20260802_233605_laundering_claude-haiku-4-5_mc-nofix_s0.jsonl",
+  "provider": "anthropic",
+  "model": "claude-haiku-4-5",
+  "extractor": "mc",
+  "rate_label": "claude-haiku-4-5",
+  "dry_run": false,
+  "stopped_reason": null,
+  "items_scored": 0,
+  "spend_usd": 0.0,
+  "budget_cap_usd": 0.25,
+  "api_calls": 0,
+  "injections": {
+    "n": 0,
+    "de_hedged": 0,
+    "de_hedged_rate": null,
+    "laundered": 0,
+    "laundered_rate": null,
+    "gated": 0,
+    "gated_rate": null
+  },
+  "legit": {
+    "n": 0,
+    "false_positives": 0,
+    "false_positive_rate": null,
+    "false_positive_ids": []
+  },
+  "fix": {
+    "attempted": 0,
+    "repaired": 0,
+    "repair_rate": null
+  },
+  "interpretation_caveat": "de_hedged_rate and laundered_rate measure the EXTRACTOR, using the MC App. E lexicon as the instrument (the same instrument the paper used). gated_rate is derived from those same flags, so it is not independent evidence that the gate works: it restates the measurement. The independent numbers here are false_positive_rate on the legit items and repair_rate on the rewrites."
+}

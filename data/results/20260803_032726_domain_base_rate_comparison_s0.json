@@ -1,0 +1,30 @@
+{
+  "generated": "2026-08-03T03:27:26",
+  "question": "Is stance loss rare because business email is different, or because it is rare in memory writes generally? The tool only matters if the first.",
+  "conversational_hearsay": {
+    "n_bad_writes": 20,
+    "in_scope": 11,
+    "rate": 0.55,
+    "by_mechanism": {
+      "scope": 3,
+      "hedge_or_attribution": 8,
+      "out_of_scope": 9
+    }
+  },
+  "business_email": {
+    "n_bad_writes": 29,
+    "in_scope": 2,
+    "rate": 0.069,
+    "by_mechanism": {
+      "hedge_or_attribution": 2,
+      "out_of_scope": 27
+    }
+  },
+  "fisher_exact_two_sided_p": 0.00053,
+  "reading": "The failure this tool targets is domain-dependent: 55% of bad writes in conversational hearsay versus 7% in business email.",
+  "caveats": [
+    "The conversational sources were CONSTRUCTED to contain hearsay, so 55% is an upper bound for that setting and not an estimate of natural conversation.",
+    "The two corpora differ in more than domain: the email set was sampled and labelled blind, the conversational set was labelled exhaustively in an earlier session. The direction is solid; the magnitude is not a clean effect size.",
+    "Even in a corpus built to contain laundering, 9 of 20 bad writes were out of scope. Extractors fail in ways beyond stance loss even where stance loss is the designed hazard."
+  ]
+}

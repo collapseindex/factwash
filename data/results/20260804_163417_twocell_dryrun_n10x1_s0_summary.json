@@ -1,0 +1,28 @@
+{
+  "n_stored_memories": 20,
+  "field": {
+    "n": 10,
+    "qualified": 0,
+    "rate": 0.0
+  },
+  "paren": {
+    "n": 10,
+    "qualified": 0,
+    "rate": 0.0
+  },
+  "delta_field_minus_paren": 0.0,
+  "paired": {
+    "pairs": 10,
+    "field_only": 0,
+    "paren_only": 0,
+    "both": 0,
+    "neither": 10
+  },
+  "telemetry": {
+    "calls": 40,
+    "tokens_in": 650,
+    "tokens_out": 390,
+    "latency_ms_p50": 0.0
+  },
+  "readout": "blind: the judge sees only the stored memory, never the source, the note, or which arm produced it"
+}

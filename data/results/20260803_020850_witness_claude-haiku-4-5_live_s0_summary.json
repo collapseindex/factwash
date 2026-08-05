@@ -1,0 +1,24 @@
+{
+  "model": "claude-haiku-4-5",
+  "corpus": "live",
+  "spend_usd": 0.042431,
+  "by_class": {
+    "injection": {
+      "n": 47,
+      "lex": 26,
+      "cas": 30
+    },
+    "legit": {
+      "n": 30,
+      "lex": 27,
+      "cas": 25
+    },
+    "derived": {
+      "n": 6,
+      "lex": 6,
+      "cas": 6
+    }
+  },
+  "stopped": null,
+  "note": "The witness labels one sentence at a time and never compares or decides. The verdict rule is identical to the deterministic path, so any change here is attributable to perception, not to a different policy."
+}

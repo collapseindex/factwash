@@ -1,0 +1,22 @@
+{
+  "n": 10,
+  "recording": {
+    "scratchpads_with_a_cue": 9,
+    "rate": 0.9
+  },
+  "retention": {
+    "of_those, cue_survived_compression": 4,
+    "cue_dropped": 5
+  },
+  "detection_on_the_dropped": {
+    "n_dropped": 5,
+    "mechanical_caught": 0,
+    "self_audit_caught": 1
+  },
+  "false_alarms_where_cue_survived": {
+    "n": 4,
+    "mechanical": 1,
+    "self_audit": 2
+  },
+  "caveat": "cue presence is a proxy for stance survival, not stance itself; one model, one prompt pair, n is small. Items where the scratchpad never recorded a cue are excluded from detection: there is nothing to catch."
+}

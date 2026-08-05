@@ -1,0 +1,56 @@
+{
+  "n": 10,
+  "model": "claude-haiku-4-5",
+  "clean_source_to_stored_memory": {
+    "A_prose_note_prose_memory": 0,
+    "C_schema_note_prose_memory": 0,
+    "D_schema_note_schema_memory": 5
+  },
+  "flagged": {
+    "A": 4,
+    "C": 4,
+    "D": 0
+  },
+  "schema_integrity_D": {
+    "all_four_fields_kept": 10,
+    "mean_fields_kept": 4
+  },
+  "certainty_recorded_at_note": {
+    "asserted": 0,
+    "hedged": 0,
+    "rumor": 10,
+    "unverified": 0
+  },
+  "telemetry": {
+    "A": {
+      "calls": 20,
+      "tokens_in": 245,
+      "tokens_out": 140,
+      "latency_ms_mean": 0.0,
+      "latency_ms_p50": 0.0,
+      "latency_ms_max": 0.0
+    },
+    "C": {
+      "calls": 20,
+      "tokens_in": 375,
+      "tokens_out": 270,
+      "latency_ms_mean": 0.0,
+      "latency_ms_p50": 0.0,
+      "latency_ms_max": 0.0
+    },
+    "D": {
+      "calls": 10,
+      "tokens_in": 200,
+      "tokens_out": 200,
+      "latency_ms_mean": 0.0,
+      "latency_ms_p50": 0.0,
+      "latency_ms_max": 0.0
+    }
+  },
+  "cost_usd": {
+    "A": 0.00094,
+    "C": 0.00172,
+    "D": 0.0012
+  },
+  "caveat": "outcome is this project's own gate, which detects stance tokens in the stored text; D is rendered to the line a reader would see before checking, so it is not credited for fields a reader never sees. n small, one model, one schema."
+}

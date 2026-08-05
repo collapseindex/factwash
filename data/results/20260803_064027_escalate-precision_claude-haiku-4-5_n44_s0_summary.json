@@ -1,0 +1,23 @@
+{
+  "n": 42,
+  "model": "claude-haiku-4-5",
+  "deterministic": {
+    "recall": 0.95,
+    "precision": 0.7916666666666666,
+    "tp": 19,
+    "fn": 1,
+    "fp": 5
+  },
+  "escalate": {
+    "recall": 0.95,
+    "precision": 0.7037037037037037,
+    "tp": 19,
+    "fn": 1,
+    "fp": 8
+  },
+  "verdicts_raised_by_the_witness": 3,
+  "raised_correctly": 0,
+  "raised_wrongly": 3,
+  "spend_usd": 0.008,
+  "interpretation_caveat": "Verdict-level, on 44 hand-labelled real extractor writes. Claim-local escalation, not the whole-transcript version in stance_tagger.py. n is small; the raised-wrongly count is the number that decides shipping."
+}
