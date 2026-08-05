@@ -1,5 +1,44 @@
 # Changelog
 
+### Unreleased (2026-08-05)
+
+Research for a second paper (`writeup2/`), not a library change. No public API moved and
+no shipped behaviour changed; everything here is harness, corpora and analysis.
+
+- **Two-cell format experiment.** `experiments/two_cell_pressure.py` compares matched
+  notes that carry the identical claim and identical stance and differ only in how the
+  stance is written, under six budget levels, scored by a blind reader that never sees the
+  condition. Selectable claim corpora (`experiments/claims_corpus.py`): the original ten,
+  fifty more across seven registers, and a held-out sixty written for a pre-registered
+  replication (`claims_corpus_v3.py`).
+- **Format ablation.** `experiments/ablation_form.py` separates labels, bracketing,
+  wording and length across six forms. Run on two models, which is how we learned the
+  decomposition does not transfer: the same net effect is assembled from different
+  components on Haiku and Sonnet, and only labels and length behave the same way on both.
+- **Pre-registration.** `writeup2/PREREGISTRATION.md` was committed, with the prediction
+  and the decision rule, before any API call touched the held-out corpus.
+  `experiments/prereg_score.py` applies that rule mechanically rather than letting the
+  verdict be chosen after seeing the number. It replicated.
+- **A readout with no model in it.** `experiments/mechanical_readout.py` re-scores the
+  same stored memories with this repository's deterministic gate, as a check on outcomes
+  that otherwise come entirely from model judges. It agrees on direction on both models
+  while being biased *against* the arm it agrees about.
+- **Harness hardening.** `--max-usd` enforced against measured tokens, with unknown model
+  rates priced at an expensive fallback so the cap fails safe; a capped run now writes its
+  summary instead of dying with its cost record (the runs that spent the most were the
+  ones recording nothing); a temperature fallback for models that reject the parameter,
+  recorded in the summary rather than smoothed over.
+- **Corrections, all found by controls rather than by reading the code.** A judge parser
+  that discarded ~6% of verdicts non-randomly, on the clearest positives, inflating an
+  effect twofold. Pair-level inference where the unit that generalises is the claim. A
+  ten-claim corpus that manufactured both a false null and a false model-family split. A
+  corpus tagger that filed the held-out replication under the wrong corpus, which the
+  paper gate caught in both of its wrong states.
+- `experiments/total_spend.py` sums metered spend across every run. Currently $16.82
+  nominal for the repository, of which $1.02 belongs to the experiments behind the
+  published paper.
+
+
 ### v0.5.0 (2026-08-04)
 
 Stance as a field. The morning's three probes found the leak is at recording, that

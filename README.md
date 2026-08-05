@@ -391,9 +391,38 @@ python demo/build.py                                               # rebuild the
 python experiments/live_run.py --dry-run --model dryrun --budget 0 # $0, full pipeline
 ```
 
-Paid runs are metered, resumable, and capped: every item is flushed and fsynced before the next call, resume skips paid items, and a call that would breach `--budget` is refused. Each guarantee has a test that breaks it on purpose, including a simulated SIGKILL mid-write. Outputs follow `data/raw/YYYYMMDD_HHMMSS_<op>_<model>_<params>_s<seed>.jsonl`, and every summary names which of its own numbers are circular. Total API spend for every experiment in this repo: $1.02.
+Paid runs are metered, resumable, and capped: every item is flushed and fsynced before the next call, resume skips paid items, and a call that would breach `--budget` is refused. Each guarantee has a test that breaks it on purpose, including a simulated SIGKILL mid-write. Outputs follow `data/raw/YYYYMMDD_HHMMSS_<op>_<model>_<params>_s<seed>.jsonl`, and every summary names which of its own numbers are circular. Total metered API spend for the experiments behind this README: **$1.02**. The repository also carries the runs for a second paper in preparation (see below), which brings the metered total for the whole repo to **$16.82**; `python experiments/total_spend.py` recomputes it from the summaries.
 
 Measurement history, including the fourteen corrections behind these numbers (ten of which had made the tool look better than it was) lives in [CHANGELOG.md](CHANGELOG.md) and the experiment scripts; the external-corpus tuning rule and every rejected candidate are recorded in `experiments/external/tune_lexicon.py`.
+
+## Second paper, in preparation
+
+The repository also contains the harness, corpora and raw runs for a follow-up paper on
+**which write formats survive memory compression** (`writeup2/`). It is not submitted yet
+and its numbers may still move, but everything it rests on is here:
+
+| what | where |
+|---|---|
+| the two-cell harness (matched pairs, six budget levels, blind readout) | `experiments/two_cell_pressure.py` |
+| the format ablation (six forms: labels, bracketing, wording, length) | `experiments/ablation_form.py` |
+| claim corpora, 10 + 50 + 60 held-out | `experiments/claims_corpus.py`, `claims_corpus_v3.py` |
+| pre-registration, committed before the run it describes | `writeup2/PREREGISTRATION.md` |
+| a second readout that uses no model at all | `experiments/mechanical_readout.py` |
+| every scored trial, one JSON line each | `data/raw/*twocellpress*`, `*ablation*` |
+| superseded runs, kept and explained rather than deleted | `data/raw/superseded/` |
+
+Headline: writing a claim's standing as a labelled field rather than a bracketed aside
+raises retention by about 15 points on two models, and a pre-registered replication on 60
+claims written before the run reproduces it to within 0.2 points. What the ablation does
+*not* show is a single mechanism: the two models reach the same net effect from different
+components, and only labels and length behave the same way on both.
+
+The paper carries a ledger of **eight withdrawn claims**, three of which were at some
+point its title. One of them is about this project's own tooling: the consistency gate
+re-derived every published number from the run data and still missed six internal
+contradictions, because each was a sentence that survived a rewrite rather than a number
+that drifted. It now checks prose against prose too
+(`writeup2/check_paper.py`, `writeup2/test_check_paper.py`).
 
 ## Citing
 
