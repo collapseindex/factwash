@@ -33,18 +33,18 @@ RESULTS = ROOT / "data" / "results"
 EQUIV_MARGIN = 0.05  # declared before the numbers are read
 
 
-def build():
+def build(model="claude-haiku-4-5"):
     spec2 = importlib.util.spec_from_file_location(
         "a", ROOT / "experiments" / "two_cell_analyse.py")
     A = importlib.util.module_from_spec(spec2)
     spec2.loader.exec_module(A)
 
     rows = []
-    for p in sorted((ROOT / "data" / "raw").glob("*_ablation_claude-*.jsonl")):
+    for p in sorted((ROOT / "data" / "raw").glob(f"*_ablation_{model}_*.jsonl")):
         rows += [json.loads(l) for l in p.read_text(encoding="utf-8").splitlines()
                  if l.strip()]
     for p in sorted((ROOT / "data" / "raw").glob(
-            "*twocellpress_claude-haiku-4-5_call_*_s700.jsonl")):
+            f"*twocellpress_{model}_call_*_s700.jsonl")):
         rows += [json.loads(l) for l in p.read_text(encoding="utf-8").splitlines()
                  if l.strip()]
     rows = [r for r in rows if r["pressure"] in ("brutal", "severe")]
@@ -86,7 +86,9 @@ def contrast_ci(by, hi, lo, n_boot=8000, seed=99):
 
 
 def main() -> int:
-    by = build()
+    model = sys.argv[1] if len(sys.argv) > 1 else "claude-haiku-4-5"
+    by = build(model)
+    print(f"model: {model}")
     pairs = [("field", "unlabelled", "labels"),
              ("unlabelled", "paren", "own lines alone"),
              ("padded", "paren", "length alone"),
@@ -95,7 +97,7 @@ def main() -> int:
              ("field", "paren", "the headline two-cell contrast"),
              ("promoted", "paren", "SUBORDINATION ONLY (identical words)"),
              ("sentences", "promoted", "richer wording, both asserted")]
-    out = {"equivalence_margin": EQUIV_MARGIN, "contrasts": {}}
+    out = {"model": model, "equivalence_margin": EQUIV_MARGIN, "contrasts": {}}
     print(f"{'contrast':<34} {'point':>7}  {'95% CI (claim-clustered)':<24} "
           f"{'90% CI':<22}")
     print("-" * 96)
@@ -129,7 +131,8 @@ def main() -> int:
             print("     it did not detect a difference, NOT that the forms do as well "
                   "as each other.")
 
-    dest = RESULTS / "ablation_intervals.json"
+    tag = "" if model == "claude-haiku-4-5" else f"_{model.replace('claude-', '')}"
+    dest = RESULTS / f"ablation_intervals{tag}.json"
     dest.write_text(json.dumps(out, indent=2), encoding="utf-8")
     print(f"\nwrote {dest}")
     return 0

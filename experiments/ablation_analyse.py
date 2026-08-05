@@ -41,17 +41,17 @@ CONTRASTS = [
 ]
 
 
-def load_rows():
+def load_rows(model="claude-haiku-4-5"):
     rows = []
-    # the ablation arms
-    for p in sorted(RAW.glob("*_ablation_claude-*.jsonl")):
+    # the ablation arms for this model
+    for p in sorted(RAW.glob(f"*_ablation_{model}_*.jsonl")):
         for line in p.read_text(encoding="utf-8").splitlines():
             if line.strip():
                 r = json.loads(line)
                 r["run"] = p.stem
                 rows.append(r)
     # the field/paren arms already collected, same seed and design
-    for p in sorted(RAW.glob("*twocellpress_claude-haiku-4-5_call_*_s700.jsonl")):
+    for p in sorted(RAW.glob(f"*twocellpress_{model}_call_*_s700.jsonl")):
         for line in p.read_text(encoding="utf-8").splitlines():
             if line.strip():
                 r = json.loads(line)
@@ -68,7 +68,9 @@ def sign_p(pos, neg):
 
 
 def main() -> int:
-    rows = load_rows()
+    model = sys.argv[1] if len(sys.argv) > 1 else "claude-haiku-4-5"
+    rows = load_rows(model)
+    print(f"model: {model}")
     by_arm = defaultdict(lambda: defaultdict(list))
     for r in rows:
         if A.outcome(r) != "unparsed":
@@ -90,7 +92,7 @@ def main() -> int:
     print()
     print(f"{'contrast':<24} {'isolates':<14} {'diff':>7}  {'sign test':>18}")
     print("-" * 72)
-    out = {"rates": {k: round(v, 4) for k, v in rates.items()}, "contrasts": {}}
+    out = {"model": model, "rates": {k: round(v, 4) for k, v in rates.items()}, "contrasts": {}}
     for hi, lo, isolates, _note in CONTRASTS:
         if hi not in by_arm or lo not in by_arm:
             continue
@@ -116,7 +118,8 @@ def main() -> int:
     print("not is a thing the effect does not depend on.")
 
     RESULTS.mkdir(parents=True, exist_ok=True)
-    dest = RESULTS / "ablation_summary.json"
+    tag = "" if model == "claude-haiku-4-5" else f"_{model.replace('claude-', '')}"
+    dest = RESULTS / f"ablation_summary{tag}.json"
     dest.write_text(json.dumps(out, indent=2), encoding="utf-8")
     print(f"\nwrote {dest}")
     return 0

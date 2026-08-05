@@ -1,0 +1,67 @@
+{
+  "model": "claude-sonnet-4-5",
+  "rates": {
+    "sentences": 0.5417,
+    "field": 0.5611,
+    "unlabelled": 0.4333,
+    "promoted": 0.5361,
+    "padded": 0.3056,
+    "paren": 0.4083
+  },
+  "contrasts": {
+    "promoted_vs_paren": {
+      "isolates": "SUBORDINATION",
+      "mean_per_claim_delta": 0.1278,
+      "positive": 30,
+      "negative": 5,
+      "tied": 25,
+      "sign_p": 2e-05,
+      "claims": 60
+    },
+    "sentences_vs_promoted": {
+      "isolates": "WORDING",
+      "mean_per_claim_delta": 0.0056,
+      "positive": 24,
+      "negative": 21,
+      "tied": 15,
+      "sign_p": 0.76599,
+      "claims": 60
+    },
+    "field_vs_unlabelled": {
+      "isolates": "LABELS",
+      "mean_per_claim_delta": 0.1278,
+      "positive": 29,
+      "negative": 10,
+      "tied": 21,
+      "sign_p": 0.00338,
+      "claims": 60
+    },
+    "unlabelled_vs_paren": {
+      "isolates": "LAYOUT",
+      "mean_per_claim_delta": 0.025,
+      "positive": 22,
+      "negative": 18,
+      "tied": 20,
+      "sign_p": 0.63583,
+      "claims": 60
+    },
+    "padded_vs_paren": {
+      "isolates": "LENGTH",
+      "mean_per_claim_delta": -0.1028,
+      "positive": 9,
+      "negative": 36,
+      "tied": 15,
+      "sign_p": 7e-05,
+      "claims": 60
+    },
+    "field_vs_sentences": {
+      "isolates": "schema vs asserted prose",
+      "mean_per_claim_delta": 0.0194,
+      "positive": 17,
+      "negative": 18,
+      "tied": 25,
+      "sign_p": 1.0,
+      "claims": 60
+    }
+  }
+}
