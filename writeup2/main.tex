@@ -47,13 +47,13 @@
 \newcommand{\needsdata}[1]{\textcolor{red}{\textbf{[NEEDS DATA: #1]}}}
 
 % Title history, kept because it is the argument of the paper in miniature.
-%   v1 "Structure Survives Compression"                -- too general; one model showed it
-%   v2 "A Write Schema That Helps Where the Compressor
-%       Is Weakest"                                     -- falsified by its own data once
-%       the pressure ladder was extended: the STRONGEST model shows the LARGEST effect
-%   v3 (this one) names the enabling condition, which is pressure, not model strength.
-\title{Retention Fields for Agent Memory:\\
-Structure Preserves Stance Under Compression Pressure}
+%   v1 "Structure Survives Compression"           -- too general on the evidence then
+%   v2 "...Helps Where the Compressor Is Weakest" -- falsified once the pressure ladder
+%       was extended: the strongest model showed the largest effect
+%   v3 "...Under Compression Pressure"            -- built on a ten-claim corpus that
+%       produced BOTH a false null and a false model-family split
+%   v4 (this one) states the effect and its unit of analysis, which is the claim.
+\title{Labelled Fields Preserve Epistemic Stance\\ Under Memory Compression}
 
 \author{
   Alex Kwon \\
@@ -102,24 +102,25 @@ Structure Preserves Stance Under Compression Pressure}
 \node[squeeze, right=12mm of mid] (comp)
   {\textbf{one compressor}\\[2pt]
    \footnotesize identical prompt,\\ settings and filler notes\\[3pt]
-   \scriptsize\itshape budget: 8 notes\\ \scriptsize\itshape into 12 words};
+   \scriptsize\itshape budget: 8 notes\\ \scriptsize\itshape into 25 or 12 words};
 
 \draw[arr, fieldblue] (fnote.east) -- ++(6mm,0) |- (comp.west);
 \draw[arr, proseorange] (pnote.east) -- ++(6mm,0) |- (comp.west);
 
 \node[outcome, right=11mm of comp, yshift=13mm] (o1)
   {\textbf{standing kept}\\[1pt]
-   \textcolor{fieldblue}{\textbf{field 72\%}} \quad
-   \textcolor{proseorange}{prose 54\%}\\
+   \textcolor{fieldblue}{\textbf{field 44\%}} \quad
+   \textcolor{proseorange}{prose 21\%}\\
    \scriptsize\itshape the memory still says it is a rumour};
 \node[outcome, right=11mm of comp] (o2)
   {\textbf{standing washed off}\\[1pt]
-   \scriptsize the claim survives as plain fact\\
-   \scriptsize\itshape ``Alice has admin access''};
+   \textcolor{fieldblue}{field 11\%} \quad
+   \textcolor{proseorange}{\textbf{prose 28\%}}\\
+   \scriptsize\itshape ``Alice has admin access'', as plain fact};
 \node[outcome, right=11mm of comp, yshift=-14mm] (o3)
   {\textbf{claim evicted}\\[1pt]
-   \textcolor{fieldblue}{field 26} \quad
-   \textcolor{proseorange}{\textbf{prose 45}}\\
+   \textcolor{fieldblue}{field 45\%} \quad
+   \textcolor{proseorange}{prose 52\%}\\
    \scriptsize\itshape dropped from memory altogether};
 
 \draw[arr] (comp.east) -- ++(5mm,0) |- (o1.west);
@@ -130,13 +131,13 @@ Structure Preserves Stance Under Compression Pressure}
   {a blind reader scores the stored memory;\\ it never sees the source, the arm, or the budget};
 
 \end{tikzpicture}}
-\caption{\textbf{The experiment in one view.} The same claim carrying the same epistemic standing
-is written twice, once as a labelled field and once as a parenthetical, and passed to the
-same compressor with the same prompt, settings and filler notes. Only the form differs.
-Numbers are the tightest budget on Opus~4.5 ($n=100$ pairs): standing survives in $72\%$
-of field records against $54\%$ of parentheticals ($p=0.0009$), and the parenthetical
-claim is dropped from memory outright $45$ times against $26$ ($p=0.0003$). The effect
-requires the budget to actually bind, and it is absent on both Sonnet models we tested
+\caption{\textbf{The experiment in one view.} The same claim carrying the same epistemic
+standing is written twice, once as a labelled field and once as a parenthetical, and
+passed to the same compressor with the same prompt, settings and filler notes. Only the
+form differs. Percentages are Haiku~4.5 at the \textsc{brutal} budget across all $60$
+claims. The difference is concentrated in the middle row: the parenthetical is stored as
+bare fact more than twice as often, while the two forms are evicted at similar rates. So
+the schema does not mainly keep claims in memory; it keeps them \emph{qualified}
 (\S\ref{sec:twocell}).}
 \label{fig:teaser}
 \end{figure*}
@@ -150,22 +151,22 @@ Agent memory systems compress what they store, and compression is designed to dr
 qualifiers. A natural fix is to stop writing a claim's epistemic standing as prose
 (``reportedly'', ``(unconfirmed)'') and write it as a labelled field instead, on the
 theory that a compressor treats prose as phrasing and a field as content. We test that
-directly: $950$ matched pairs carrying identical claims and identical stance, differing
-only in whether the standing is a field or a parenthetical, compressed under six levels
-of budget pressure across four models and scored by a blind reader that never sees the
-source or the condition. Two conditions govern the effect, and neither is the one we
-expected. The first is budget. The field form buys nothing until compression actually
-binds; at the tightest budget, on Opus~4.5, standing survives in $72\%$ of field records
-against $54\%$ of parentheticals ($p = 0.0009$). The second is the model family. The
-effect is clear on Haiku~4.5 ($p = 0.004$) and Opus~4.5 ($p = 0.0003$) and exactly absent
-on both Sonnet models, the second of which we ran only to check whether the first null
-was a fluke. Pooled, the field form preserves standing in $77.6\%$ of pairs against
-$72.1\%$ ($p = 9\times10^{-5}$) and its claims are evicted from memory outright less
-often ($139$ versus $181$, $p = 0.00014$); the per-model split, not the pooled number, is
-the result. We also report a prediction we recorded and falsified, two designs that
-failed before this one worked, two claims from earlier drafts that we retract, and an
-instrument bug in our own blind reader that inflated the effect until we found it.
-Schema, checker, harness and every raw run are released.
+with matched pairs: the same claim and the same stance, written once as a field and once
+as a parenthetical, in the same distractor notes at the same positions, compressed by the
+same model under the same budget, scored by a blind reader that never sees the source or
+the condition. Across $60$ claims in seven registers the field form retains stance about
+$15$ points more often, on two models that agree closely (Haiku~4.5 $+15.9$,
+Sonnet~4.5 $+15.3$). Treating the \emph{claim} as the unit of analysis, which is what
+generalises, it holds on $37$ of $60$ claims against $2$ for Haiku and $30$ against $8$
+for Sonnet, both $p<0.001$ claim-clustered. The mechanism is washing rather than
+deletion: under a hard budget the parenthetical is stored as bare fact more than twice as
+often, while eviction rates are similar. We also report what it took to get here. An earlier version of this work
+used ten claims from one register, and that corpus manufactured two confident
+conclusions that are both false: that the effect disappears under claim-clustered
+inference, and that it splits by model family. Sixty claims dissolve both. We report
+those retractions and an instrument bug in our own blind reader that inflated the effect
+twofold until we caught it. Schema, checker, harness, corpus and every raw run are
+released.
 \end{abstract}
 
 % ===========================================================================
@@ -200,29 +201,30 @@ CERTAINTY: asserted | hedged | rumor | unverified\\
 AS\_OF: <when it held>
 \end{promptbox}
 
-It is right, with a condition attached that took us three designs to find. The condition
-is not which model is compressing. It is whether the compressor is under enough budget
-pressure to have to throw something away. Give a model room and both forms survive
-equally; take the room away and the parenthetical goes first. Our strongest model shows
-the \emph{largest} effect once the budget is tight enough to make it lose anything at
-all, which is the opposite of what we expected and the opposite of what an earlier draft
-of this paper claimed.
+It is right, with two conditions attached. The compressor has to be short of room: given
+slack, both forms survive and the schema buys nothing. And the effect has to be measured
+over enough different claims to see, which sounds like a truism and was in fact the thing
+that took us longest to learn.
 
 \paragraph{Contributions.}
 (1)~A controlled two-cell test of form, holding claim, stance, distractors and position
-constant across $950$ matched pairs, six levels of compression pressure and four models
-(\S\ref{sec:twocell}), with a blind readout that never sees the condition.
-(2)~The finding that pressure, not model capability, is the enabling condition, and the
-demonstration that a ceiling at moderate pressure is not evidence against the mechanism
-but evidence that the test was too easy (\S\ref{sec:twocell}).
-(3)~The eviction effect, which the survival rate hides: under a hard budget a claim is
-not merely stripped of its standing but dropped from memory altogether, and the
-parenthetical is dropped more often (\S\ref{sec:twocell}).
+constant, over $60$ claims in seven registers on two models, with a blind readout that
+never sees the condition (\S\ref{sec:twocell}). The field form retains stance about
+$15$ points more often, and the two models agree to within six thousandths.
+(2)~Inference at the unit that generalises. Matched pairs are not independent
+observations when sixty claims are resampled into hundreds of pairs, so we report
+claim-clustered intervals and an exact sign test over per-claim differences: $37$ claims
+to $2$ on one model, $30$ to $8$ on the other.
+(3)~Evidence that the mechanism is \emph{washing} rather than eviction. Under a hard
+budget the parenthetical is stored as bare fact more than twice as often, while the two
+forms are dropped from memory at similar rates (\S\ref{sec:twocell}).
 (4)~A deterministic field-level check that needs no model and no lexicon of hedged
 phrasings on the memory side (\S\ref{sec:check}).
-(5)~The negative results that shaped the design, including a falsified prediction we had
-recorded in advance and an instrument bug in our own blind reader that inflated the
-headline effect until it was found (\S\ref{sec:negatives}).
+(5)~Three negative results and two retractions, reported because they were more
+instructive than the effect: where the loss actually occurs, why repairing prose fails,
+an instrument bug in our own blind reader that inflated the effect twofold, and a
+ten-claim corpus that manufactured both a false null and a false model-family split
+(\S\ref{sec:negatives}, \S\ref{sec:twocell}).
 
 % ===========================================================================
 \section{Related work}
@@ -349,9 +351,9 @@ by it.
 % compressor, one variable: the FORM the stance is written in.
 % ===========================================================================
 
-\paragraph{Design.} Ten claims are each written twice, carrying the \emph{identical}
-assertion and the \emph{identical} stance content, differing only in where the standing
-sits:
+\paragraph{Design.} Sixty claims, in seven registers, are each written twice, carrying
+the \emph{identical} assertion and the \emph{identical} stance content, differing only in
+where the standing sits:
 
 \begin{promptbox}[the two cells]
 \textbf{field}\quad Alice has admin access\\
@@ -375,125 +377,123 @@ each), \textsc{high} ($6$ notes, $40$ words total), \textsc{extreme} ($6$ notes,
 words per line), \textsc{brutal} ($8$ notes, $25$ words total) and \textsc{severe} ($8$
 notes, $12$ words total).
 
-The last two levels were added after the first sweep, for a reason that turned out to be
-the paper's main lesson. In that sweep the strongest model sat at $100\%$ in both arms at
-every level, and we wrote it up as ``no loss for the schema to prevent''. That was the
-wrong conclusion: it had no loss to prevent \emph{at the pressures we had applied}. Under
-a harder budget the same model loses standing readily, and shows the largest form effect
-we measured. A ceiling is a statement about the test, not about the mechanism.
+The last two levels were added after a first sweep in which the strongest model sat at
+$100\%$ in both arms at every level, which we wrote up as ``no loss for the schema to
+prevent''. That was the wrong conclusion: it had no loss to prevent \emph{at the
+pressures we had applied}. A ceiling is a statement about the test, not about the
+mechanism. The sixty-claim runs therefore use the two tight levels, where a compressor is
+actually forced to discard something.
 
 \paragraph{Readout.} A separate model sees only the stored memory and the claim to look
 up, never the source note, the arm, or the pressure level, and answers whether the claim
 is stored as established fact, as qualified, or is absent. Judge replies are parsed
 without requiring valid JSON, for reasons given in \S\ref{sec:instrument}.
 
-\paragraph{Result.} Figure~\ref{fig:twocell} and Table~\ref{tab:twocell}. Pooled over
-$950$ matched pairs, standing is recovered from $737/950$ field records against
-$685/950$ parentheticals, $77.6\%$ versus $72.1\%$. The pairing makes the test sharp:
-$112$ pairs where only the field form survived against $60$ where only the parenthetical
-did, exact McNemar $p = 9\times10^{-5}$. That pooled number is also the one to trust
-least, for reasons in Table~\ref{tab:twocell} and below; the per-model rows are the
-result.
+\paragraph{Result.} Figure~\ref{fig:perclaim} and Table~\ref{tab:twocell}. On
+\textbf{Haiku 4.5}, standing is recovered from $109/360$ field records against $52/360$
+parentheticals, $30.3\%$ against $14.4\%$. On \textbf{Sonnet 4.5}, $202/360$ against
+$147/360$, $56.1\%$ against $40.8\%$. The two models differ from each other by six
+thousandths.
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=\textwidth]{fig_twocell.pdf}
-\caption{\textbf{Two-cell result by model.} \textbf{Top:} share of stored memories from which a
-blind reader can still recover the claim's standing, by compression pressure, with $95\%$
-Wilson intervals. \textbf{Bottom:} share where the claim is absent from the stored memory
-altogether. Both arms track together while the budget is loose and separate once it
-binds; Opus keeps every field record intact through the first four levels and then shows
-the largest separation we measured. Neither Sonnet separates anywhere. Models were run at different subsets
-of the ladder as the budget allowed, and are plotted only where they were run, so a line
-spanning a gap is interpolation for legibility and not a measurement.}
-\label{fig:twocell}
+\includegraphics[width=\textwidth]{fig_perclaim.pdf}
+\caption{\textbf{One bar per claim.} \textbf{Left and centre:} the field-minus-prose
+difference in stance retention for each of the $60$ claims, sorted, at the two hard
+budgets. Blue is a claim where the labelled field retained standing more often, orange
+where the parenthetical did, grey where they tied. The dashed line is the mean.
+\textbf{Right:} the same effect with claim-clustered $95\%$ intervals, for the $60$-claim
+corpus and for the ten-claim corpus these models were previously measured on. The ten-claim
+intervals contain zero; the sixty-claim intervals do not. Nothing about the models
+changed between those two rows, only the claims they were asked about.}
+\label{fig:perclaim}
 \end{figure*}
 
 \begin{table}[t]
 \centering\small
-\begin{tabular}{@{}l r r r r@{}}
+\begin{tabular}{@{}l r r@{}}
 \toprule
-Model & pairs & field & paren & McNemar $p$ \\
+& \multicolumn{1}{c}{Haiku 4.5} & \multicolumn{1}{c}{Sonnet 4.5} \\
 \midrule
-Haiku 4.5  & 320 & $74.1\%$ & $66.9\%$ & $0.004$ \\
-Opus 4.5   & 260 & $81.9\%$ & $71.5\%$ & $0.0003$ \\
+field retains stance      & $30.3\%$  & $56.1\%$ \\
+prose retains stance      & $14.4\%$  & $40.8\%$ \\
+difference                & $+15.9$   & $+15.3$ \\
 \addlinespace
-Sonnet 4.5 & 240 & $75.4\%$ & $75.0\%$ & $1.0$ \\
-Sonnet 5   & 130 & $81.5\%$ & $80.8\%$ & $1.0$ \\
-\midrule
-pooled     & 950 & $77.6\%$ & $72.1\%$ & $9\times10^{-5}$ \\
+claim-clustered $95\%$ CI & $[+10.8, +20.6]$ & $[+8.9, +21.9]$ \\
+claims favouring field    & $37$      & $30$ \\
+claims favouring prose    & $2$       & $8$ \\
+claims tied               & $21$      & $22$ \\
+sign test across claims   & $p<0.0001$ & $p=0.0005$ \\
 \bottomrule
 \end{tabular}
-\caption{\textbf{Standing recovered by a blind reader.} Rates are not comparable
-\emph{across} rows: models were run at different subsets of the pressure ladder as the
-budget allowed, so a model run mostly at hard levels looks worse than one run mostly at
-easy levels. The within-row comparison is the experiment, and it is paired. The rows are
-grouped by what they show, which is the result: both non-Sonnet models separate and
-neither Sonnet does.}
+\caption{\textbf{Sixty claims, two models, matched design.} Rates are not comparable
+across columns: Sonnet retains more standing overall because it is a better compressor at
+these budgets. The comparison is within a column, and it is paired down to the individual
+claim. The two models produce nearly the same difference.}
 \label{tab:twocell}
 \end{table}
 
-The effect is carried by the hard end of the ladder. On \textbf{Opus 4.5} at
-\textsc{severe} ($8$ notes into $12$ words) standing survives in $72/100$ field records
-against $54/100$ parentheticals, $23$ discordant pairs to $5$, $p = 0.0009$. Over its
-full range Opus gives $213/260$ against $186/260$, $p = 0.0003$: the largest effect we
-measured, on the most capable model we ran. \textbf{Haiku 4.5} agrees, $237/320$ against
-$214/320$, $41$ discordant to $18$, $p = 0.004$, though at \textsc{severe} it is so far
-past its limit that both arms collapse to $7.5\%$ and the comparison stops meaning
-anything.
+\paragraph{The claim is the unit that generalises.} A matched pair is not an independent
+observation. Sixty claims run at two budgets with three replicates give $360$ pairs per
+model, but a claim's particular wording recurs in six of them, so pair-level intervals
+describe ``another replicate of these sixty claims'' rather than ``a claim we have not
+written yet''. We therefore report the claim as the cluster throughout: a bootstrap that
+resamples claims, and an exact sign test on the per-claim differences. Both are in
+Table~\ref{tab:twocell} and both are far more conservative than the pair-level test,
+which returns $p<10^{-6}$ on this data and should not be quoted.
 
-Both Sonnet models show nothing, and this is the most interesting thing in the paper.
-\textbf{Sonnet 4.5} gives $181/240$ against $180/240$, $18$ discordant to $17$,
-$p = 1.0$. \textbf{Sonnet 5} was then run specifically to ask whether that was a fluke,
-and it is not: $106/130$ against $105/130$, $13$ discordant to $12$, $p = 1.0$, and at
-\textsc{severe}, where Opus separates by eighteen points, Sonnet~5 returns $29/50$
-against $29/50$. Exactly nothing, on the level built to expose the effect.
+The sign test is the one we find most convincing, because it does not depend on effect
+size at all. On Haiku the difference points toward the field form on $37$ claims and
+toward prose on $2$. On Sonnet, $30$ against $8$. Whatever is happening is not carried by
+a few lucky wordings.
 
-So the split is not by capability, which was our previous story and which the Opus result
-already killed. Sonnet~4.5 sits between Haiku and Opus on every capability ordering we
-know of and behaves unlike both. Nor does a generation of progress move it: Sonnet~5 is a
-generation newer than the other three models and behaves exactly like Sonnet~4.5. (We
-could not afford a second model of that newer generation, so this rules out ``the null is
-an artefact of one older model'' and not ``the null is a property of that generation''.)
-What the data shows is a split by
-model family, $370$ paired trials across two Sonnet models finding nothing where $580$
-across Haiku and Opus find a clear effect. We cannot explain it, and two families is not
-enough to call it a law. It is, however, no longer an outlier to be waved at: it
-reproduced when we went looking for it.
+\paragraph{Ten claims said the opposite, on the same models.} This experiment was first
+run on ten claims, all in an office-work register. Restricted to the same two budgets and
+the same two models, that corpus gives $+3.7$ points on Haiku, with per-claim differences
+splitting four to five, and $+3.7$ on Sonnet, splitting three to four. Both
+claim-clustered intervals contain zero. The earlier draft of this paper drew two
+conclusions from that corpus, and both are wrong:
 
-\paragraph{The prediction we got wrong.} We recorded a prediction in the harness before
-the first run: no difference at zero pressure, and a widening advantage as the budget
-tightened. The second half is right in spirit and the first half is wrong in the data.
-The advantage is already present at \textsc{none} on Haiku ($100\%$ versus $91.7\%$),
-and the per-level deltas are not monotone. What the extended ladder shows is not a clean
-dose-response but a threshold: a model contributes nothing to the effect until the budget
-forces it to discard something, and then it contributes a lot.
+\begin{itemize}\itemsep2pt
+\item that the effect \emph{disappears} once the claim is treated as the unit of
+      analysis. It does not. It disappears on ten claims of one register, which is a
+      statement about the corpus.
+\item that the effect \emph{splits by model family}, being present on Haiku and Opus and
+      exactly absent on both Sonnet models. It does not. Sonnet~4.5, measured across
+      the full six-level ladder and then re-verified against an independent judge, moves
+      from $+3.7$ points to $+15.3$ when it is asked about sixty claims instead of ten.
+\end{itemize}
 
-\paragraph{Eviction is the other half of the story.} Survival rate hides a second
-outcome: the claim can be dropped from the digest entirely rather than merely stripped of
-its standing. Under hard budgets this becomes the dominant failure. Pooled, the
-parenthetical claim is evicted $181$ times against the field's $139$ ($p = 0.00014$), so
-the schema helps twice over: the field record is both more likely to keep its standing
-and more likely to still be there at all. Opus carries most of this, $72$ against $43$
-over its full range, and at \textsc{severe} the gap is $45$ against $26$
-($p = 0.0003$).
+Both errors have the same cause and it is not subtle in hindsight. Ten stimuli in one
+register is a sample of a genre, not a sample of claims, and it was small enough that
+three wordings could carry a pooled average in either direction. It produced a false
+null and a false moderator, and the false moderator was the more dangerous of the two
+because it was interesting: a model-family split is the kind of finding that gets
+written up rather than checked.
 
-This reverses a finding we reported in an earlier draft. On the first, shorter ladder,
-Sonnet~4.5 evicted the \emph{field} record more often ($8$ versus $1$, $p = 0.039$) and
-we wrote that up as a genuine cost of the schema: a multi-line record costs more budget,
-so a good compressor drops the bulkier item. With the full ladder Sonnet's eviction
-asymmetry is no longer significant ($36$ versus $30$, $p = 0.29$) and every other model
-runs the other way. The honest status of ``the schema costs retention'' is therefore
-\textsc{not shown}: it was an artefact of a short ladder and a single model.
+\paragraph{The judge is not the explanation.} In the runs above the compressor and the
+blind reader are the same model, so each model in effect grades its own homework. That is
+a live confound for any comparison \emph{between} models. We removed it by re-scoring all
+$1{,}941$ previously stored memories with a single fixed judge, which costs judge calls
+only and no new compression. Agreement with the original scoring is $98\%$, and no
+model's effect moves by more than two points; Sonnet~4.5's ten-claim null is unchanged to
+four decimals. The self-judging confound is real in principle and was not what was
+happening here.
 
-\paragraph{What we would need to settle it.} Four models from one provider is not a
-sample of compressors, and the thing most worth explaining is now the family split rather
-than the effect. We have no mechanism for it. The obvious candidates are all testable and
-none are tested here: a difference in how the two families were trained to handle
-structured input, a difference in what they treat as safe to drop under a word budget, or
-something about our specific prompts that the Sonnet models parse differently. Settling it
-needs models from other providers, which this budget did not reach, and an ablation over
-the schema's surface form, which it could have.
+\paragraph{Eviction is not the mechanism.} A claim can lose its standing or it can be
+dropped from the digest entirely, and these are different failures. Under the
+\textsc{brutal} budget on Haiku, the field form keeps standing $44\%$ of the time, is
+stored as bare fact $11\%$, and is evicted $45\%$. The parenthetical keeps standing
+$21\%$, is stored as bare fact $28\%$, and is evicted $52\%$. The eviction gap is small;
+the washing gap is a factor of two and a half. On Sonnet the eviction rates are
+statistically indistinguishable ($129$ against $123$, $p=0.52$) while the stance
+difference is $15$ points. So the schema is not mainly keeping claims in memory. It is
+keeping them qualified.
+
+This retracts a cost we asserted in an earlier draft. On the short ladder, Sonnet~4.5
+evicted the bulkier field record more often ($8$ against $1$, $p=0.039$), and we wrote
+that up as a real price of the schema. It does not survive either the full pressure
+ladder or the larger corpus.
 
 % ===========================================================================
 \section{The schema end to end}
@@ -564,62 +564,66 @@ half of the problem, recognising stance in the rewrite.
 
 \section{Conclusion}
 
-Write a claim's standing as structure and a compressor is likelier to treat it as content
-than as phrasing. Held constant across $950$ matched pairs, that holds, with an effect of
-five and a half points pooled and eighteen at the tightest budget we applied. It holds
-under two conditions, neither of which we would have guessed, and both of which only
-became visible after we stopped trusting our first ladder.
+Write a claim's standing as a labelled field and a compressor treats it as content;
+write the same standing into the sentence and it is treated as phrasing and removed.
+Across sixty claims in seven registers, on two models, the field form retains stance
+about fifteen points more often, and it does so on $37$ claims against $2$ on one model
+and $30$ against $8$ on the other. The gain is in what the memory still says about how
+much to trust a claim, not in whether the claim is there at all.
 
-The first condition is pressure, not model capability. Given slack, both forms survive and
-the schema buys nothing; take the slack away and the parenthetical goes first, and then
-the whole claim goes with it. We had this backwards in a previous draft, where the
-strongest model looked immune and we concluded the schema was a crutch for weak
-compressors. It was not immune; the test was too easy. Once the budget was tight enough to
-make it lose anything, that model showed the largest effect in the paper. A ceiling in both
-arms is a statement about your stimulus, not about the world, and we would have shipped
-the wrong claim if we had stopped at the first ladder.
+The first condition is pressure. Given slack, both forms survive and the schema buys
+nothing; take the slack away and the parenthetical loses its standing first. We had a
+version of this backwards in an earlier draft, where the strongest model looked immune
+and we concluded the schema was a crutch for weak compressors. It was not immune; the
+test was too easy. A ceiling in both arms is a statement about your stimulus, not about
+the world.
 
-The second condition is the model family, and we cannot explain it. Both Sonnet models we
-tested show nothing, including one we ran for no reason other than to check whether the
-first null would reproduce. It did, at the exact level where the other family separates
-most. Anyone deciding whether to adopt a write schema should therefore measure it on the
-model they actually run at the write step, because on half the models we tried the honest
-answer is that it buys nothing.
+The second condition is that you have to look at enough claims. This is the part we got
+wrong for longest. Measured on ten claims in a single office-work register, the same
+experiment on the same models returns $+3.7$ points with per-claim differences splitting
+four to five, and we wrote that up as a null that survived clustering. Worse, the ten
+claims happened to arrange themselves so that two models looked null and two looked
+positive, and we wrote \emph{that} up as a model-family split, checked it against an
+independent judge, and found the check reassuring. Sixty claims dissolve both. Nothing
+about the models changed; only the claims we asked about.
 
 Three of the four things we have learned on this problem arrived as negatives, and they
 were each more useful than the positive we were chasing at the time. The loss is at
 recording, not at compression. Repairing the prose afterwards is perfectly undone by the
 next compression step. Our own scorer was silently discarding its clearest verdicts and
-inflating the headline twofold. The fourth is the result above, and it only exists
-because the third was caught.
+inflating the headline twofold. The fourth is the result above, and it exists because the
+corpus finally got large enough to show it.
 
 \section*{Limitations}
 
-Four models from one provider is not a sample of compressors, and the family split we
-report is a reproduction rather than a law: two Sonnet models behaving alike rules out a
-one-off and does not identify a cause. The pooled $p$-value is the number most likely to
-be quoted and is the one we trust least, because models were run at different subsets of
-the pressure ladder as the budget allowed, so pooling mixes coverage with effect. The
-per-model paired tests are the result.
+Two models from one provider is not a sample of compressors. They agree closely here,
+which is reassuring about the mechanism and says nothing about models we did not run: an
+earlier and smaller version of this work produced a confident model-family split that
+turned out to be an artefact of its stimuli, so we are wary of any claim about which
+models do or do not show this until it has been measured on sixty claims rather than ten.
+Opus~4.5 and Sonnet~5 were measured only on the ten-claim corpus and are therefore not
+reported as results here.
 
-Coverage is uneven for a mundane reason: this was run on roughly ten dollars of API
-credit, and the first attempt exhausted it mid-run. Every stopping point is recorded, the
-spend cap is enforced against measured tokens, and incomplete cells are dropped rather
-than averaged, with the drops printed. The Sonnet~5 runs used a model that rejects the
-temperature parameter, so they sample at the model default while every other run sets it
-explicitly. That is recorded in their summaries rather than smoothed over, and it is a
-genuine confound for exactly the comparison the family split rests on: we cannot fully
-separate ``Sonnet~5 shows no effect'' from ``Sonnet~5 was sampled differently''. Sonnet~4.5
-was sampled identically to Haiku and Opus and also shows no effect, which is the reason we
-still report the split, but a clean test would hold sampling fixed across all four.
+The corpus is sixty hand-written English claims across seven registers, paired with
+stance-free filler notes, constructed so the two arms could be exactly matched. That
+control is what makes the comparison clean and is also what makes it artificial: real
+notes are not matched pairs, and a real memory system writes its own claims rather than
+receiving ours. Twenty-one of the sixty claims are tied on one model and twenty-two on
+the other, mostly because at the tightest budget both arms lose the claim entirely; ties
+carry no information for the sign test and reduce its power, so the reported $p$-values
+are conservative in that respect and uninformative about those claims.
 
-The stimuli are ten hand-written English claims in an office-work register, with
-stance-free fillers, chosen so that the two arms could be exactly matched. That control
-is what makes the comparison clean and is also what makes it artificial: real notes are
-not matched pairs. The end-to-end pilot ($n=10$, one model) is reported as a pilot and
-nothing in the conclusion rests on it. Finally, ``standing recovered'' is one model's
-judgement of another model's output. It is blind to the condition, which is the property
-we needed, but it is not a human annotation and we did not collect one.
+The two budgets reported here are the tight end of a six-level ladder. At looser budgets
+the effect is small and we do not claim it; the honest statement is that this matters
+when a memory system is actually short of room, which is the condition under which memory
+systems are usually run but not the only one. Finally, ``standing recovered'' is one
+model's judgement of another model's output. It is blind to the condition, and we
+verified that a single fixed judge reproduces the same picture, but it is not a human
+annotation and we did not collect one.
+
+The end-to-end pilot ($n=10$, one model) is reported as a pilot and nothing in the
+conclusion rests on it. Metered API spend for everything reported here is under
+fourteen dollars.
 
 \section*{Ethics Statement}
 
@@ -677,38 +681,51 @@ same format as the companion paper \citep{kwon2026factwash}.
 \midrule \multicolumn{3}{r@{}}{\emph{continued on next page}}\\ \endfoot
 \bottomrule \endlastfoot
 
-Stance written as a field survives compression more often than the same stance written as
-prose. & \S\ref{sec:twocell}, Fig.~\ref{fig:twocell} & \textsc{shown}, pooled $77.6\%$ vs
-$72.1\%$, $112$ vs $60$ discordant pairs, $p=9\times10^{-5}$, $n=950$. Significant on
-Haiku ($p=0.004$) and Opus ($p=0.0003$) \\
+Stance written as a labelled field survives compression more often than the same stance
+written as prose. & \S\ref{sec:twocell}, Fig.~\ref{fig:perclaim} & \textsc{shown} on
+$60$ claims, two models: Haiku $+15.9$ points, Sonnet $+15.3$; claim-clustered
+$p<0.001$ on both; $37$ vs $2$ and $30$ vs $8$ claims by sign \\
+
+The effect is a property of claims in general, not of a few wordings. &
+\S\ref{sec:twocell} & \textsc{shown}: the sign test over per-claim differences is the
+headline test, and it does not depend on effect size \\
+
+The mechanism is that standing is washed off, not that the claim is dropped. &
+\S\ref{sec:twocell} & \textsc{shown}: at \textsc{brutal}, prose is stored as bare fact
+$28\%$ vs the field's $11\%$, while eviction is $52\%$ vs $45\%$; on Sonnet eviction is
+indistinguishable ($p=0.52$) \\
 
 The effect requires the compressor to be under budget pressure. & \S\ref{sec:twocell} &
-\textsc{shown}: Opus is at $100\%$ in both arms for four levels and separates by $18$
-points at the tightest \\
+\textsc{shown for the tight end of the ladder}; at loose budgets it is small and we do
+not claim it \\
+
+\textbf{The effect disappears once the claim is the unit of analysis.} &
+\S\ref{sec:twocell} & \textsc{retracted}: asserted on a ten-claim corpus. The clustering
+correction was right; the conclusion drawn from it was an artefact of ten stimuli in one
+register \\
+
+\textbf{The effect splits by model family, being absent on Sonnet.} &
+\S\ref{sec:twocell} & \textsc{retracted}: asserted on the full ten-claim ladder and
+re-checked against an independent judge, which agreed. Sonnet~4.5 goes from $+3.7$ to
+$+15.3$ points on sixty claims \\
 
 \textbf{The schema helps most where the compressor is weakest.} & \S\ref{sec:twocell} &
-\textsc{retracted}: claimed by a previous draft on a shorter pressure ladder. The most
-capable model shows the largest effect once its budget is tight \\
+\textsc{retracted}: claimed by an earlier draft on a shorter pressure ladder \\
+
+\textbf{The schema costs retention: a bulkier record gets evicted more.} &
+\S\ref{sec:twocell} & \textsc{retracted}: shown once on one model at one ladder length
+($8$ vs $1$, $p=0.039$); survives neither the full ladder nor the larger corpus \\
 
 The advantage widens monotonically as pressure increases. & \S\ref{sec:twocell} &
-\textsc{retracted}: predicted in the harness before the first run, not observed. It
-behaves as a threshold, not a dose-response \\
+\textsc{retracted}: predicted in the harness before the first run, not observed \\
 
-Both Sonnet models we tested show no effect. & \S\ref{sec:twocell} & \textsc{shown}:
-Sonnet~4.5 $p=1.0$ at $n=240$, Sonnet~5 $p=1.0$ at $n=130$, and $29/50$ vs $29/50$ at the
-level where Opus separates by $18$ points \\
+Opus~4.5 and Sonnet~5 show the effect. & \S\ref{sec:twocell} & \textsc{not claimed}:
+both were measured only on the ten-claim corpus, which we no longer trust for this
+question \\
 
-\textbf{The split between families is a property of the Sonnet lineage.} &
-\S\ref{sec:twocell} & \textsc{not claimed}: two models from one family is a reproduction,
-not a law. It rules out ``one outlier'' and does not establish a cause \\
-
-The effect tracks model capability. & \S\ref{sec:twocell} & \textsc{not shown}:
-Sonnet~4.5 sits between Haiku and Opus on capability and behaves unlike both \\
-
-The schema costs retention: a bulkier record gets evicted more. & \S\ref{sec:twocell} &
-\textsc{retracted}: shown on one model at one ladder length ($8$ vs $1$, $p=0.039$),
-does not survive the full ladder. Pooled, eviction runs against the \emph{parenthetical}
-($139$ vs $181$, $p=0.00014$) \\
+A fixed independent judge changes the picture. & \S\ref{sec:twocell} &
+\textsc{not shown}: $1{,}941$ memories re-scored by one judge, $98\%$ agreement, no
+model's effect moves more than two points \\
 
 A write schema raises the share of memory writes that retain standing. &
 \S\ref{sec:endtoend} & \textsc{pending}: pilot $3/10 \to 7/10$, one model, one prompt
@@ -739,35 +756,49 @@ readout is required \\
 \section{Stimuli and the pressure ladder}
 \label{app:stimuli}
 
-Ten claims, each written twice. Both forms carry the same assertion and the same stance
-content; only the placement differs.
+Sixty claims. Each is written twice; both forms carry the same assertion and the same
+stance content, and differ only in where the standing sits. The claim text itself is a
+bare assertion containing no stance, so all the stance lives in the source and certainty
+fields and the two arms can be matched exactly.
 
 \medskip
 {\small
-\begin{tabular}{@{}L{0.38\textwidth} L{0.25\textwidth} L{0.27\textwidth}@{}}
+\begin{tabular}{@{}l r L{0.56\textwidth}@{}}
 \toprule
-\textbf{Claim} & \textbf{Source} & \textbf{Certainty} \\
+\textbf{Register} & \textbf{$n$} & \textbf{Why it is here} \\
 \midrule
-Alice has admin access & a third party & rumor, unconfirmed \\
-The Q3 budget was cut to \$40,000 & an unnamed colleague & reported, not published by finance \\
-The vendor contract renews automatically in March & something the user heard & unconfirmed \\
-The backup job has been failing silently for weeks & someone on the ops call & second-hand, unverified \\
-Dana is leaving at the end of the quarter & word going around the team & rumor \\
-The API rate limit is 500 requests a minute & the user's memory & approximate, not checked \\
-The outage was caused by a bad deploy & a comment in the incident channel & speculation, no root cause yet \\
-The enterprise plan starts at \$12,000 a year & a sales deck someone forwarded & possibly out of date \\
-The team is hiring two more engineers next quarter & a manager in passing & not announced \\
-The database migration already ran on prod & a message in standup & unconfirmed \\
+project     & 17 & the original register; long noun phrases, named colleagues \\
+medicine    &  8 & clinical detail and numbers a compressor is reluctant to drop \\
+news        &  7 & named external actors, which invite attribution by default \\
+personal    &  7 & first-person recall, where the source \emph{is} the speaker's memory \\
+scheduling  &  7 & dates and times, the one field type with its own retention slot \\
+estimate    &  7 & numeric quantities carrying their own implicit precision \\
+conflict    &  7 & two sources disagreeing, so ``who said it'' is load-bearing \\
+\midrule
+total       & 60 & \\
 \bottomrule
 \end{tabular}
 }
 
 \medskip
+The first ten (all \emph{project}) are the corpus this experiment originally ran on and
+are kept as a distinct subset rather than merged, so the earlier runs stay comparable and
+the corpus effect of \S\ref{sec:twocell} can be measured rather than assumed. Two
+examples, one from each end of the register range:
+
+\begin{promptbox}[two of the sixty]
+\textbf{field}\quad The patient is allergic to penicillin\\
+\phantom{\textbf{field}}\quad SOURCE: the patient's adult son\\
+\phantom{\textbf{field}}\quad CERTAINTY: reported, not confirmed against records\\[3pt]
+\textbf{paren}\quad There were 18 affected accounts (per support said 18,\\
+\phantom{\textbf{paren}}\quad the data team said 25; conflicting figures)
+\end{promptbox}
+
 Filler notes are deliberately stance-free and mundane (``Standup moved to 9:45am on
 Tuesdays'', ``Priya owns the billing service''). They exist to consume budget. For a
 given (claim, pressure, replicate) both arms receive the same fillers in the same
 positions, drawn from a seed that does not depend on the arm, so the fillers cannot be
-what differs.
+what differs. The full corpus is released as a single Python file.
 
 \medskip
 \noindent\textbf{The pressure ladder.} Each level names how many notes go in and what
@@ -790,21 +821,23 @@ budget comes out.
 }
 
 \medskip
-The last two were added after the first sweep left the strongest model at ceiling in both
-arms. They are the levels on which the effect is largest, and the reason a ceiling should
-be read as a fact about the stimulus rather than about the model.
+The sixty-claim runs use \textsc{brutal} and \textsc{severe}, the tight end, because that
+is where a compressor is actually forced to discard something. The four looser levels
+were run on the ten-claim corpus and are reported in \S\ref{sec:twocell} only as the
+condition under which the effect is small.
 
 % ===========================================================================
 \section{Reproducibility}
 \label{app:repro}
 
-\paragraph{Models.} Four, all called through one API: Claude Haiku~4.5, Sonnet~4.5,
-Opus~4.5 and Sonnet~5. The compressor and the blind reader are the same model within a
-run, so no cross-model judging is involved. The compressor samples at temperature $1.0$
-and the reader at $0.0$, except on Sonnet~5, which rejects the temperature parameter
-outright; those runs sample at the model default and their summaries record it. That is a
-genuine confound for the family split and is stated in the Limitations rather than in a
-footnote.
+\paragraph{Models.} The results reported here use Claude Haiku~4.5 and Sonnet~4.5.
+Opus~4.5 and Sonnet~5 were also run, on the ten-claim corpus only, and are not reported
+as results. Within a run the compressor and the blind reader are the same model; because
+that makes each model its own grader, we additionally re-scored every stored memory with
+a single fixed judge (Haiku~4.5), which reproduces the same picture at $98\%$ agreement.
+The compressor samples at temperature $1.0$ and the reader at $0.0$, except on Sonnet~5,
+which rejects the temperature parameter outright and therefore sampled at its default;
+its summaries record this.
 
 \paragraph{What is released.} The repository is
 \url{https://github.com/collapseindex/factwash} (Apache-2.0). It contains the harness
@@ -816,13 +849,14 @@ too, under \texttt{data/raw/superseded/} with a README explaining why they are n
 pooled, so the claim that a parser bug inflated the effect from $+4.0$ to $+9.3$ points
 can be checked rather than taken on trust.
 
-\paragraph{Spend, and how it is counted.} Metered API spend for the runs analysed here is
-\$$8.27$ \emph{nominal}. Nominal means: computed from measured token counts at rates
+\paragraph{Spend, and how it is counted.} Metered API spend for every run in this paper
+is under \$$14$ \emph{nominal}. Nominal means: computed from measured token counts at rates
 passed into the harness, with models that have no rate on file priced at a deliberately
-expensive fallback so the cap fails safe. Roughly \$$6$ of that total is Sonnet~5 priced
-at that fallback, so real spend is materially lower. The figure excludes the first
+expensive fallback so the cap fails safe. A substantial part of the total is Sonnet~5
+priced at that fallback, so real spend is materially lower. The figure excludes the first
 pressure sweep, which ran before the harness metered spend at all; that is unrecoverable,
-is estimated at roughly \$$1.5$ from its token counts, and is not folded in silently.
+is estimated at roughly \$$1.5$ from its token counts, and is not folded in silently. The
+sixty-claim runs that carry this paper's result cost \$$0.56$ and \$$1.85$.
 
 \paragraph{Stopping, and what a stop leaves behind.} Runs are streamed and fsynced per
 trial, resumable by key, and capped on both call count and measured spend. A capped run
@@ -835,7 +869,7 @@ averaged in, and the drops are printed.
 \paragraph{Guards on this document.} \texttt{writeup2/check\_paper.py} re-derives every
 load-bearing number in \texttt{main.tex} from the summary JSON: the results table cell by
 cell, the raw counts, the quoted $p$-values, the eviction counts, and the direction of
-each claim the prose makes, including the family split itself. It also rejects any pair
+each claim the prose makes. It also rejects any pair
 count stated in the prose that the data cannot produce, which is how a stale ``$860$
 matched pairs'' was found surviving in three places alongside the correct figure.
 \texttt{writeup2/test\_check\_paper.py} then breaks the paper eleven different ways and

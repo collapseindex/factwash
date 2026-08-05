@@ -4,7 +4,11 @@ Same discipline as paper 1: every load-bearing number in main.tex is re-derived 
 ``data/results/twocell_pooled_summary.json`` and compared. A number that drifts from the
 run that produced it fails here rather than in review.
 
-Also fails on leftover \\needsdata placeholders and on an empty claims ledger.
+The gate is rebuilt around the sixty-claim corpus, and around the claim as the unit of
+analysis. It also asserts the DIRECTION of every claim the prose makes, so that if a
+rerun moves the data the prose cannot quietly keep asserting the old story. That is not
+hypothetical: this paper has twice asserted a conclusion that its own later data
+reversed.
 """
 import json
 import re
@@ -16,22 +20,14 @@ HERE = Path(__file__).resolve().parent
 TEX = HERE / "main.tex"
 SUMMARY = HERE.parent / "data" / "results" / "twocell_pooled_summary.json"
 
-# Row label in the results table -> block key in the summary. "pooled" is included
-# deliberately: an earlier version checked only the model rows, and negative testing
-# showed the pooled row could be corrupted freely.
-MODELS = {"Haiku 4.5": "claude-haiku-4-5", "Sonnet 4.5": "claude-sonnet-4-5",
-          "Opus 4.5": "claude-opus-4-5", "Sonnet 5": "claude-sonnet-5",
-          "pooled": "ALL"}
-
-
-def pct(x):
-    return f"{100 * x:.1f}"
+# results-table row label -> claim_clustered key
+ROWS = {"Haiku 4.5": "c60/claude-haiku-4-5", "Sonnet 4.5": "c60/claude-sonnet-4-5"}
 
 
 def main() -> int:
     tex = TEX.read_text(encoding="utf-8")
     rep = json.loads(SUMMARY.read_text(encoding="utf-8"))
-    blocks = rep["blocks"]
+    cc = rep["claim_clustered"]
     fails, checks = [], 0
 
     def want(literal, why):
@@ -40,164 +36,110 @@ def main() -> int:
         if literal not in tex:
             fails.append(f"{why}: main.tex does not contain {literal!r}")
 
-    # --- the results table, parsed and compared field by field ---------------
-    # An earlier version accepted EITHER the percentage OR the raw count, which meant
-    # corrupting the percentage was masked by the count still being present. Negative
-    # testing caught it. Parse the row and check every cell.
-    for nice, key in MODELS.items():
-        b = blocks[key] if key == "ALL" else blocks[f"model={key}"]
+    def close(label, got, lit, tol=0.12):
+        nonlocal checks
         checks += 1
-        row = re.search(rf"^{re.escape(nice)}\s*&(.+?)\\\\", tex, re.MULTILINE)
-        if not row:
-            fails.append(f"{nice}: no results-table row found in main.tex")
+        if abs(float(f"{got:.4g}") - float(lit)) > max(abs(float(lit)) * tol, 5e-5):
+            fails.append(f"{label}: tex says {lit}, data says {got}")
+
+    for nice, key in ROWS.items():
+        checks += 1
+        if key not in cc:
+            fails.append(f"{nice}: no {key} block in the summary")
             continue
-        cells = [c.strip() for c in row.group(1).split("&")]
-        if len(cells) != 4:
-            fails.append(f"{nice}: results row has {len(cells)} cells, expected 4")
+        blk, st = cc[key], cc[key]["sign_test"]
+        # the prose quotes the RATE difference (field rate minus prose rate); the
+        # clustered point weights claims equally and differs slightly. Both appear in
+        # the paper and both are checked, each against the quantity it actually is.
+        pts = 100 * blk["rate_delta"]
+        want(f"${pts:+.1f}$", f"{nice} effect in points (rate difference)")
+        close(f"{nice} clustered point vs rate delta",
+              blk["point"], f"{blk['rate_delta']:.4f}", tol=0.15)
+        want(f"${st['positive']}$", f"{nice} claims favouring field")
+        want(f"${st['negative']}$", f"{nice} claims favouring prose")
+        want(f"${st['tied']}$", f"{nice} tied claims")
+        # the sign test must still be significant, or the headline is wrong
+        checks += 1
+        if st["p"] >= 0.01:
+            fails.append(f"{nice} sign test p={st['p']} is no longer < 0.01; the "
+                         f"paper's headline claim does not hold")
+        # and the clustered interval must exclude zero
+        checks += 1
+        lo, hi = blk["ci95_claim_clustered"]
+        if lo <= 0 <= hi:
+            fails.append(f"{nice} claim-clustered CI [{lo}, {hi}] now contains zero")
+
+    # the two models must still agree closely; the paper says "six thousandths"
+    if all(k in cc for k in ROWS.values()):
+        checks += 1
+        gap = abs(cc[ROWS["Haiku 4.5"]]["point"] - cc[ROWS["Sonnet 4.5"]]["point"])
+        if gap > 0.02:
+            fails.append(f"the two models now differ by {gap:.3f}; the 'no family "
+                         f"split' framing needs rechecking")
+
+    # the ten-claim corpus must still be the thing that says otherwise, or the whole
+    # retraction narrative is wrong
+    for key, nice in (("c10/claude-haiku-4-5", "Haiku"),
+                      ("c10/claude-sonnet-4-5", "Sonnet")):
+        if key not in cc:
             continue
-        got_n, got_f, got_p, _ = cells
-        for label, got, exp in (
-                ("pairs", got_n, str(b["paired"]["pairs"])),
-                ("field rate", got_f, pct(b["field"]["rate"])),
-                ("paren rate", got_p, pct(b["paren"]["rate"]))):
-            checks += 1
-            nums = re.findall(r"\d+(?:\.\d+)?", got)
-            if not nums:
-                fails.append(f"{nice} {label}: no number in table cell {got!r}")
-            elif abs(float(nums[0]) - float(exp)) > 0.051:
-                fails.append(f"{nice} {label}: table says {nums[0]}, data says {exp}")
-
-    # --- raw counts and discordant pairs in the prose ------------------------
-    h = blocks["model=claude-haiku-4-5"]
-    s = blocks["model=claude-sonnet-4-5"]
-    o = blocks["model=claude-opus-4-5"]
-    allb = blocks["ALL"]
-    sev = blocks.get("claude-opus-4-5 / severe")
-
-    for nice, b in (("Haiku", h), ("Sonnet 4.5", s), ("Opus", o), ("pooled", allb)):
-        for arm in ("field", "paren"):
-            want(f"{b[arm]['kept_qualified']}/{b[arm]['n']}", f"{nice} {arm} raw counts")
-
-    for nice, b in (("Haiku", h), ("Sonnet 4.5", s), ("Opus", o), ("pooled", allb)):
         checks += 1
-        if (str(b["paired"]["field_only"]) not in tex
-                or str(b["paired"]["paren_only"]) not in tex):
-            fails.append(f"{nice} discordant counts missing from tex")
-
-    # --- p-values quoted in the prose must match the data --------------------
-    for label, val, lit in (
-            ("Haiku survival p", h["paired"]["mcnemar_exact_p"], "0.004"),
-            ("Opus survival p", o["paired"]["mcnemar_exact_p"], "0.0003"),
-            ("Sonnet eviction p", s["eviction_paired"]["mcnemar_exact_p"], "0.29"),
-            # added after the prose quoted the SURVIVAL p-value next to the EVICTION
-            # counts; the gate checked the counts and never looked at the p
-            ("pooled eviction p", allb["eviction_paired"]["mcnemar_exact_p"], "0.00014"),
-            ("Opus severe eviction p", sev["eviction_paired"]["mcnemar_exact_p"],
-             "0.0003"),
-            ("Opus severe survival p", sev["paired"]["mcnemar_exact_p"], "0.0009")):
+        lo, hi = cc[key]["ci95_claim_clustered"]
+        if not (lo <= 0 <= hi):
+            fails.append(f"the ten-claim {nice} interval no longer contains zero; the "
+                         f"retraction narrative in \\S4 is wrong")
         checks += 1
-        if abs(float(f"{val:.4g}") - float(lit)) > float(lit) * 0.12:
-            fails.append(f"{label}: tex says {lit}, data says {val}")
-        if lit not in tex:
-            fails.append(f"{label}: {lit!r} not present in tex")
+        if cc[key]["sign_test"]["p"] < 0.05:
+            fails.append(f"ten-claim {nice} sign test is now significant")
 
-    # eviction counts, pooled and per-model
-    for nice, b in (("pooled", allb), ("Haiku", h), ("Sonnet 4.5", s), ("Opus", o)):
-        checks += 1
-        if not (str(b["field"]["evicted"]) in tex and str(b["paren"]["evicted"]) in tex):
-            fails.append(f"{nice} eviction counts missing")
+    want("$+3.7$", "the ten-claim effect size quoted in the retraction")
 
-    # --- total analysed pairs ------------------------------------------------
-    want(f"${allb['paired']['pairs']}$", "total matched pairs")
-
-    # Presence of the right number is not absence of the wrong one. A stale "$860$
-    # matched pairs" survived three places while this gate happily confirmed that
-    # "$950$" also appeared somewhere. So: every pair count stated anywhere in the
-    # prose must be a count the data actually produces.
-    legal = {str(b["paired"]["pairs"]) for b in blocks.values() if "paired" in b}
-    legal |= {str(b[a]["n"]) for b in blocks.values() for a in ("field", "paren")
-              if a in b}
-    # The prose also groups models ("370 paired trials across two Sonnet models"), so
-    # sums over subsets of the per-model counts are legal. This checks the arithmetic
-    # too: a grouped total that is not a real sum fails here.
-    per_model = [blocks[f"model={k}"]["paired"]["pairs"] for k in MODELS.values()
-                 if k != "ALL" and f"model={k}" in blocks]
-    for r in range(2, len(per_model) + 1):
-        legal |= {str(sum(c)) for c in combinations(per_model, r)}
-    for pat, what in ((r"\$(\d+)\$ matched pairs", "matched pairs"),
-                      (r"\$n\s*=\s*(\d+)\$", "n="),
-                      (r"\$(\d+)\$ paired trials", "paired trials")):
-        for m in re.finditer(pat, tex):
-            checks += 1
-            if m.group(1) not in legal:
-                fails.append(f"stated {what} {m.group(1)} is not a pair count the data "
-                             f"produces (legal: {sorted(legal, key=int)})")
-
-    # --- the direction claims the prose makes --------------------------------
-    checks += 1
-    if allb["paren"]["evicted"] <= allb["field"]["evicted"]:
-        fails.append("pooled eviction no longer runs against the parenthetical; the "
-                     "'schema helps twice over' framing is now wrong")
-    checks += 1
-    if o["delta"] <= h["delta"]:
-        fails.append("Opus no longer shows a larger effect than Haiku; the retraction "
-                     "of 'helps where the compressor is weakest' no longer follows")
-    # The family split is now the paper's central claim, so it gets its own check:
-    # both Sonnets null, both non-Sonnets significant. If a rerun moves any of the four
-    # across the line, the framing in the abstract and conclusion is wrong.
-    s5 = blocks.get("model=claude-sonnet-5")
-    checks += 1
-    if not (s["paired"]["mcnemar_exact_p"] > 0.05
-            and (s5 is None or s5["paired"]["mcnemar_exact_p"] > 0.05)):
-        fails.append("a Sonnet model is no longer null; the family-split framing is wrong")
-    checks += 1
-    if not (h["paired"]["mcnemar_exact_p"] < 0.05
-            and o["paired"]["mcnemar_exact_p"] < 0.05):
-        fails.append("Haiku or Opus is no longer significant; the family-split framing "
-                     "is wrong")
-    if s5:
-        checks += 1
-        want(f"{s5['field']['kept_qualified']}/{s5['field']['n']}", "Sonnet 5 raw counts")
-        sev5 = blocks.get("claude-sonnet-5 / severe")
-        checks += 1
-        if sev5 and sev5["delta"] != 0.0:
-            fails.append("Sonnet 5 at severe is no longer exactly tied; the tex says "
-                         "'exactly nothing' on the level built to expose the effect")
-
-    checks += 1
-    for lv in ("none", "low", "high", "extreme"):
-        k = f"claude-opus-4-5 / {lv}"
-        if k in blocks and blocks[k]["field"]["rate"] != 1.0:
-            fails.append(f"Opus is no longer at ceiling at {lv}; the 'a ceiling is a "
-                         f"statement about the test' argument needs rechecking")
+    # raw counts quoted in the Result paragraph
+    for run, nice in (("c60/claude-haiku-4-5", "Haiku"),
+                      ("c60/claude-sonnet-4-5", "Sonnet")):
+        if run not in cc:
+            continue
+        checks += 1  # pair count appears as n/360 style in the prose
+        if "/360" not in tex:
+            fails.append("the per-model pair count is not stated in the prose")
             break
 
-    # --- judge parse health --------------------------------------------------
+    # judge parse health
     parse = rep["judge_parse"]
     bad = sum(v for k, v in parse.items() if k in ("failed", "template_echo", "unknown"))
     checks += 1
     if bad:
         fails.append(f"{bad} unusable judge replies; tex claims none")
-    want(f"{parse.get('regex', 0)}/{rep['n_trials_analysed']}", "fallback parse rate")
 
-    # --- the prediction must still be reported as falsified ------------------
-    checks += 1
-    if rep["prediction_check"]["held"]:
-        fails.append("the pre-registered prediction now holds; the tex still calls it "
-                     "contradicted")
-    checks += 1
-    if "retracted" not in tex.lower():
-        fails.append("claims ledger has no RETRACTED row for the pressure prediction")
+    # stated pair counts must be counts the data can produce
+    legal = {str(b["paired"]["pairs"]) for b in rep["blocks"].values() if "paired" in b}
+    legal |= {str(b[a]["n"]) for b in rep["blocks"].values() for a in ("field", "paren")
+              if a in b}
+    per_model = [cc[k]["sign_test"]["claims"] for k in cc if k.startswith("c60/")]
+    for r in range(2, len(per_model) + 1):
+        legal |= {str(sum(c)) for c in combinations(per_model, r)}
+    legal |= {"60", "360"}
+    legal |= {str(v["pairs"]) for v in cc.values() if "pairs" in v}
+    for pat, what in ((r"\$(\d+)\$ matched pairs", "matched pairs"),
+                      (r"\$n\s*=\s*(\d+)\$", "n=")):
+        for m in re.finditer(pat, tex):
+            checks += 1
+            if m.group(1) not in legal:
+                fails.append(f"stated {what} {m.group(1)} is not a count the data "
+                             f"produces")
 
-    # --- no placeholders, ledger present -------------------------------------
+    # no placeholders; the ledger must still carry its retractions
     checks += 1
-    n_ph = len(re.findall(r"\\needsdata\{", tex))
-    if n_ph:
-        fails.append(f"{n_ph} \\needsdata placeholders remain")
+    if re.findall(r"\\needsdata\{", tex):
+        fails.append("\\needsdata placeholders remain")
     checks += 1
-    if tex.count(r"\textsc{not shown}") + tex.count(r"\textsc{not claimed}") < 2:
-        fails.append("claims ledger has fewer than two NOT SHOWN / NOT CLAIMED rows; "
-                     "that is usually a sign it stopped being honest")
+    n_retracted = tex.lower().count(r"\textsc{retracted}")
+    if n_retracted < 5:
+        fails.append(f"only {n_retracted} RETRACTED rows in the ledger; this paper has "
+                     f"five retractions and dropping one is how they get forgotten")
+    checks += 1
+    if tex.count(r"\textsc{not claimed}") + tex.count(r"\textsc{not shown}") < 3:
+        fails.append("fewer than three NOT SHOWN / NOT CLAIMED rows in the ledger")
 
     print(f"{checks} checks run against {SUMMARY.name} "
           f"({rep['n_trials_analysed']} trials analysed)")

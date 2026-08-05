@@ -130,11 +130,20 @@ def load():
     rows = []
     for p in sorted(RAW.glob("*twocellpress_claude-*.jsonl")):
         model = p.stem.split("_twocellpress_")[1].rsplit("_n", 1)[0]
+        # runs carry a corpus tag in the filename; it belongs to the run, not the model
+        for tag in ("_call", "_cv1", "_cv2"):
+            if model.endswith(tag):
+                model = model[: -len(tag)]
         run = p.stem
         for line in p.read_text(encoding="utf-8").splitlines():
             if line.strip():
                 r = json.loads(line)
                 r["model"], r["run"] = model, run
+                # Corpus is part of a run's identity, not a detail. Merging the ten-
+                # claim and sixty-claim runs under one model key is exactly the mistake
+                # this project already made once: it pools two different populations of
+                # stimuli and reports the average as if it described either.
+                r["corpus"] = "c60" if "_call_" in run else "c10"
                 rows.append(r)
     return rows
 
@@ -276,17 +285,24 @@ def main():
     print(f"{'':<22} {'point':>7}  {'95% CI (cluster boot)':<24} {'boot p':>7} "
           f"{'sign test across claims':>26}")
     report["claim_clustered"] = {}
-    for label, sel in (("ALL", lambda r: True),
-                       *[(f"model={m}", (lambda k: lambda r: r["model"] == k)(m))
-                         for m in models],
-                       ("opus severe", lambda r: r["model"] == "claude-opus-4-5"
-                        and r["pressure"] == "severe")):
+    hard = ("brutal", "severe")
+    combos = [(f"{c}/{m}", (lambda cc, mm: lambda r: r["corpus"] == cc
+                            and r["model"] == mm and r["pressure"] in hard)(c, m))
+              for c in ("c60", "c10") for m in models]
+    for label, sel in (("ALL", lambda r: True), *combos):
         sub = [r for r in rows if sel(r)]
         cb = cluster_bootstrap(sub)
         st = sign_test_by_claim(sub)
         if not cb or not st:
             continue
-        report["claim_clustered"][label] = {**cb, "sign_test": st}
+        # pair count belongs with the clustered stats: the paper quotes historical
+        # pair counts when describing what the small corpus said, and the gate has to
+        # be able to check them
+        blk = block(sub, label)
+        report["claim_clustered"][label] = {
+            **cb, "sign_test": st, "pairs": blk["paired"]["pairs"],
+            "rate_delta": blk["delta"],
+            "field_rate": blk["field"]["rate"], "paren_rate": blk["paren"]["rate"]}
         print(f"{label:<22} {cb['point']:+7.3f}  "
               f"[{cb['ci95_claim_clustered'][0]:+.3f}, {cb['ci95_claim_clustered'][1]:+.3f}]"
               f"{'':<7} {cb['p_cluster_bootstrap']:>7.3f} "

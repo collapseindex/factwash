@@ -19,10 +19,8 @@
   ],
   "models": [
     "claude-haiku-4-5",
-    "claude-haiku-4-5_call",
     "claude-opus-4-5",
     "claude-sonnet-4-5",
-    "claude-sonnet-4-5_call",
     "claude-sonnet-5"
   ],
   "runs": [
@@ -82,43 +80,43 @@
     },
     "model=claude-haiku-4-5": {
       "label": "model=claude-haiku-4-5",
-      "n": 640,
+      "n": 1360,
       "field": {
-        "n": 320,
+        "n": 680,
         "unparsed": 0,
-        "kept_qualified": 237,
-        "kept_washed": 39,
-        "evicted": 44,
-        "rate": 0.741,
+        "kept_qualified": 346,
+        "kept_washed": 91,
+        "evicted": 243,
+        "rate": 0.509,
         "ci95": [
-          0.69,
-          0.786
+          0.471,
+          0.546
         ]
       },
       "paren": {
-        "n": 320,
+        "n": 680,
         "unparsed": 0,
-        "kept_qualified": 214,
-        "kept_washed": 46,
-        "evicted": 60,
-        "rate": 0.669,
+        "kept_qualified": 266,
+        "kept_washed": 126,
+        "evicted": 288,
+        "rate": 0.391,
         "ci95": [
-          0.615,
-          0.718
+          0.355,
+          0.428
         ]
       },
-      "delta": 0.072,
+      "delta": 0.118,
       "paired": {
-        "pairs": 320,
-        "field_only": 41,
-        "paren_only": 18,
-        "both": 196,
-        "mcnemar_exact_p": 0.003794
+        "pairs": 680,
+        "field_only": 108,
+        "paren_only": 28,
+        "both": 238,
+        "mcnemar_exact_p": 0.0
       },
       "eviction_paired": {
-        "paren_evicted_only": 24,
-        "field_evicted_only": 8,
-        "mcnemar_exact_p": 0.007
+        "paren_evicted_only": 74,
+        "field_evicted_only": 29,
+        "mcnemar_exact_p": 1.1e-05
       }
     },
     "claude-haiku-4-5 / none": {
@@ -287,207 +285,84 @@
     },
     "claude-haiku-4-5 / brutal": {
       "label": "  brutal",
-      "n": 80,
+      "n": 440,
       "field": {
-        "n": 40,
+        "n": 220,
         "unparsed": 0,
-        "kept_qualified": 18,
-        "kept_washed": 7,
-        "evicted": 15,
-        "rate": 0.45,
+        "kept_qualified": 98,
+        "kept_washed": 26,
+        "evicted": 96,
+        "rate": 0.445,
         "ci95": [
-          0.307,
-          0.602
+          0.381,
+          0.512
         ]
       },
       "paren": {
-        "n": 40,
+        "n": 220,
         "unparsed": 0,
-        "kept_qualified": 15,
-        "kept_washed": 12,
-        "evicted": 13,
-        "rate": 0.375,
+        "kept_qualified": 52,
+        "kept_washed": 62,
+        "evicted": 106,
+        "rate": 0.236,
         "ci95": [
-          0.242,
-          0.53
+          0.185,
+          0.297
         ]
       },
-      "delta": 0.075,
+      "delta": 0.209,
       "paired": {
-        "pairs": 40,
-        "field_only": 8,
-        "paren_only": 5,
-        "both": 10,
-        "mcnemar_exact_p": 0.581055
+        "pairs": 220,
+        "field_only": 57,
+        "paren_only": 11,
+        "both": 41,
+        "mcnemar_exact_p": 0.0
       },
       "eviction_paired": {
-        "paren_evicted_only": 2,
-        "field_evicted_only": 4,
-        "mcnemar_exact_p": 0.6875
+        "paren_evicted_only": 26,
+        "field_evicted_only": 16,
+        "mcnemar_exact_p": 0.164149
       }
     },
     "claude-haiku-4-5 / severe": {
       "label": "  severe",
-      "n": 80,
+      "n": 440,
       "field": {
-        "n": 40,
+        "n": 220,
         "unparsed": 0,
-        "kept_qualified": 3,
-        "kept_washed": 13,
-        "evicted": 24,
-        "rate": 0.075,
+        "kept_qualified": 32,
+        "kept_washed": 46,
+        "evicted": 142,
+        "rate": 0.145,
         "ci95": [
-          0.026,
-          0.199
+          0.105,
+          0.198
         ]
       },
       "paren": {
-        "n": 40,
+        "n": 220,
         "unparsed": 0,
-        "kept_qualified": 3,
-        "kept_washed": 5,
-        "evicted": 32,
-        "rate": 0.075,
+        "kept_qualified": 18,
+        "kept_washed": 35,
+        "evicted": 167,
+        "rate": 0.082,
         "ci95": [
-          0.026,
-          0.199
+          0.052,
+          0.126
         ]
       },
-      "delta": 0.0,
+      "delta": 0.063,
       "paired": {
-        "pairs": 40,
-        "field_only": 1,
-        "paren_only": 1,
-        "both": 2,
-        "mcnemar_exact_p": 1.0
+        "pairs": 220,
+        "field_only": 19,
+        "paren_only": 5,
+        "both": 13,
+        "mcnemar_exact_p": 0.006611
       },
       "eviction_paired": {
-        "paren_evicted_only": 8,
-        "field_evicted_only": 0,
-        "mcnemar_exact_p": 0.007812
-      }
-    },
-    "model=claude-haiku-4-5_call": {
-      "label": "model=claude-haiku-4-5_call",
-      "n": 720,
-      "field": {
-        "n": 360,
-        "unparsed": 0,
-        "kept_qualified": 109,
-        "kept_washed": 52,
-        "evicted": 199,
-        "rate": 0.303,
-        "ci95": [
-          0.258,
-          0.352
-        ]
-      },
-      "paren": {
-        "n": 360,
-        "unparsed": 0,
-        "kept_qualified": 52,
-        "kept_washed": 80,
-        "evicted": 228,
-        "rate": 0.144,
-        "ci95": [
-          0.112,
-          0.185
-        ]
-      },
-      "delta": 0.159,
-      "paired": {
-        "pairs": 360,
-        "field_only": 67,
-        "paren_only": 10,
-        "both": 42,
-        "mcnemar_exact_p": 0.0
-      },
-      "eviction_paired": {
-        "paren_evicted_only": 50,
-        "field_evicted_only": 21,
-        "mcnemar_exact_p": 0.000767
-      }
-    },
-    "claude-haiku-4-5_call / brutal": {
-      "label": "  brutal",
-      "n": 360,
-      "field": {
-        "n": 180,
-        "unparsed": 0,
-        "kept_qualified": 80,
-        "kept_washed": 19,
-        "evicted": 81,
-        "rate": 0.444,
-        "ci95": [
-          0.374,
-          0.517
-        ]
-      },
-      "paren": {
-        "n": 180,
-        "unparsed": 0,
-        "kept_qualified": 37,
-        "kept_washed": 50,
-        "evicted": 93,
-        "rate": 0.206,
-        "ci95": [
-          0.153,
-          0.27
-        ]
-      },
-      "delta": 0.238,
-      "paired": {
-        "pairs": 180,
-        "field_only": 49,
-        "paren_only": 6,
-        "both": 31,
-        "mcnemar_exact_p": 0.0
-      },
-      "eviction_paired": {
-        "paren_evicted_only": 24,
-        "field_evicted_only": 12,
-        "mcnemar_exact_p": 0.065245
-      }
-    },
-    "claude-haiku-4-5_call / severe": {
-      "label": "  severe",
-      "n": 360,
-      "field": {
-        "n": 180,
-        "unparsed": 0,
-        "kept_qualified": 29,
-        "kept_washed": 33,
-        "evicted": 118,
-        "rate": 0.161,
-        "ci95": [
-          0.115,
-          0.222
-        ]
-      },
-      "paren": {
-        "n": 180,
-        "unparsed": 0,
-        "kept_qualified": 15,
-        "kept_washed": 30,
-        "evicted": 135,
-        "rate": 0.083,
-        "ci95": [
-          0.051,
-          0.133
-        ]
-      },
-      "delta": 0.078,
-      "paired": {
-        "pairs": 180,
-        "field_only": 18,
-        "paren_only": 4,
-        "both": 11,
-        "mcnemar_exact_p": 0.004344
-      },
-      "eviction_paired": {
-        "paren_evicted_only": 26,
+        "paren_evicted_only": 34,
         "field_evicted_only": 9,
-        "mcnemar_exact_p": 0.005988
+        "mcnemar_exact_p": 0.00017
       }
     },
     "model=claude-opus-4-5": {
@@ -779,43 +654,43 @@
     },
     "model=claude-sonnet-4-5": {
       "label": "model=claude-sonnet-4-5",
-      "n": 480,
+      "n": 1200,
       "field": {
-        "n": 240,
+        "n": 600,
         "unparsed": 0,
-        "kept_qualified": 181,
-        "kept_washed": 23,
-        "evicted": 36,
-        "rate": 0.754,
+        "kept_qualified": 383,
+        "kept_washed": 52,
+        "evicted": 165,
+        "rate": 0.638,
         "ci95": [
-          0.696,
-          0.804
+          0.599,
+          0.676
         ]
       },
       "paren": {
-        "n": 240,
+        "n": 600,
         "unparsed": 0,
-        "kept_qualified": 180,
-        "kept_washed": 30,
-        "evicted": 30,
-        "rate": 0.75,
+        "kept_qualified": 327,
+        "kept_washed": 120,
+        "evicted": 153,
+        "rate": 0.545,
         "ci95": [
-          0.692,
-          0.801
+          0.505,
+          0.584
         ]
       },
-      "delta": 0.004,
+      "delta": 0.093,
       "paired": {
-        "pairs": 240,
-        "field_only": 18,
-        "paren_only": 17,
-        "both": 163,
-        "mcnemar_exact_p": 1.0
+        "pairs": 600,
+        "field_only": 96,
+        "paren_only": 40,
+        "both": 287,
+        "mcnemar_exact_p": 2e-06
       },
       "eviction_paired": {
-        "paren_evicted_only": 8,
-        "field_evicted_only": 14,
-        "mcnemar_exact_p": 0.286279
+        "paren_evicted_only": 35,
+        "field_evicted_only": 47,
+        "mcnemar_exact_p": 0.224245
       }
     },
     "claude-sonnet-4-5 / none": {
@@ -984,207 +859,84 @@
     },
     "claude-sonnet-4-5 / brutal": {
       "label": "  brutal",
-      "n": 80,
+      "n": 440,
       "field": {
-        "n": 40,
+        "n": 220,
         "unparsed": 0,
-        "kept_qualified": 30,
-        "kept_washed": 3,
-        "evicted": 7,
-        "rate": 0.75,
+        "kept_qualified": 168,
+        "kept_washed": 16,
+        "evicted": 36,
+        "rate": 0.764,
         "ci95": [
-          0.598,
-          0.858
+          0.703,
+          0.815
         ]
       },
       "paren": {
-        "n": 40,
+        "n": 220,
         "unparsed": 0,
-        "kept_qualified": 28,
-        "kept_washed": 7,
-        "evicted": 5,
-        "rate": 0.7,
+        "kept_qualified": 137,
+        "kept_washed": 54,
+        "evicted": 29,
+        "rate": 0.623,
         "ci95": [
-          0.546,
-          0.819
+          0.557,
+          0.684
         ]
       },
-      "delta": 0.05,
+      "delta": 0.141,
       "paired": {
-        "pairs": 40,
-        "field_only": 5,
-        "paren_only": 3,
-        "both": 25,
-        "mcnemar_exact_p": 0.726562
+        "pairs": 220,
+        "field_only": 49,
+        "paren_only": 18,
+        "both": 119,
+        "mcnemar_exact_p": 0.000194
       },
       "eviction_paired": {
-        "paren_evicted_only": 1,
-        "field_evicted_only": 3,
-        "mcnemar_exact_p": 0.625
+        "paren_evicted_only": 12,
+        "field_evicted_only": 19,
+        "mcnemar_exact_p": 0.281042
       }
     },
     "claude-sonnet-4-5 / severe": {
       "label": "  severe",
-      "n": 80,
+      "n": 440,
       "field": {
-        "n": 40,
+        "n": 220,
         "unparsed": 0,
-        "kept_qualified": 13,
-        "kept_washed": 6,
-        "evicted": 21,
-        "rate": 0.325,
+        "kept_qualified": 77,
+        "kept_washed": 22,
+        "evicted": 121,
+        "rate": 0.35,
         "ci95": [
-          0.201,
-          0.48
+          0.29,
+          0.415
         ]
       },
       "paren": {
-        "n": 40,
+        "n": 220,
         "unparsed": 0,
-        "kept_qualified": 12,
-        "kept_washed": 4,
-        "evicted": 24,
-        "rate": 0.3,
-        "ci95": [
-          0.181,
-          0.454
-        ]
-      },
-      "delta": 0.025,
-      "paired": {
-        "pairs": 40,
-        "field_only": 4,
-        "paren_only": 3,
-        "both": 9,
-        "mcnemar_exact_p": 1.0
-      },
-      "eviction_paired": {
-        "paren_evicted_only": 6,
-        "field_evicted_only": 3,
-        "mcnemar_exact_p": 0.507812
-      }
-    },
-    "model=claude-sonnet-4-5_call": {
-      "label": "model=claude-sonnet-4-5_call",
-      "n": 720,
-      "field": {
-        "n": 360,
-        "unparsed": 0,
-        "kept_qualified": 202,
-        "kept_washed": 29,
-        "evicted": 129,
-        "rate": 0.561,
-        "ci95": [
-          0.509,
-          0.611
-        ]
-      },
-      "paren": {
-        "n": 360,
-        "unparsed": 0,
-        "kept_qualified": 147,
-        "kept_washed": 90,
-        "evicted": 123,
-        "rate": 0.408,
-        "ci95": [
-          0.359,
-          0.46
-        ]
-      },
-      "delta": 0.153,
-      "paired": {
-        "pairs": 360,
-        "field_only": 78,
-        "paren_only": 23,
-        "both": 124,
-        "mcnemar_exact_p": 0.0
-      },
-      "eviction_paired": {
-        "paren_evicted_only": 27,
-        "field_evicted_only": 33,
-        "mcnemar_exact_p": 0.518958
-      }
-    },
-    "claude-sonnet-4-5_call / brutal": {
-      "label": "  brutal",
-      "n": 360,
-      "field": {
-        "n": 180,
-        "unparsed": 0,
-        "kept_qualified": 138,
-        "kept_washed": 13,
-        "evicted": 29,
-        "rate": 0.767,
-        "ci95": [
-          0.7,
-          0.822
-        ]
-      },
-      "paren": {
-        "n": 180,
-        "unparsed": 0,
-        "kept_qualified": 109,
+        "kept_qualified": 50,
         "kept_washed": 47,
-        "evicted": 24,
-        "rate": 0.606,
+        "evicted": 123,
+        "rate": 0.227,
         "ci95": [
-          0.533,
-          0.674
+          0.177,
+          0.287
         ]
       },
-      "delta": 0.161,
+      "delta": 0.123,
       "paired": {
-        "pairs": 180,
-        "field_only": 44,
-        "paren_only": 15,
-        "both": 94,
-        "mcnemar_exact_p": 0.000204
+        "pairs": 220,
+        "field_only": 38,
+        "paren_only": 11,
+        "both": 39,
+        "mcnemar_exact_p": 0.000142
       },
       "eviction_paired": {
-        "paren_evicted_only": 11,
-        "field_evicted_only": 16,
-        "mcnemar_exact_p": 0.442068
-      }
-    },
-    "claude-sonnet-4-5_call / severe": {
-      "label": "  severe",
-      "n": 360,
-      "field": {
-        "n": 180,
-        "unparsed": 0,
-        "kept_qualified": 64,
-        "kept_washed": 16,
-        "evicted": 100,
-        "rate": 0.356,
-        "ci95": [
-          0.289,
-          0.428
-        ]
-      },
-      "paren": {
-        "n": 180,
-        "unparsed": 0,
-        "kept_qualified": 38,
-        "kept_washed": 43,
-        "evicted": 99,
-        "rate": 0.211,
-        "ci95": [
-          0.158,
-          0.276
-        ]
-      },
-      "delta": 0.145,
-      "paired": {
-        "pairs": 180,
-        "field_only": 34,
-        "paren_only": 8,
-        "both": 30,
-        "mcnemar_exact_p": 6.9e-05
-      },
-      "eviction_paired": {
-        "paren_evicted_only": 16,
-        "field_evicted_only": 17,
-        "mcnemar_exact_p": 1.0
+        "paren_evicted_only": 22,
+        "field_evicted_only": 20,
+        "mcnemar_exact_p": 0.877614
       }
     },
     "model=claude-sonnet-5": {
@@ -1675,37 +1427,13 @@
           "sched_visit": 0.333,
           "vendor": 0.045
         }
-      }
+      },
+      "pairs": 1692,
+      "rate_delta": 0.097,
+      "field_rate": 0.631,
+      "paren_rate": 0.534
     },
-    "model=claude-haiku-4-5": {
-      "n_claims": 10,
-      "point": 0.0719,
-      "ci95_claim_clustered": [
-        -0.0094,
-        0.1562
-      ],
-      "p_cluster_bootstrap": 0.096,
-      "sign_test": {
-        "claims": 10,
-        "positive": 6,
-        "negative": 4,
-        "tied": 0,
-        "p": 0.7539,
-        "deltas": {
-          "admin": 0.031,
-          "backup": -0.062,
-          "budget": 0.25,
-          "dana": 0.281,
-          "hire": 0.25,
-          "migration": -0.094,
-          "outage": -0.062,
-          "pricing": 0.125,
-          "ratelimit": 0.031,
-          "vendor": -0.031
-        }
-      }
-    },
-    "model=claude-haiku-4-5_call": {
+    "c60/claude-haiku-4-5": {
       "n_claims": 60,
       "point": 0.1583,
       "ci95_claim_clustered": [
@@ -1781,65 +1509,13 @@
           "sched_visit": 0.5,
           "vendor": 0.167
         }
-      }
+      },
+      "pairs": 360,
+      "rate_delta": 0.159,
+      "field_rate": 0.303,
+      "paren_rate": 0.144
     },
-    "model=claude-opus-4-5": {
-      "n_claims": 10,
-      "point": 0.1007,
-      "ci95_claim_clustered": [
-        -0.0186,
-        0.236
-      ],
-      "p_cluster_bootstrap": 0.1185,
-      "sign_test": {
-        "claims": 10,
-        "positive": 6,
-        "negative": 2,
-        "tied": 2,
-        "p": 0.2891,
-        "deltas": {
-          "admin": 0.111,
-          "backup": 0.0,
-          "budget": 0.296,
-          "dana": 0.593,
-          "hire": 0.154,
-          "migration": 0.0,
-          "outage": -0.185,
-          "pricing": 0.037,
-          "ratelimit": -0.111,
-          "vendor": 0.111
-        }
-      }
-    },
-    "model=claude-sonnet-4-5": {
-      "n_claims": 10,
-      "point": 0.0042,
-      "ci95_claim_clustered": [
-        -0.0875,
-        0.0833
-      ],
-      "p_cluster_bootstrap": 0.9595,
-      "sign_test": {
-        "claims": 10,
-        "positive": 4,
-        "negative": 3,
-        "tied": 3,
-        "p": 1.0,
-        "deltas": {
-          "admin": 0.0,
-          "backup": -0.083,
-          "budget": 0.083,
-          "dana": 0.042,
-          "hire": 0.208,
-          "migration": -0.042,
-          "outage": -0.333,
-          "pricing": 0.167,
-          "ratelimit": 0.0,
-          "vendor": 0.0
-        }
-      }
-    },
-    "model=claude-sonnet-4-5_call": {
+    "c60/claude-sonnet-4-5": {
       "n_claims": 60,
       "point": 0.1528,
       "ci95_claim_clustered": [
@@ -1915,14 +1591,114 @@
           "sched_visit": 0.167,
           "vendor": 0.167
         }
-      }
+      },
+      "pairs": 360,
+      "rate_delta": 0.153,
+      "field_rate": 0.561,
+      "paren_rate": 0.408
     },
-    "model=claude-sonnet-5": {
+    "c10/claude-haiku-4-5": {
       "n_claims": 10,
-      "point": 0.0069,
+      "point": 0.0375,
       "ci95_claim_clustered": [
-        -0.1399,
-        0.1586
+        -0.075,
+        0.1625
+      ],
+      "p_cluster_bootstrap": 0.6595,
+      "sign_test": {
+        "claims": 10,
+        "positive": 4,
+        "negative": 5,
+        "tied": 1,
+        "p": 1.0,
+        "deltas": {
+          "admin": 0.125,
+          "backup": -0.125,
+          "budget": 0.375,
+          "dana": 0.0,
+          "hire": 0.125,
+          "migration": -0.125,
+          "outage": -0.125,
+          "pricing": 0.375,
+          "ratelimit": -0.125,
+          "vendor": -0.125
+        }
+      },
+      "pairs": 80,
+      "rate_delta": 0.038,
+      "field_rate": 0.263,
+      "paren_rate": 0.225
+    },
+    "c10/claude-opus-4-5": {
+      "n_claims": 10,
+      "point": 0.13,
+      "ci95_claim_clustered": [
+        -0.025,
+        0.3
+      ],
+      "p_cluster_bootstrap": 0.119,
+      "sign_test": {
+        "claims": 10,
+        "positive": 6,
+        "negative": 2,
+        "tied": 2,
+        "p": 0.2891,
+        "deltas": {
+          "admin": 0.15,
+          "backup": 0.0,
+          "budget": 0.4,
+          "dana": 0.75,
+          "hire": 0.2,
+          "migration": 0.0,
+          "outage": -0.25,
+          "pricing": 0.05,
+          "ratelimit": -0.15,
+          "vendor": 0.15
+        }
+      },
+      "pairs": 200,
+      "rate_delta": 0.13,
+      "field_rate": 0.765,
+      "paren_rate": 0.635
+    },
+    "c10/claude-sonnet-4-5": {
+      "n_claims": 10,
+      "point": 0.0375,
+      "ci95_claim_clustered": [
+        -0.075,
+        0.1625
+      ],
+      "p_cluster_bootstrap": 0.664,
+      "sign_test": {
+        "claims": 10,
+        "positive": 3,
+        "negative": 4,
+        "tied": 3,
+        "p": 1.0,
+        "deltas": {
+          "admin": 0.0,
+          "backup": -0.125,
+          "budget": 0.25,
+          "dana": 0.125,
+          "hire": -0.125,
+          "migration": -0.125,
+          "outage": -0.125,
+          "pricing": 0.5,
+          "ratelimit": 0.0,
+          "vendor": 0.0
+        }
+      },
+      "pairs": 80,
+      "rate_delta": 0.037,
+      "field_rate": 0.537,
+      "paren_rate": 0.5
+    },
+    "c10/claude-sonnet-5": {
+      "n_claims": 10,
+      "point": 0.0081,
+      "ci95_claim_clustered": [
+        -0.1615,
+        0.1849
       ],
       "p_cluster_bootstrap": 0.9885,
       "sign_test": {
@@ -1934,44 +1710,20 @@
         "deltas": {
           "admin": 0.0,
           "backup": 0.0,
-          "budget": -0.133,
-          "dana": 0.267,
-          "hire": 0.538,
-          "migration": -0.077,
-          "outage": -0.071,
+          "budget": -0.154,
+          "dana": 0.308,
+          "hire": 0.636,
+          "migration": -0.091,
+          "outage": -0.083,
           "pricing": 0.0,
-          "ratelimit": -0.467,
-          "vendor": 0.067
+          "ratelimit": -0.538,
+          "vendor": 0.077
         }
-      }
-    },
-    "opus severe": {
-      "n_claims": 10,
-      "point": 0.18,
-      "ci95_claim_clustered": [
-        0.0,
-        0.4
-      ],
-      "p_cluster_bootstrap": 0.063,
-      "sign_test": {
-        "claims": 10,
-        "positive": 6,
-        "negative": 2,
-        "tied": 2,
-        "p": 0.2891,
-        "deltas": {
-          "admin": 0.2,
-          "backup": 0.0,
-          "budget": 0.4,
-          "dana": 1.0,
-          "hire": 0.2,
-          "migration": 0.0,
-          "outage": -0.2,
-          "pricing": 0.1,
-          "ratelimit": -0.2,
-          "vendor": 0.3
-        }
-      }
+      },
+      "pairs": 124,
+      "rate_delta": 0.008,
+      "field_rate": 0.79,
+      "paren_rate": 0.782
     }
   },
   "judge_parse": {
