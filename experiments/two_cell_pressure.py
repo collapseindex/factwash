@@ -285,7 +285,25 @@ def main() -> int:
     done = ({json.loads(l)["key"] for l in out_path.read_text(encoding="utf-8").splitlines()
              if l.strip()} if out_path.exists() else set())
 
-    with open(out_path, "a", encoding="utf-8") as fh:
+    # A run that stops at a cap is the run that spent the most, so it is the one whose
+    # cost record matters. Exiting straight out of the loop lost exactly that: the raw
+    # trials survived on disk but the telemetry, the measured spend, and the reason for
+    # stopping died with the process. The cap now stops the collection, not the report.
+    stopped = None
+    try:
+        collect(fh_path=out_path, levels=levels, args=args, done=done, ask=ask,
+                calls=calls, spent_usd=spent_usd)
+    except SystemExit as e:
+        stopped = str(e)
+        print(stopped)
+
+    score(out_path, tel, spent_usd() if not args.dry_run else 0.0,
+          (rate_in, rate_out), temp_ok["yes"], stopped)
+    return 0
+
+
+def collect(fh_path, levels, args, done, ask, calls, spent_usd):
+    with open(fh_path, "a", encoding="utf-8") as fh:
         for rep in range(args.reps):
             for level in levels:
                 n_notes, instruction = PRESSURE[level]
@@ -318,8 +336,6 @@ def main() -> int:
                 print(f"  rep {rep + 1}/{args.reps} pressure={level} "
                       f"({calls['n']} calls, ${spent_usd():.4f} of ${args.max_usd})")
 
-    score(out_path, tel, spent_usd() if not args.dry_run else 0.0,
-          (rate_in, rate_out), temp_ok["yes"])
     return 0
 
 
@@ -343,7 +359,7 @@ def mcnemar_exact(b, c):
     return round(min(1.0, 2 * tail), 5)
 
 
-def score(path, tel=None, usd=0.0, rates=None, temp_ok=True):
+def score(path, tel=None, usd=0.0, rates=None, temp_ok=True, stopped=None):
     rows = [json.loads(l) for l in path.read_text(encoding="utf-8").splitlines() if l.strip()]
     s = {"n_trials": len(rows), "by_pressure": {}}
 
@@ -399,6 +415,7 @@ def score(path, tel=None, usd=0.0, rates=None, temp_ok=True):
         how[r.get("blind_parsed_how", "unknown")] = how.get(
             r.get("blind_parsed_how", "unknown"), 0) + 1
     s["judge_parse"] = how
+    s["stopped_early"] = stopped
     s["temperature_set"] = temp_ok
     if not temp_ok:
         s["temperature_note"] = ("this model rejected the temperature parameter, so "

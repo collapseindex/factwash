@@ -1,6 +1,6 @@
 {
-  "n_trials_collected": 1754,
-  "n_trials_analysed": 1720,
+  "n_trials_collected": 1946,
+  "n_trials_analysed": 1900,
   "dropped_incomplete_cells": [
     {
       "run": "20260804_170722_twocellpress_claude-opus-4-5_n10x4x3_s200",
@@ -13,6 +13,12 @@
       "rep": 1,
       "pressure": "brutal",
       "trials": 17
+    },
+    {
+      "run": "20260804_182142_twocellpress_claude-sonnet-5_n10x2x6_s500",
+      "rep": 4,
+      "pressure": "severe",
+      "trials": 12
     }
   ],
   "models": [
@@ -29,48 +35,49 @@
     "20260804_174116_twocellpress_claude-haiku-4-5_n10x2x4_s300",
     "20260804_174122_twocellpress_claude-sonnet-4-5_n10x2x4_s300",
     "20260804_175341_twocellpress_claude-opus-4-5_n10x2x6_s400",
-    "20260804_175454_twocellpress_claude-sonnet-5_n10x3x3_s400"
+    "20260804_175454_twocellpress_claude-sonnet-5_n10x3x3_s400",
+    "20260804_182142_twocellpress_claude-sonnet-5_n10x2x6_s500"
   ],
   "blocks": {
     "ALL": {
       "label": "ALL",
-      "n": 1720,
+      "n": 1900,
       "field": {
-        "n": 860,
+        "n": 950,
         "unparsed": 0,
-        "kept_qualified": 666,
-        "kept_washed": 68,
-        "evicted": 126,
-        "rate": 0.774,
+        "kept_qualified": 737,
+        "kept_washed": 74,
+        "evicted": 139,
+        "rate": 0.776,
         "ci95": [
-          0.745,
+          0.748,
           0.801
         ]
       },
       "paren": {
-        "n": 860,
+        "n": 950,
         "unparsed": 0,
-        "kept_qualified": 614,
-        "kept_washed": 79,
-        "evicted": 167,
-        "rate": 0.714,
+        "kept_qualified": 685,
+        "kept_washed": 84,
+        "evicted": 181,
+        "rate": 0.721,
         "ci95": [
-          0.683,
-          0.743
+          0.692,
+          0.749
         ]
       },
-      "delta": 0.06,
+      "delta": 0.055,
       "paired": {
-        "pairs": 860,
-        "field_only": 102,
-        "paren_only": 50,
-        "both": 564,
-        "mcnemar_exact_p": 3e-05
+        "pairs": 950,
+        "field_only": 112,
+        "paren_only": 60,
+        "both": 625,
+        "mcnemar_exact_p": 9e-05
       },
       "eviction_paired": {
-        "paren_evicted_only": 74,
-        "field_evicted_only": 33,
-        "mcnemar_exact_p": 9.2e-05
+        "paren_evicted_only": 80,
+        "field_evicted_only": 38,
+        "mcnemar_exact_p": 0.000138
       }
     },
     "model=claude-haiku-4-5": {
@@ -936,43 +943,43 @@
     },
     "model=claude-sonnet-5": {
       "label": "model=claude-sonnet-5",
-      "n": 80,
+      "n": 260,
       "field": {
-        "n": 40,
+        "n": 130,
         "unparsed": 0,
-        "kept_qualified": 35,
-        "kept_washed": 2,
-        "evicted": 3,
-        "rate": 0.875,
+        "kept_qualified": 106,
+        "kept_washed": 8,
+        "evicted": 16,
+        "rate": 0.815,
         "ci95": [
-          0.739,
-          0.945
+          0.74,
+          0.873
         ]
       },
       "paren": {
-        "n": 40,
+        "n": 130,
         "unparsed": 0,
-        "kept_qualified": 34,
-        "kept_washed": 1,
-        "evicted": 5,
-        "rate": 0.85,
+        "kept_qualified": 105,
+        "kept_washed": 6,
+        "evicted": 19,
+        "rate": 0.808,
         "ci95": [
-          0.709,
-          0.929
+          0.732,
+          0.866
         ]
       },
-      "delta": 0.025,
+      "delta": 0.007,
       "paired": {
-        "pairs": 40,
-        "field_only": 3,
-        "paren_only": 2,
-        "both": 32,
+        "pairs": 130,
+        "field_only": 13,
+        "paren_only": 12,
+        "both": 93,
         "mcnemar_exact_p": 1.0
       },
       "eviction_paired": {
-        "paren_evicted_only": 3,
-        "field_evicted_only": 1,
-        "mcnemar_exact_p": 0.625
+        "paren_evicted_only": 9,
+        "field_evicted_only": 6,
+        "mcnemar_exact_p": 0.607239
       }
     },
     "claude-sonnet-5 / high": {
@@ -1018,84 +1025,84 @@
     },
     "claude-sonnet-5 / brutal": {
       "label": "  brutal",
-      "n": 20,
+      "n": 120,
       "field": {
-        "n": 10,
+        "n": 60,
         "unparsed": 0,
-        "kept_qualified": 9,
-        "kept_washed": 1,
+        "kept_qualified": 57,
+        "kept_washed": 3,
         "evicted": 0,
-        "rate": 0.9,
+        "rate": 0.95,
         "ci95": [
-          0.596,
-          0.982
+          0.863,
+          0.983
         ]
       },
       "paren": {
-        "n": 10,
+        "n": 60,
         "unparsed": 0,
-        "kept_qualified": 10,
-        "kept_washed": 0,
-        "evicted": 0,
-        "rate": 1.0,
+        "kept_qualified": 56,
+        "kept_washed": 3,
+        "evicted": 1,
+        "rate": 0.933,
         "ci95": [
-          0.722,
-          1.0
+          0.841,
+          0.974
         ]
       },
-      "delta": -0.1,
+      "delta": 0.017,
       "paired": {
-        "pairs": 10,
-        "field_only": 0,
-        "paren_only": 1,
-        "both": 9,
+        "pairs": 60,
+        "field_only": 4,
+        "paren_only": 3,
+        "both": 53,
         "mcnemar_exact_p": 1.0
       },
       "eviction_paired": {
-        "paren_evicted_only": 0,
+        "paren_evicted_only": 1,
         "field_evicted_only": 0,
         "mcnemar_exact_p": 1.0
       }
     },
     "claude-sonnet-5 / severe": {
       "label": "  severe",
-      "n": 20,
+      "n": 100,
       "field": {
-        "n": 10,
+        "n": 50,
         "unparsed": 0,
-        "kept_qualified": 6,
-        "kept_washed": 1,
-        "evicted": 3,
-        "rate": 0.6,
+        "kept_qualified": 29,
+        "kept_washed": 5,
+        "evicted": 16,
+        "rate": 0.58,
         "ci95": [
-          0.313,
-          0.832
+          0.442,
+          0.706
         ]
       },
       "paren": {
-        "n": 10,
+        "n": 50,
         "unparsed": 0,
-        "kept_qualified": 4,
-        "kept_washed": 1,
-        "evicted": 5,
-        "rate": 0.4,
+        "kept_qualified": 29,
+        "kept_washed": 3,
+        "evicted": 18,
+        "rate": 0.58,
         "ci95": [
-          0.168,
-          0.687
+          0.442,
+          0.706
         ]
       },
-      "delta": 0.2,
+      "delta": 0.0,
       "paired": {
-        "pairs": 10,
-        "field_only": 3,
-        "paren_only": 1,
-        "both": 3,
-        "mcnemar_exact_p": 0.625
+        "pairs": 50,
+        "field_only": 9,
+        "paren_only": 9,
+        "both": 20,
+        "mcnemar_exact_p": 1.0
       },
       "eviction_paired": {
-        "paren_evicted_only": 3,
-        "field_evicted_only": 1,
-        "mcnemar_exact_p": 0.625
+        "paren_evicted_only": 8,
+        "field_evicted_only": 6,
+        "mcnemar_exact_p": 0.790527
       }
     },
     "pressure=none": {
@@ -1264,89 +1271,89 @@
     },
     "pressure=brutal": {
       "label": "pressure=brutal",
-      "n": 380,
+      "n": 480,
       "field": {
-        "n": 190,
+        "n": 240,
         "unparsed": 0,
-        "kept_qualified": 138,
-        "kept_washed": 13,
+        "kept_qualified": 186,
+        "kept_washed": 15,
         "evicted": 39,
-        "rate": 0.726,
+        "rate": 0.775,
         "ci95": [
-          0.659,
-          0.785
+          0.718,
+          0.823
         ]
       },
       "paren": {
-        "n": 190,
+        "n": 240,
         "unparsed": 0,
-        "kept_qualified": 126,
-        "kept_washed": 20,
-        "evicted": 44,
-        "rate": 0.663,
+        "kept_qualified": 172,
+        "kept_washed": 23,
+        "evicted": 45,
+        "rate": 0.717,
         "ci95": [
-          0.593,
-          0.727
+          0.657,
+          0.77
         ]
       },
-      "delta": 0.063,
+      "delta": 0.058,
       "paired": {
-        "pairs": 190,
-        "field_only": 29,
-        "paren_only": 17,
-        "both": 109,
-        "mcnemar_exact_p": 0.103805
+        "pairs": 240,
+        "field_only": 33,
+        "paren_only": 19,
+        "both": 153,
+        "mcnemar_exact_p": 0.070394
       },
       "eviction_paired": {
-        "paren_evicted_only": 18,
+        "paren_evicted_only": 19,
         "field_evicted_only": 13,
-        "mcnemar_exact_p": 0.47313
+        "mcnemar_exact_p": 0.377086
       }
     },
     "pressure=severe": {
       "label": "pressure=severe",
-      "n": 380,
+      "n": 460,
       "field": {
-        "n": 190,
+        "n": 230,
         "unparsed": 0,
-        "kept_qualified": 94,
-        "kept_washed": 22,
-        "evicted": 74,
-        "rate": 0.495,
+        "kept_qualified": 117,
+        "kept_washed": 26,
+        "evicted": 87,
+        "rate": 0.509,
         "ci95": [
-          0.424,
-          0.565
+          0.444,
+          0.573
         ]
       },
       "paren": {
-        "n": 190,
+        "n": 230,
         "unparsed": 0,
-        "kept_qualified": 73,
-        "kept_washed": 11,
-        "evicted": 106,
-        "rate": 0.384,
+        "kept_qualified": 98,
+        "kept_washed": 13,
+        "evicted": 119,
+        "rate": 0.426,
         "ci95": [
-          0.318,
-          0.455
+          0.364,
+          0.491
         ]
       },
-      "delta": 0.111,
+      "delta": 0.083,
       "paired": {
-        "pairs": 190,
-        "field_only": 31,
-        "paren_only": 10,
-        "both": 63,
-        "mcnemar_exact_p": 0.00145
+        "pairs": 230,
+        "field_only": 37,
+        "paren_only": 18,
+        "both": 80,
+        "mcnemar_exact_p": 0.014454
       },
       "eviction_paired": {
-        "paren_evicted_only": 40,
-        "field_evicted_only": 8,
-        "mcnemar_exact_p": 3e-06
+        "paren_evicted_only": 45,
+        "field_evicted_only": 13,
+        "mcnemar_exact_p": 3e-05
       }
     }
   },
   "judge_parse": {
-    "json": 1688,
+    "json": 1868,
     "regex": 32
   },
   "prediction_check": {
@@ -1356,8 +1363,8 @@
       "low": 0.033,
       "high": 0.053,
       "extreme": 0.027,
-      "brutal": 0.063,
-      "severe": 0.111
+      "brutal": 0.058,
+      "severe": 0.083
     },
     "held": false
   }

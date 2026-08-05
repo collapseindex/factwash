@@ -113,6 +113,28 @@ def main() -> int:
     if o["delta"] <= h["delta"]:
         fails.append("Opus no longer shows a larger effect than Haiku; the retraction "
                      "of 'helps where the compressor is weakest' no longer follows")
+    # The family split is now the paper's central claim, so it gets its own check:
+    # both Sonnets null, both non-Sonnets significant. If a rerun moves any of the four
+    # across the line, the framing in the abstract and conclusion is wrong.
+    s5 = blocks.get("model=claude-sonnet-5")
+    checks += 1
+    if not (s["paired"]["mcnemar_exact_p"] > 0.05
+            and (s5 is None or s5["paired"]["mcnemar_exact_p"] > 0.05)):
+        fails.append("a Sonnet model is no longer null; the family-split framing is wrong")
+    checks += 1
+    if not (h["paired"]["mcnemar_exact_p"] < 0.05
+            and o["paired"]["mcnemar_exact_p"] < 0.05):
+        fails.append("Haiku or Opus is no longer significant; the family-split framing "
+                     "is wrong")
+    if s5:
+        checks += 1
+        want(f"{s5['field']['kept_qualified']}/{s5['field']['n']}", "Sonnet 5 raw counts")
+        sev5 = blocks.get("claude-sonnet-5 / severe")
+        checks += 1
+        if sev5 and sev5["delta"] != 0.0:
+            fails.append("Sonnet 5 at severe is no longer exactly tied; the tex says "
+                         "'exactly nothing' on the level built to expose the effect")
+
     checks += 1
     for lv in ("none", "low", "high", "extreme"):
         k = f"claude-opus-4-5 / {lv}"

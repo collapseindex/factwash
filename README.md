@@ -397,15 +397,19 @@ Measurement history, including the fourteen corrections behind these numbers (te
 
 ## Citing
 
-If you use factwash, cite the preprint (see [CITATION.cff](CITATION.cff); the arXiv
-identifier will be added once assigned):
+If you use factwash, cite the preprint,
+[arXiv:2608.03372](https://arxiv.org/abs/2608.03372) (see [CITATION.cff](CITATION.cff)):
 
 ```bibtex
 @article{kwon2026factwash,
-  title  = {factwash: Catching AI Rewrites That Wash Hearsay into Fact},
-  author = {Kwon, Alex},
-  year   = {2026},
-  note   = {Preprint}
+  title         = {FACTWASH: Catching AI Rewrites That Wash Hearsay into Fact},
+  author        = {Kwon, Alex},
+  year          = {2026},
+  eprint        = {2608.03372},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL},
+  doi           = {10.48550/arXiv.2608.03372},
+  url           = {https://arxiv.org/abs/2608.03372}
 }
 ```
 

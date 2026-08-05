@@ -61,6 +61,10 @@ def main() -> int:
          lambda: _patch_summary(orig_sum, "ALL", "paren", "evicted", 1))
     case("Opus effect no longer exceeds Haiku's",
          lambda: _patch_delta(orig_sum, "model=claude-opus-4-5", 0.001))
+    case("a Sonnet model stops being null",
+         lambda: _patch_p(orig_sum, "model=claude-sonnet-5", 0.001))
+    case("Haiku stops being significant",
+         lambda: _patch_p(orig_sum, "model=claude-haiku-4-5", 0.4))
     case("a judge reply became unusable",
          lambda: _patch_parse(orig_sum, 3))
 
@@ -92,6 +96,12 @@ def main() -> int:
 def _patch_summary(orig, block, arm, key, val):
     d = json.loads(orig)
     d["blocks"][block][arm][key] = val
+    SUMMARY.write_text(json.dumps(d, indent=2), encoding="utf-8")
+
+
+def _patch_p(orig, block, val):
+    d = json.loads(orig)
+    d["blocks"][block]["paired"]["mcnemar_exact_p"] = val
     SUMMARY.write_text(json.dumps(d, indent=2), encoding="utf-8")
 
 
