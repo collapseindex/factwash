@@ -162,16 +162,17 @@ condition scores the result. Across $60$ claims in seven registers, writing the 
 labelled field rather than a bracketed aside raises retention by about $15$ points on two
 models ($37$ claims to $2$ on one, $30$ to $8$ on the other; permutation $p=0.00005$). A
 pre-registered replication on $60$ claims written before the run, with the prediction and
-decision rule committed first, gives $+15.6$ points, $38$ claims to $1$. An ablation
-decomposes the effect and rules out the explanation most people reach for first: length
-does nothing. Padding the aside with stance-free text until it is the longest note of all
-is worth $+0.8$ points, $95\%$ CI $[-2.5,+3.9]$. What does matter is how explicitly the
-stance is stated. Wording it as a full sentence rather than a compressed clause is worth
-$+12.5$, labels $+9.7$, moving the same words out of the brackets $+6.7$, and putting them
-on their own line $+6.1$. No single component dominates and several are modest, so we
-report a ranking rather than a mechanism. A deterministic second readout that uses no
-model at all agrees on direction, despite being biased against the field form. We also
-report seven retractions, two of them our own headline claims.
+decision rule committed first, gives $+15.6$ points, $38$ claims to $1$. We then ablate the
+format on both models to ask which property does the work, and the answer is a warning
+about single-model mechanism claims: the two models reach the same net effect by different
+routes. Labels help on both ($+9.7$ and $+12.8$). Length helps on neither, and on one model
+padding with stance-free text \emph{costs} $10.3$ points. But the largest component on one
+model, wording the stance as a full sentence ($+12.5$), is worth nothing on the other
+($+0.6$). Either model alone would have licensed a confident and different mechanism. We
+report the intersection: make the stance explicit, do not merely make the note longer, and
+expect the best way of being explicit to depend on the model. A deterministic readout using
+no model agrees on direction. We also report seven retractions, three of them our own
+headline claims.
 \end{abstract}
 
 % ===========================================================================
@@ -651,70 +652,81 @@ outright.
 \begin{figure*}[t]
 \centering
 \includegraphics[width=\textwidth]{fig_ablation.pdf}
-\caption{\textbf{Length does nothing; subordination does everything.} \textbf{Left:}
-share of stored memories from which a blind reader can still recover the claim's standing,
-by the form the stance was written in. Blue forms state the stance as its own proposition;
-orange forms subordinate it. \textbf{Right:} each contrast changes exactly one thing.
-Padding the parenthetical until it is the longest note of all is worth eight thousandths
-of a point and does not approach significance; moving the same stance into its own
-proposition, at matched length and matched sentence count, is worth $18.3$ points. Grey
-bars are not significant at $0.05$. Sixty claims, Haiku~4.5, both hard budgets, exact sign
-test over per-claim differences.}
+\caption{\textbf{The same effect, assembled differently.} \textbf{Left:} share of stored
+memories from which a blind reader can still recover the claim's standing, by the form the
+stance was written in, for both models. Sonnet retains more overall because it is the
+better compressor at these budgets; the comparison that matters is within a model.
+\textbf{Right:} each row changes exactly one property. Grey bars are not significant at
+$0.05$ by an exact sign test over per-claim differences. Only \emph{labels} is coloured
+for both models; \emph{wording} carries the effect on Haiku and does nothing on Sonnet,
+while \emph{unbracketing} does more on Sonnet. \emph{Length} is the one property that
+helps neither, and on Sonnet it hurts. Sixty claims, both hard budgets.}
 \label{fig:ablation}
 \end{figure*}
 
-\paragraph{Result.} Figure~\ref{fig:ablation}. Reading the contrasts in order of size:
+\paragraph{Result.} Figure~\ref{fig:ablation} and Table~\ref{tab:ablation}. We ran the
+full set of arms on both models, and the comparison is the finding: the two models reach
+the \emph{same} net effect by \emph{different} routes.
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{@{}l r r@{}}
+\toprule
+what changes & Haiku 4.5 & Sonnet 4.5 \\
+\midrule
+labels                & $+9.7^{*}$  & $+12.8^{*}$ \\
+unbracketing          & $+6.7$      & $+12.8^{*}$ \\
+wording it explicitly & $+12.5^{*}$ & $+0.6$ \\
+own line              & $+6.1$      & $+2.5$ \\
+length                & $+0.8$      & $-10.3^{*}$ \\
+\midrule
+net (field vs bracketed) & $+15.9^{*}$ & $+15.3^{*}$ \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{The same effect, assembled differently.} Percentage-point change in
+stance retention from altering one property, per claim, sixty claims, both hard budgets.
+$^{*}$ marks a significant exact sign test across claims. The net effect at the bottom is
+near-identical on the two models; almost none of the components are.}
+\label{tab:ablation}
+\end{table}
+
+Three things survive the second model and one does not.
 
 \begin{itemize}\itemsep2pt
-\item \textbf{Wording it explicitly: $+12.5$ points}, $[+6.9,+18.1]$, $31$ claims to
-      $7$, $p=0.0001$. \textsc{sentences} against \textsc{promoted}: both assert the
-      stance outside brackets; one says ``This came from Y. It is Z.'' and the other
-      says ``Per Y; Z.''
-\item \textbf{Unbracketing alone: $+6.7$ points}, $[+1.9,+11.7]$, $21$ claims to $10$,
-      $p=0.07$. \textsc{promoted} against \textsc{paren}: the \emph{identical words},
-      moved out of the parentheses and nothing else changed. This is the tightest
-      available test of syntax, and it recovers about a third of what the earlier draft
-      credited to syntax alone.
-\item \textbf{Labels: $+9.7$ points}, $29$ to $7$, $p=0.0003$. \textsc{field} against
-      \textsc{unlabelled}: the same words on the same lines, with and without
-      \texttt{SOURCE:} and \texttt{CERTAINTY:} naming them.
-\item \textbf{Own lines alone: $+6.1$ points}, $[+0.8, +11.4]$, $19$ to $10$. The
-      two tests disagree here: the interval excludes zero, the sign test does not
-      ($p=0.14$, with $31$ ties). We report it as small and not firmly established
-      rather than picking whichever test suits the story.
-\item \textbf{Length alone: $+0.8$ points}, $[-2.5, +3.9]$, $11$ to $7$, $p=0.48$. This
-      is the one component the study can call negligible, because the interval is
-      narrow as well as containing zero, and it comes from the longest arm in the
-      experiment.
+\item \textbf{Labels replicate.} $+9.7$ points $[+2.8, +16.1]$ on Haiku and $+12.8$
+      $[+7.2, +18.3]$ on Sonnet, both significant, intervals overlapping. This is the
+      only component that behaves the same way on both models, and an earlier draft of
+      this paper dismissed it.
+\item \textbf{Length never helps, and can hurt.} $+0.8$ $[-2.5, +3.9]$ on Haiku is a
+      tight null; on Sonnet the same padding \emph{costs} $10.3$ points
+      $[-15.0, -5.3]$, $p=0.0001$. Making the note longer without making the stance
+      plainer is at best useless and at worst actively harmful.
+\item \textbf{Unbracketing helps on both, by different amounts}, $+6.7$ and $+12.8$; it
+      reaches significance on Sonnet and not on Haiku.
+\item \textbf{Wording does not replicate.} It is the largest component on Haiku
+      ($+12.5$, $p=0.0001$) and worth nothing at all on Sonnet ($+0.6$, $p=0.77$, with a
+      $95\%$ interval of $[-6.1, +7.2]$ that comfortably contains zero).
 \end{itemize}
 
-\noindent The components are ordered, not exclusive, and the ordering is the result. An
-earlier draft of this paper attributed the whole gain to syntax, on the strength of a
-$+18.3$ contrast between \textsc{sentences} and \textsc{padded}. That contrast changes two
-things at once: it unbrackets the stance \emph{and} words it more explicitly. Separating
-them costs the syntactic story most of its size. Unbracketing the identical words is worth
-$+6.7$; wording them explicitly is worth $+12.5$ on top. What survives is not ``a
-compressor keeps what is asserted'' but something closer to ``a compressor keeps what is
-said plainly'', with brackets, labels and line breaks each contributing less than the
-wording does.
+\noindent So a single-model ablation would have licensed the wrong summary in either
+direction. Run only on Haiku, this section would say the effect is mostly about how
+explicitly stance is worded. Run only on Sonnet, it would say wording is irrelevant and
+the whole thing is brackets. Both are what one model shows and neither is what two models
+show together. The reportable statement is narrower than either: \emph{labels help on both
+models, length helps on neither, and which of the remaining properties carries the effect
+depends on the model.}
 
-\noindent On the schema against plain asserted prose, \textsc{field} minus
-\textsc{sentences} is $-3.3$ points with a $90\%$ interval of $[-9.2, +1.9]$. Against a
-five-point equivalence margin declared before the analysis, that fails the two one-sided
-tests. We therefore did \emph{not} detect a difference between them and also cannot claim
-they perform the same: the study is consistent with plain prose beating the schema by as
-much as nine points. Saying the schema ``does as well'' would be treating a null result as
-evidence of equivalence.
+\paragraph{What this means.} A compressor asked to discard material does not decide by
+volume. That much holds on both models and is the firmest thing here: on one, padding
+buys nothing; on the other, it costs ten points. What it does respond to is some property
+of how plainly the stance is presented, and the two models weight the available ways of
+being plain differently. Naming the parts with labels works on both. Getting the words out
+of the brackets works on both, more on Sonnet. Saying the same thing in fuller sentences
+works on Haiku and does nothing on Sonnet.
 
-\paragraph{What this means.} On Haiku~4.5, a compressor asked to discard material keeps
-stance in proportion to how plainly it was said, and not at all in proportion to how much
-text carried it. The ablation is one model, so read it as a decomposition of that model's
-fifteen-point effect rather than as a law about compressors; the two-cell effect it
-decomposes replicates on Sonnet~4.5, but the decomposition itself does not yet. It is a
-claim about explicitness rather than token budgets, and it still explains why a
-parenthetical is a poor place to put a hedge: brackets mark their content as an aside and
-compress a qualifier into the fewest words that will fit, which is the opposite of stating
-it plainly.
+We are deliberately not naming a single mechanism. The evidence for one would have to look
+like agreement across models about which property matters, and what we have is agreement
+about the outcome with disagreement about the route.
 
 It also accounts for a failure mode we had already found, before this ablation existed.
 The claims where the field form loses are the ones whose sources disagree
@@ -836,11 +848,13 @@ condition but not the only one. ``Standing recovered'' is also one model's judge
 another model's output: blind to the condition, and reproduced by a single fixed judge,
 but not a human annotation, and we did not collect one.
 
-\paragraph{The ablation is a chain, not a factorial.} The five forms move one thing at a
-time along a path; they do not independently cross assertion, labelling, line breaks and
-length. Some interactions are therefore unmeasured, and the component sizes should be read
-as a ranking under this particular chain rather than as coefficients that would survive a
-full crossing. Nor were the arms run on a second model.
+\paragraph{The ablation is a chain, not a factorial, and it does not transfer.} The six
+forms move one thing at a time along a path; they do not independently cross labelling,
+bracketing, wording and length, so interactions are unmeasured and the component sizes are
+a ranking under this particular chain rather than coefficients that would survive a full
+crossing. More importantly, the ranking is model-specific: run on Haiku alone it says the
+effect is about wording, run on Sonnet alone it says wording is irrelevant. Two models is
+enough to show the decomposition does not transfer and not enough to say what governs it.
 
 \paragraph{No human ever read these.} Every outcome is a model's judgement of another
 model's output. A fixed second judge agrees at $98\%$ and a deterministic gate agrees on
@@ -926,6 +940,24 @@ same format as the companion paper \citep{kwon2026factwash}.
 \midrule \multicolumn{3}{r@{}}{\emph{continued on next page}}\\ \endfoot
 \bottomrule \endlastfoot
 
+Making the note longer retains more stance. & \S\ref{sec:ablation},
+Tab.~\ref{tab:ablation} & \textsc{not shown, on two models}: $+0.8$ points
+$[-2.5,+3.9]$ on Haiku and $-10.3$ $[-15.0,-5.3]$ on Sonnet. On one model padding
+actively hurts \\
+
+Labels contribute to retention. & \S\ref{sec:ablation} & \textsc{shown on both models}:
+$+9.7$ $[+2.8,+16.1]$ and $+12.8$ $[+7.2,+18.3]$. The only component that behaves the
+same way on both \\
+
+\textbf{The ablation identifies the mechanism.} & \S\ref{sec:ablation} &
+\textsc{not claimed}: the two models agree on the net effect and disagree about which
+property produces it. Wording is the largest component on Haiku and worth nothing on
+Sonnet \\
+
+\textbf{Labels are not the mechanism.} & \S\ref{sec:ablation} & \textsc{retracted twice,
+in opposite directions}: first asserted, then over-corrected to dismissal, and finally
+measured on a second model where labels are the \emph{most} robust component \\
+
 The field-over-bracketed effect replicates on claims chosen before the result was known.
 & \S\ref{sec:prereg}, Tab.~\ref{tab:prereg} & \textsc{shown}: pre-registered at a public
 commit before any call, $+15.6$ points $[+11.4,+20.0]$, $38$ claims to $1$, size
@@ -959,9 +991,9 @@ as well as containing zero, so this one can be called negligible \\
 ($-3.3$ points, $p=1.0$) but the $90\%$ interval $[-9.2,+1.9]$ fails a two-one-sided test
 against a $5$-point margin. Absence of a detected difference is not equivalence \\
 
-\textbf{Labels are not the mechanism.} & \S\ref{sec:ablation} & \textsc{retracted}:
-asserted by a previous draft while this paper's own ablation measured labels at $+9.7$
-points, $[+2.8,+16.1]$. Assertion is the larger component; labels are a real smaller one \\
+Stance is retained in proportion to how plainly it is stated. & \S\ref{sec:ablation} &
+\textsc{shown in direction, not in composition}: every property that makes the stance
+plainer helps on at least one model, and no property helps equally on both \\
 
 
 A labelled record's retention can be verified without a model. & \S\ref{sec:check} &

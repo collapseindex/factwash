@@ -124,11 +124,38 @@ def main() -> int:
             close(f"ablation {key}", pts(key), lit, tol=0.06)
             want(f"${lit}$", f"ablation {key} in the prose")
             checks += 1
-            is_sig = con[key]["sign_p"] < 0.05
-            if is_sig != sig:
+            if (con[key]["sign_p"] < 0.05) != sig:
                 fails.append(f"ablation {key}: significance flipped (p="
-                             f"{con[key]['sign_p']}); the mechanism argument in "
-                             f"section 5 depends on which of these are significant")
+                             f"{con[key]['sign_p']}); the argument in section 6 depends "
+                             f"on which of these are significant")
+
+        # the second model. The paper's central point about the ablation is that these
+        # DISAGREE, so the gate checks the disagreement rather than the agreement.
+        ABS = SUMMARY.parent / "ablation_summary_sonnet-4-5.json"
+        if ABS.is_file():
+            cs = json.loads(ABS.read_text(encoding="utf-8"))["contrasts"]
+            for key, lit in (("field_vs_unlabelled", "+12.8"),
+                             ("promoted_vs_paren", "+12.8"),
+                             ("sentences_vs_promoted", "+0.6"),
+                             ("padded_vs_paren", "-10.3")):
+                if key not in cs:
+                    continue
+                close(f"sonnet ablation {key}",
+                      100 * cs[key]["mean_per_claim_delta"], lit, tol=0.08)
+                want(f"${lit}$", f"sonnet {key} in the prose")
+            checks += 1
+            if cs["sentences_vs_promoted"]["sign_p"] < 0.05:
+                fails.append("wording is now significant on Sonnet too; the 'does not "
+                             "transfer' argument in section 6 no longer holds")
+            checks += 1
+            if not (cs["field_vs_unlabelled"]["sign_p"] < 0.05
+                    and con["field_vs_unlabelled"]["sign_p"] < 0.05):
+                fails.append("labels are no longer significant on both models; that is "
+                             "the paper's one replicating component")
+            checks += 1
+            if cs["padded_vs_paren"]["mean_per_claim_delta"] > 0:
+                fails.append("padding no longer hurts on Sonnet; the 'length helps "
+                             "neither' claim needs rechecking")
 
         # padding must remain the LONGEST arm, or "length does nothing" is not a
         # conservative test any more, it is just a smaller arm losing
@@ -196,7 +223,7 @@ def main() -> int:
         fails.append(f"the ledger holds {word} retractions but the prose does not say "
                      f"'{word} retractions' anywhere")
 
-    expected_retractions = 8
+    expected_retractions = 7
     n_retracted = tex.lower().count(r"\textsc{retracted}")
     if n_retracted != expected_retractions:
         fails.append(f"{n_retracted} RETRACTED rows in the ledger, expected "

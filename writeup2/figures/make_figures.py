@@ -27,6 +27,7 @@ OUT = Path(__file__).resolve().parent
 RESULTS = OUT.parents[1] / "data" / "results"
 SUMMARY = RESULTS / "twocell_pooled_summary.json"
 ABLATION = RESULTS / "ablation_summary.json"
+ABLATION_S = RESULTS / "ablation_summary_sonnet-4-5.json"
 
 BLUE = "#2a78d6"      # stance asserted / labelled
 ORANGE = "#eb6834"    # stance subordinated
@@ -75,50 +76,51 @@ def load(path):
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def fig_ablation(ab):
-    rates, cons = ab["rates"], ab["contrasts"]
-    arms = [a for a in ARM_ORDER if a in rates]
+def fig_ablation(ab_h, ab_s):
+    """Both models' decompositions side by side. The comparison IS the result: the net
+    effect is the same size on both and the components producing it are not."""
+    show = [("padded_vs_paren", "length"),
+            ("unlabelled_vs_paren", "own line"),
+            ("promoted_vs_paren", "unbracketing"),
+            ("sentences_vs_promoted", "wording"),
+            ("field_vs_unlabelled", "labels")]
 
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(7.0, 3.1),
-                                   gridspec_kw={"width_ratios": [1.25, 1]})
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(7.0, 3.0),
+                                   gridspec_kw={"width_ratios": [1.15, 1]})
 
-    # --- left: retention by form -------------------------------------------
+    # --- left: retention by form, both models -------------------------------
+    arms = [a for a in ARM_ORDER if a in ab_h["rates"]]
     y = list(range(len(arms)))[::-1]
-    ax1.barh(y, [rates[a] for a in arms], height=0.62,
-             color=[BLUE if a in ASSERTED else ORANGE for a in arms], zorder=3)
-    for yy, a in zip(y, arms):
-        ax1.text(rates[a] + 0.008, yy, f"{rates[a]:.3f}", va="center",
-                 fontsize=7.5, color=INK)
+    h = 0.36
+    ax1.barh([v + h / 2 for v in y], [ab_h["rates"][a] for a in arms], height=h,
+             color=BLUE, zorder=3, label="Haiku 4.5")
+    ax1.barh([v - h / 2 for v in y], [ab_s["rates"].get(a, 0) for a in arms], height=h,
+             color=ORANGE, zorder=3, label="Sonnet 4.5")
     ax1.set_yticks(y)
     ax1.set_yticklabels([ARM_LABEL[a][0] for a in arms], fontsize=7.5)
-    ax1.set_xlim(0, 0.44)
-    ax1.set_xlabel("stance retained after compression", labelpad=3)
+    ax1.set_xlim(0, 0.62)
+    ax1.set_xlabel("stance retained", labelpad=3)
     ax1.set_title("what the note looked like", fontsize=8.5, color=INK, pad=4)
+    ax1.legend(frameon=False, fontsize=7, loc="lower right")
     _spines(ax1)
 
-    # --- right: the contrasts ----------------------------------------------
-    show = [("padded_vs_paren", "length alone"),
-            ("unlabelled_vs_paren", "own lines"),
-            ("promoted_vs_paren", "unbracketing"),
-            ("field_vs_unlabelled", "labels"),
-            ("sentences_vs_promoted", "wording it explicitly")]
-    show = [(k, lab) for k, lab in show if k in cons]
-    y2 = list(range(len(show)))[::-1]
-    for yy, (k, lab) in zip(y2, show):
-        c = cons[k]
-        sig = c["sign_p"] < 0.05
-        ax2.barh([yy], [c["mean_per_claim_delta"]], height=0.6,
-                 color=BLUE if sig else BASE, zorder=3)
-        ax2.text(c["mean_per_claim_delta"] + 0.006, yy,
-                 f"{c['mean_per_claim_delta']:+.3f}"
-                 + ("" if sig else "  n.s."),
-                 va="center", fontsize=7.5, color=INK if sig else MUTED)
-    ax2.axvline(0, color=MUTED, linewidth=0.8, zorder=4)
+    # --- right: the components, both models ---------------------------------
+    rows = [(k, lab) for k, lab in show if k in ab_h["contrasts"]]
+    y2 = list(range(len(rows)))[::-1]
+    for yy, (k, lab) in zip(y2, rows):
+        for ab, col, off in ((ab_h, BLUE, h / 2), (ab_s, ORANGE, -h / 2)):
+            c = ab["contrasts"].get(k)
+            if not c:
+                continue
+            sig = c["sign_p"] < 0.05
+            ax2.barh([yy + off], [c["mean_per_claim_delta"]], height=h,
+                     color=col if sig else BASE, zorder=3)
+    ax2.axvline(0, color=MUTED, linewidth=0.9, zorder=4)
     ax2.set_yticks(y2)
-    ax2.set_yticklabels([lab for _, lab in show], fontsize=7.5)
-    ax2.set_xlim(-0.02, 0.28)
+    ax2.set_yticklabels([lab for _, lab in rows], fontsize=7.5)
+    ax2.set_xlim(-0.17, 0.24)
     ax2.set_xlabel("effect of changing one thing", labelpad=3)
-    ax2.set_title("what actually matters", fontsize=8.5, color=INK, pad=4)
+    ax2.set_title("what matters, per model", fontsize=8.5, color=INK, pad=4)
     _spines(ax2)
 
     fig.tight_layout()
@@ -193,10 +195,11 @@ def fig_perclaim(rep):
 
 
 def main():
-    ab = load(ABLATION)
+    ab_h = load(ABLATION)
+    ab_s = load(ABLATION_S)
     rep = load(SUMMARY)
-    print(f"ablation arms: {sorted(ab['rates'])}")
-    fig_ablation(ab)
+    print(f"ablation arms: {sorted(ab_h['rates'])}")
+    fig_ablation(ab_h, ab_s)
     fig_perclaim(rep)
 
 
