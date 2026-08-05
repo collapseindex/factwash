@@ -131,7 +131,7 @@ def load():
     for p in sorted(RAW.glob("*twocellpress_claude-*.jsonl")):
         model = p.stem.split("_twocellpress_")[1].rsplit("_n", 1)[0]
         # runs carry a corpus tag in the filename; it belongs to the run, not the model
-        for tag in ("_call", "_cv1", "_cv2"):
+        for tag in ("_call", "_cv1", "_cv2", "_cv3", "_call_"):
             if model.endswith(tag):
                 model = model[: -len(tag)]
         run = p.stem
@@ -143,7 +143,10 @@ def load():
                 # claim and sixty-claim runs under one model key is exactly the mistake
                 # this project already made once: it pools two different populations of
                 # stimuli and reports the average as if it described either.
-                r["corpus"] = "c60" if "_call_" in run else "c10"
+                # v3 is sixty claims too, but a DIFFERENT sixty. Merging it into c60 would
+                # pool the main experiment with its own held-out replication.
+                r["corpus"] = ("v3" if "_cv3_" in run
+                               else "c60" if "_call_" in run else "c10")
                 rows.append(r)
     return rows
 

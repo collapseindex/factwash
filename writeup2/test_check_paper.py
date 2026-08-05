@@ -8,6 +8,7 @@ pinned a literal percentage, the numbers moved, and the mutation silently became
 that "passed". A negative test that stops mutating anything is worse than none.
 """
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -81,6 +82,10 @@ def main() -> int:
     wins = f"${cc[HAIKU]['sign_test']['positive']}$"
     assert wins in orig_tex, f"{wins} not in main.tex; the test target is stale"
 
+    _m = re.search(r"(\w+) withdrawn claims", orig_tex.lower())
+    _count_word = _m.group(1) if _m else "eight"
+    assert f"{_count_word} withdrawn claims" in orig_tex.lower(), "stale test target"
+
     cases = [
         (f"headline effect changed ({pts})",
          lambda: TEX.write_text(orig_tex.replace(pts, "$+99.9$"), encoding="utf-8")),
@@ -138,10 +143,17 @@ def main() -> int:
                               "or subordinated.\n\n" + r"\section{Related work}",
                               1),
              encoding="utf-8")),
-        ("the stated retraction count disagrees with itself",
+        # target derived from the text, not pinned: the previous version mutated
+        # "eight retractions" after the prose had changed to "withdrawn claims", so it
+        # replaced nothing and passed. That is the third time a pinned literal has
+        # quietly disabled a negative test in this project.
+        (f"the stated withdrawn-claim count disagrees with itself ({_count_word})",
          lambda: TEX.write_text(
-             orig_tex.replace("eight retractions", "five retractions", 1),
-             encoding="utf-8")),
+             orig_tex.replace(f"{_count_word} withdrawn claims",
+                              "five withdrawn claims", 1), encoding="utf-8")),
+        ("a headline tag goes missing",
+         lambda: TEX.write_text(
+             orig_tex.replace(" \\textsc{(headline)}", "", 1), encoding="utf-8")),
         ("the ablation arm count disagrees between sections",
          lambda: TEX.write_text(
              orig_tex.replace("the six forms", "the five forms", 1),

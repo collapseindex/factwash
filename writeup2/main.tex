@@ -141,7 +141,7 @@ What Makes Epistemic Stance Survive Memory Compression}
 standing is written twice, once as a labelled field and once as a parenthetical, and
 passed to the same compressor with the same prompt, settings and filler notes. Only the
 form differs. Percentages are Haiku~4.5 at the \textsc{brutal} budget across all $60$
-claims. The difference is concentrated in the middle row: the parenthetical is stored as
+claims, rounded to whole percents, so the prose column sums to $101$. The difference is concentrated in the middle row: the parenthetical is stored as
 bare fact more than twice as often, while the two forms are evicted at similar rates. So
 the schema does not mainly keep claims in memory; it keeps them \emph{qualified}
 (\S\ref{sec:twocell}).}
@@ -171,8 +171,7 @@ model, wording the stance as a full sentence ($+12.5$), is worth nothing on the 
 ($+0.6$). Either model alone would have licensed a confident and different mechanism. We
 report the intersection: make the stance explicit, do not merely make the note longer, and
 expect the best way of being explicit to depend on the model. A deterministic readout using
-no model agrees on direction. We also report eight retractions, three of them our own
-headline claims.
+no model agrees on direction. We also report eight withdrawn claims, three of them former title claims of this paper.
 \end{abstract}
 
 % ===========================================================================
@@ -230,7 +229,7 @@ short one.
 (4)~A failure mode that the mechanism predicts and that we found separately: claims whose
 sources disagree, where a single field forces two attributions back into one subordinate
 clause (\S\ref{sec:errors}).
-(5)~Eight retractions, three of them our own headline claims, plus an instrument bug in our
+(5)~Eight withdrawn claims, three of them former title claims of this paper, plus an instrument bug in our
 own blind reader and a ten-claim corpus that manufactured both a false null and a false
 model-family split (\S\ref{sec:negatives}, \S\ref{sec:twocell}).
 
@@ -306,11 +305,10 @@ as a leak at recording rather than at compression. Reading the same ten triples 
 gives the opposite impression: the model did record a stance cue in $9/10$ notes, so
 recording largely worked, and what was lost was lost later. The two $9/10$ figures are not
 the same measurement, which is the problem: one counts sessions the gate flagged, the
-other counts notes containing a cue. We report the pilot as unresolved and lean nothing on
-it. We report this as a pilot and
-lean nothing on the exact counts, because the automatic scorer we used for it counts
-cue \emph{tokens}, and compression frequently reworded a hedge rather than deleting it
-(``(unconfirmed)'' became ``pending confirmation''), which that scorer records as a loss.
+other counts notes containing a cue. We report the pilot as unresolved and lean nothing
+on it. The automatic scorer counts cue \emph{tokens}, and compression frequently
+reworded a hedge rather than deleting it (``(unconfirmed)'' became ``pending
+confirmation''), which that scorer records as a loss.
 The open-class problem ate the measuring instrument inside a probe about the open-class
 problem. $n=10$, one model.
 
@@ -452,8 +450,9 @@ model, but a claim's particular wording recurs in six of them, so pair-level int
 describe ``another replicate of these sixty claims'' rather than ``a claim we have not
 written yet''. We therefore report the claim as the cluster throughout: a bootstrap that
 resamples claims, and an exact sign test on the per-claim differences. Both are in
-Table~\ref{tab:twocell} and both are far more conservative than the pair-level test,
-which returns $p<10^{-6}$ on this data and should not be quoted.
+Table~\ref{tab:twocell}, and both are far more conservative than a pair-level test on the
+same data, which we do not report because it treats correlated observations as
+independent.
 
 The sign test is the one we find most convincing, because it does not depend on effect
 size at all. On Haiku the difference points toward the field form on $37$ claims and
@@ -525,9 +524,11 @@ claim assumes neither. Over $20{,}000$ permutations the observed mean per-claim 
 is beyond every shuffled value on both models, $p=0.00005$, which is the resolution floor
 of the test.
 
-\paragraph{Ties are the tightest budget.} A third of claims tie, and on Haiku $12$ of
-those $21$ are ties at zero: at \textsc{severe} both arms lose the claim entirely, so $43$
-of $60$ claims tie there. That dilutes the sign test rather than biasing it, and both
+\paragraph{Ties are the tightest budget.} Pooling both budgets, $21$ of Haiku's $60$
+claims tie and $22$ of Sonnet's do. Twelve of Haiku's $21$ are ties at zero, meaning
+neither arm retained standing on any replicate. Splitting by budget shows where they come
+from: at \textsc{severe} alone, $43$ of the $60$ claims tie, because both arms usually
+lose the claim entirely. That dilutes the sign test rather than biasing it, and both
 budgets remain significant separately (Haiku $p<0.0001$ and $p=0.0023$; Sonnet $p=0.011$
 and $p=0.0005$).
 
@@ -935,7 +936,9 @@ same format as the companion paper \citep{kwon2026factwash}.
 
 \begin{itemize}\itemsep2pt
 \item \textsc{shown}: direct measurement supports it.
-\item \textsc{retracted}: \emph{we} asserted it earlier and later withdrew it.
+\item \textsc{retracted}: \emph{we} asserted it earlier and later withdrew it. Three of
+      the eight were at some point this paper's \textbf{title claim}, and are marked
+      \textsc{(headline)}.
 \item \textsc{not shown}: our measurement neither supports nor refutes it.
 \item \textsc{not claimed}: we never asserted it; the row exists so a reader cannot
       infer it.
@@ -972,7 +975,7 @@ same way on both \\
 property produces it. Wording is the largest component on Haiku and worth nothing on
 Sonnet \\
 
-\textbf{Labels are not the mechanism.} & \S\ref{sec:ablation} & \textsc{retracted twice,
+\textbf{Labels are not the mechanism.} \textsc{(headline)} & \S\ref{sec:ablation} & \textsc{retracted twice,
 in opposite directions}: first asserted, then over-corrected to dismissal, and finally
 measured on a second model where labels are the \emph{most} robust component \\
 
@@ -992,7 +995,7 @@ The effect survives an instrument with no model in it. & \S\ref{sec:prereg} &
 \textsc{shown}: a deterministic gate agrees on direction for both models and on magnitude
 to three decimals for Haiku, while being biased \emph{against} the field form \\
 
-\textbf{Grammatical subordination is the mechanism.} & \S\ref{sec:ablation} &
+\textbf{Grammatical subordination is the mechanism.} \textsc{(headline)} & \S\ref{sec:ablation} &
 \textsc{retracted}: asserted by a previous draft at $+18.3$ points. An arm using the
 bracketed form's identical words, unbracketed, recovers only $+6.7$; the remaining
 $+12.5$ is how explicitly the stance is worded \\
@@ -1013,9 +1016,10 @@ stance-free text, is worth $+0.8$ points, $95\%$ CI $[-2.5,+3.9]$. The interval 
 as well as containing zero, so this one can be called negligible \\
 
 \textbf{The labelled schema performs as well as plain asserted prose.} &
-\S\ref{sec:ablation} & \textsc{not claimed}: we did not detect a difference
-($-3.3$ points, $p=1.0$) but the $90\%$ interval $[-9.2,+1.9]$ fails a two-one-sided test
-against a $5$-point margin. Absence of a detected difference is not equivalence \\
+\S\ref{sec:ablation} & \textsc{not claimed}: no difference detected on either model
+($-3.3$ points on Haiku, $p=1.0$; $+1.9$ on Sonnet), but Haiku's $90\%$ interval
+$[-9.2,+1.9]$ fails a two-one-sided test against a $5$-point margin. Absence of a detected
+difference is not equivalence \\
 
 Stance is retained in proportion to how plainly it is stated. & \S\ref{sec:ablation} &
 \textsc{shown in direction, not in composition}: every property that makes the stance
@@ -1058,7 +1062,7 @@ register \\
 re-checked against an independent judge, which agreed. Sonnet~4.5 goes from $+3.7$ to
 $+15.3$ points on sixty claims \\
 
-\textbf{The schema helps most where the compressor is weakest.} & \S\ref{sec:twocell} &
+\textbf{The schema helps most where the compressor is weakest.} \textsc{(headline)} & \S\ref{sec:twocell} &
 \textsc{retracted}: claimed by an earlier draft on a shorter pressure ladder \\
 
 \textbf{The schema costs retention: a bulkier record gets evicted more.} &
@@ -1188,6 +1192,37 @@ The compressor samples at temperature $1.0$ and the reader at $0.0$, except on S
 which rejects the temperature parameter outright and therefore sampled at its default;
 its summaries record this.
 
+\paragraph{Where the $4{,}104$ trials come from.} The denominator quoted for judge-parse
+health is every scored trial in the project, not one experiment, and it is worth breaking
+out because it cannot be reconstructed from the headline design alone:
+
+\medskip
+{\small
+\begin{tabular}{@{}l l r@{}}
+\toprule
+corpus & model & trials \\
+\midrule
+ten-claim ladder & Haiku 4.5   & 640 \\
+                 & Opus 4.5    & 536 \\
+                 & Sonnet 4.5  & 480 \\
+                 & Sonnet 5    & 288 \\
+\addlinespace
+sixty-claim      & Haiku 4.5   & 720 \\
+                 & Sonnet 4.5  & 720 \\
+\addlinespace
+held-out replication & Haiku 4.5 & 720 \\
+\midrule
+\multicolumn{2}{@{}l}{total} & 4{,}104 \\
+\bottomrule
+\end{tabular}
+}
+
+\medskip
+The ten-claim rows are uneven because those runs covered different subsets of the pressure
+ladder as the budget allowed, and because incomplete pairs are dropped rather than
+averaged. The $1{,}440$ ablation trials per model are scored separately and are not in
+this table.
+
 \paragraph{What is released.} The repository is
 \url{https://github.com/collapseindex/factwash} (Apache-2.0). It contains the harness
 (\texttt{experiments/two\_cell\_pressure.py}), the scorer
@@ -1204,8 +1239,9 @@ passed into the harness, with models that have no rate on file priced at a delib
 expensive fallback so the cap fails safe. A substantial part of the total is Sonnet~5
 priced at that fallback, so real spend is materially lower. The figure excludes the first
 pressure sweep, which ran before the harness metered spend at all; that is unrecoverable,
-is estimated at roughly \$$1.5$ from its token counts, and is not folded in silently. The
-sixty-claim runs that carry this paper's result cost \$$0.56$ and \$$1.85$.
+is estimated at roughly \$$1.5$ from its token counts, and is not folded in silently. Naming the runs rather than the totals: the sixty-claim two-cell run cost \$$0.56$ on
+Haiku and \$$1.85$ on Sonnet, the held-out replication \$$0.55$, the four ablation arms
+\$$0.85$ on Haiku and \$$3.72$ on Sonnet, and the fixed-judge re-scoring \$$0.72$.
 
 \paragraph{Stopping, and what a stop leaves behind.} Runs are streamed and fsynced per
 trial, resumable by key, and capped on both call count and measured spend. A capped run

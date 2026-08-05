@@ -276,18 +276,27 @@ def main() -> int:
     WORDS = {5: "five", 6: "six", 7: "seven", 8: "eight", 9: "nine", 10: "ten"}
     checks += 1
     word = WORDS.get(tex.lower().count(r"	extsc{retracted}"))
-    if word and f"{word} retractions" not in tex.lower():
-        fails.append(f"the ledger holds {word} retractions but the prose does not say so")
+    if word and f"{word} withdrawn claims" not in tex.lower():
+        fails.append(f"the ledger holds {word} RETRACTED rows but the prose does "
+                     f"not say '{word} withdrawn claims'")
     # the same number must be used everywhere it is stated
-    stated = set(re.findall(r"(\w+) retractions", tex.lower()))
+    stated = set(re.findall(r"(\w+) withdrawn claims", tex.lower()))
     checks += 1
     if len(stated) > 1:
-        fails.append(f"the prose states the retraction count inconsistently: {stated}")
-    stated_h = set(re.findall(r"(\w+) of them our own headline", tex.lower()))
+        fails.append(f"the prose states the withdrawn-claim count inconsistently: "
+                     f"{stated}")
+    stated_h = set(re.findall(r"(\w+) of them former title claims", tex.lower()))
     checks += 1
     if len(stated_h) > 1:
         fails.append(f"'N of them our own headline claims' disagrees with itself: "
                      f"{stated_h}")
+
+    checks += 1
+    n_tagged = tex.count("\\textsc{(headline)}") - 1  # one mention is the legend
+    if stated_h and n_tagged != {"two": 2, "three": 3, "four": 4}.get(
+            next(iter(stated_h)), -1):
+        fails.append(f"the prose says {stated_h} former title claims but {n_tagged} "
+                     f"ledger rows carry the (headline) tag")
 
     # (c) the arm count stated in prose must equal the number of arms in the data.
     # Checking only for internal disagreement was not enough: the phrase occurs once,
@@ -322,7 +331,7 @@ def main() -> int:
     WORDS = {5: "five", 6: "six", 7: "seven", 8: "eight", 9: "nine", 10: "ten"}
     checks += 1
     word = WORDS.get(tex.lower().count(r"	extsc{retracted}"))
-    if word and f"{word} retractions" not in tex.lower():
+    if word and f"{word} withdrawn claims" not in tex.lower():
         fails.append(f"the ledger holds {word} retractions but the prose does not say "
                      f"'{word} retractions' anywhere")
 
