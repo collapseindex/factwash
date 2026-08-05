@@ -72,8 +72,26 @@ def sentences_note(claim, source, certainty):
     return f"{claim}. This came from {source}. It is {certainty}."
 
 
+def padded_note(claim, source, certainty):
+    """The parenthetical, padded to roughly the length of ``sentences_note``.
+
+    The padding is a full sentence, so this arm matches ``sentences`` in token count and
+    in having more than one sentence, and it carries NO epistemic content: no source, no
+    certainty, no date, nothing that implies the claim was checked. The stance stays
+    exactly where ``paren`` puts it, subordinate inside the clause.
+
+    This is the control that separates the two explanations the first ablation left
+    tangled. If padding alone recovers the advantage, more tokens survive and the
+    mechanism is dull. If padding does nothing, then what matters is that the stance is
+    stated as its own proposition rather than tucked into a parenthetical, which is a
+    claim about syntax rather than about length.
+    """
+    return f"{claim} (per {source}; {certainty}). Filed with the rest."
+
+
 ARMS = {"field": field_note, "paren": paren_note,
-        "unlabelled": unlabelled_note, "sentences": sentences_note}
+        "unlabelled": unlabelled_note, "sentences": sentences_note,
+        "padded": padded_note}
 
 
 def load_env():
