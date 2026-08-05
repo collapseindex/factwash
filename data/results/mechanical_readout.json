@@ -1,0 +1,38 @@
+{
+  "claude-haiku-4-5": {
+    "blind reader": {
+      "field_rate": 0.3028,
+      "paren_rate": 0.1444,
+      "mean_per_claim_delta": 0.1583,
+      "positive": 37,
+      "negative": 2,
+      "sign_p": 0.0
+    },
+    "gate, no model": {
+      "field_rate": 0.9833,
+      "paren_rate": 0.825,
+      "mean_per_claim_delta": 0.1583,
+      "positive": 21,
+      "negative": 1,
+      "sign_p": 1e-05
+    }
+  },
+  "claude-sonnet-4-5": {
+    "blind reader": {
+      "field_rate": 0.5611,
+      "paren_rate": 0.4083,
+      "mean_per_claim_delta": 0.1528,
+      "positive": 30,
+      "negative": 8,
+      "sign_p": 0.00047
+    },
+    "gate, no model": {
+      "field_rate": 0.9889,
+      "paren_rate": 0.6778,
+      "mean_per_claim_delta": 0.3111,
+      "positive": 31,
+      "negative": 1,
+      "sign_p": 0.0
+    }
+  }
+}
