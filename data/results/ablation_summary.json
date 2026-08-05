@@ -1,0 +1,46 @@
+{
+  "rates": {
+    "field": 0.3028,
+    "sentences": 0.3361,
+    "unlabelled": 0.2056,
+    "paren": 0.1444
+  },
+  "contrasts": {
+    "field_vs_unlabelled": {
+      "isolates": "LABELS",
+      "mean_per_claim_delta": 0.0972,
+      "positive": 29,
+      "negative": 7,
+      "tied": 24,
+      "sign_p": 0.00031,
+      "claims": 60
+    },
+    "unlabelled_vs_paren": {
+      "isolates": "LAYOUT",
+      "mean_per_claim_delta": 0.0611,
+      "positive": 19,
+      "negative": 10,
+      "tied": 31,
+      "sign_p": 0.13605,
+      "claims": 60
+    },
+    "sentences_vs_paren": {
+      "isolates": "LENGTH",
+      "mean_per_claim_delta": 0.1917,
+      "positive": 33,
+      "negative": 5,
+      "tied": 22,
+      "sign_p": 0.0,
+      "claims": 60
+    },
+    "field_vs_sentences": {
+      "isolates": "labels+layout",
+      "mean_per_claim_delta": -0.0333,
+      "positive": 18,
+      "negative": 19,
+      "tied": 23,
+      "sign_p": 1.0,
+      "claims": 60
+    }
+  }
+}
