@@ -171,7 +171,8 @@ model, wording the stance as a full sentence ($+12.5$), is worth nothing on the 
 ($+0.6$). Either model alone would have licensed a confident and different mechanism. We
 report the intersection: make the stance explicit, do not merely make the note longer, and
 expect the best way of being explicit to depend on the model. A deterministic readout using
-no model agrees on direction. We also report eight withdrawn claims, three of them former title claims of this paper.
+no model agrees on direction, as do $50$ hand labels ($\kappa=0.75$), on which the judge
+understates the effect rather than inflating it. We also report eight withdrawn claims, three of them former title claims of this paper.
 \end{abstract}
 
 % ===========================================================================
@@ -622,8 +623,34 @@ worth more than it first appears for a different reason: the gate is biased \emp
 the field form, since \texttt{CERTAINTY: hedged} contains no word its lexicon knows, and
 the field form wins under it anyway.
 
-This is not human validation, and we do not present it as such. No human annotation was
-collected for any experiment in this paper.
+\paragraph{And fifty items a human read.} Both readouts above are instruments. We
+therefore hand-labelled a stratified sample of $50$ stored memories, drawn across both
+models and both arms from $40$ distinct claims, using the same three-way question and the
+same blinding the model judge got: the annotator sees the stored memory and the claim to
+look up, and nothing about arm, model, pressure or claim id. The judge's verdicts were
+held in a separate key file, and the scorer refuses a partially completed sheet.
+
+Agreement is $86.0\%$, Cohen's $\kappa = 0.75$. Scoring those same fifty items both ways
+gives $+20.8$ points by the judge and $+21.2$ by hand, so on this sample the judge
+\emph{understates} the difference rather than manufacturing it.
+
+Three things must be said against that. First, the disagreement is not spread evenly: it
+runs $1/26$ on field records and $6/24$ on bracketed ones, a real asymmetry (Fisher exact
+$p=0.045$) and exactly the shape that could fabricate an effect. Second, the one field
+disagreement is the flattering kind, the judge reading standing into a record where the
+annotator found the claim absent. It does not inflate the gap only because two of the six
+prose disagreements are the same error on the other arm and cancel it; three more are
+\emph{established fact} against \emph{absent}, two labels that both count as stance lost,
+so they never touch the difference at all. That is a small number of errors happening to
+balance, not a judge that is even-handed by construction. Third, and most limiting, the
+shift from changing scorer is $+0.3$ points with a claim-clustered $95\%$ interval of
+$[-15.9, +16.0]$. That contains zero, so no shift was detected; it also fails to exclude a
+shift the size of the entire effect. Fifty items can show the \emph{direction} of scorer
+disagreement and cannot bound its magnitude.
+
+And this is one rater, who is the paper's author: blind to condition, not blind to
+hypothesis, with no second annotator and therefore no inter-rater agreement to report. It
+is a check on the instrument, not validation of it.
 
 % ===========================================================================
 \section{Labels, layout, or length?}
@@ -882,8 +909,9 @@ achieve more than the longest arm already failed to achieve.
 six-level ladder. At looser budgets the effect is small and we do not claim it. The honest
 statement is that this matters when a memory system is short of room, which is the usual
 condition but not the only one. ``Standing recovered'' is also one model's judgement of
-another model's output: blind to the condition, and reproduced by a single fixed judge,
-but not a human annotation, and we did not collect one.
+another model's output: blind to the condition, reproduced by a single fixed judge, and
+checked against $50$ hand labels ($\kappa=0.75$, \S\ref{sec:prereg}) that are themselves
+the author's.
 
 \paragraph{The ablation is a chain, not a factorial, and it does not transfer.} The six
 forms move one thing at a time along a path; they do not independently cross labelling,
@@ -893,11 +921,16 @@ crossing. More importantly, the ranking is model-specific: run on Haiku alone it
 effect is about wording, run on Sonnet alone it says wording is irrelevant. Two models is
 enough to show the decomposition does not transfer and not enough to say what governs it.
 
-\paragraph{No human ever read these.} Every outcome is a model's judgement of another
-model's output. A fixed second judge agrees at $98\%$ and a deterministic gate agrees on
-direction, but those are two more instruments, not ground truth. A blinded human
-annotation on a representative subset, with more than one annotator and a reported
-agreement statistic, is the obvious missing control, and we did not collect one.
+\paragraph{One human read fifty of these, and that human wrote the paper.} Outcomes are
+model judgements, checked against a fixed second judge ($98\%$), a deterministic gate, and
+$50$ hand labels ($\kappa=0.75$, \S\ref{sec:prereg}) on which the judge understates rather
+than inflates the effect. The annotator was blind to condition but is the author, so blind
+to condition is not blind to hypothesis, and one rater yields no inter-annotator
+agreement. The sample also cannot bound the thing it was drawn to check: the interval on
+the scorer-swap shift spans about the size of the effect. The missing control is a larger
+blinded annotation by people with no stake in the result, reported with inter-rater
+agreement. We could not obtain one, and fifty of the author's own labels do not stand in
+for it.
 
 \paragraph{What the schema still cannot do.} Every failure measured here is a field being
 \emph{dropped}. A field confidently filled with the wrong value, \texttt{CERTAINTY:
@@ -1024,10 +1057,18 @@ Fig.~\ref{fig:ablation} & \textsc{not shown}: the two models agree on the net
 effect and disagree on its composition. Wording is the largest component on
 Haiku ($+12.5$) and null on Sonnet ($+0.6$); unbracketing runs the other way \\
 
-No human ever validated these outcomes. & \S\ref{sec:prereg} & \textsc{shown, and it is
-a limitation}: scored by two model judges and one deterministic gate, which is three
-instruments and no ground truth. No human annotation was collected for any experiment
-here \\
+The judge manufactures part of the effect. & \S\ref{sec:prereg} & \textsc{not shown}:
+on $50$ hand-labelled items the human-scored effect is $+21.2$ against the judge's
+$+20.8$, so the judge understates it. Agreement $86\%$, $\kappa=0.75$ \\
+
+\textbf{Fifty hand labels validate the model judge.} & \S\ref{sec:prereg} &
+\textsc{not claimed}: one rater, who is the paper's author, blind to condition but not to
+hypothesis, with no inter-rater agreement. The scorer-swap interval $[-15.9,+16.0]$ does
+not exclude a shift the size of the effect \\
+
+The judge errs evenly across the two arms. & \S\ref{sec:prereg} & \textsc{not shown}:
+disagreement runs $1/26$ on field and $6/24$ on prose, Fisher exact $p=0.045$, and the
+errors that touch the difference cancel by arithmetic rather than by design \\
 
 The effect is a matter of length or token count. & \S\ref{sec:ablation} &
 \textsc{not shown}: the longest arm in the experiment, a parenthetical padded with
@@ -1252,6 +1293,14 @@ blind reader's raw reply, and how that reply was parsed. Superseded runs are pub
 too, under \texttt{data/raw/superseded/} with a README explaining why they are not
 pooled, so the claim that a parser bug inflated the effect from $+4.0$ to $+9.3$ points
 can be checked rather than taken on trust.
+
+The hand annotation ships in the same form: the blank sheet as it was presented
+(\texttt{data/annotation/human\_sheet.md}), the judge verdicts that were withheld from the
+annotator until it was filled in (\texttt{human\_key.json}), the sampler and scorer
+(\texttt{experiments/human\_annotate.py}), and the two analyses
+(\texttt{human\_direction.py}, \texttt{human\_bootstrap.py}). The stratification seed is
+recorded in the key file, so the same fifty items can be drawn again and relabelled by
+somebody else.
 
 \paragraph{Spend, and how it is counted.} Metered API spend for every run in this paper
 is under \$$14$ \emph{nominal}. Nominal means: computed from measured token counts at rates

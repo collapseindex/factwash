@@ -276,6 +276,25 @@ def main() -> int:
                 legal_pts.add(round(100 * d[key], 1))
         for b in (d.get("ci95") or []):
             legal_pts.add(round(100 * b, 1))
+    # the human-annotation figures come from a different measurement, so they are sourced
+    # from their own result files rather than exempted. An exemption would wave through
+    # any typo in that paragraph; this way a mistyped one still fails.
+    for src in (SUMMARY.parent / "human_direction.json",
+                SUMMARY.parent / "human_bootstrap.json"):
+        if not src.is_file():
+            continue
+        d = json.loads(src.read_text(encoding="utf-8"))
+        for who in ("judge", "human"):
+            if isinstance(d.get(who), dict):
+                for key in ("delta", "field", "paren"):
+                    if isinstance(d[who].get(key), (int, float)):
+                        legal_pts.add(round(100 * d[who][key], 1))
+        for key in ("judge_delta", "human_delta", "shift_human_minus_judge"):
+            if isinstance(d.get(key), (int, float)):
+                legal_pts.add(round(100 * d[key], 1))
+        for key in ("human_delta_ci95", "shift_ci95"):
+            for b in d.get(key) or []:
+                legal_pts.add(round(100 * b, 1))
     # historical figures the paper quotes on purpose when describing what it withdrew
     legal_pts |= {4.0, 9.3, 3.7, 0.4, 18.3, 15.9}
     for m in re.finditer(r"\$([+-]\d+\.\d)\$", tex):
@@ -359,6 +378,146 @@ def main() -> int:
     checks += 1
     if tex.count(r"\textsc{not claimed}") + tex.count(r"\textsc{not shown}") < 3:
         fails.append("fewer than three NOT SHOWN / NOT CLAIMED rows in the ledger")
+
+    # (d) the human annotation. The paragraph's whole load-bearing content is a
+    # DIRECTION ("the judge understates") plus three caveats. A rerun or a relabel
+    # could flip the direction while every number in the prose still parses as a real
+    # value somewhere, so the direction gets asserted against the data, and the three
+    # caveats get asserted against the prose.
+    hd = SUMMARY.parent / "human_direction.json"
+    hb = SUMMARY.parent / "human_bootstrap.json"
+    ha = SUMMARY.parent / "human_agreement.json"
+    if hd.is_file() and hb.is_file() and ha.is_file():
+        d, b, a = (json.loads(f.read_text(encoding="utf-8")) for f in (hd, hb, ha))
+
+        checks += 1
+        if d["human"]["delta"] < d["judge"]["delta"]:
+            fails.append(
+                f"the paper says the judge UNDERSTATES the effect, but the data now "
+                f"says human {d['human']['delta']:+.4f} < judge "
+                f"{d['judge']['delta']:+.4f}. That is a threat to the result, not a "
+                f"footnote: rewrite the paragraph before touching this check")
+        want(r"\emph{understates}", "the direction of the human/judge disagreement")
+
+        # Every figure here is stated in more than one place: the section, the abstract
+        # and the ledger. `want` only asks whether a number appears SOMEWHERE, so
+        # editing one of two copies left the gate green. Negative testing caught five
+        # of these at once. So match every occurrence and require them all to agree
+        # with the data, which is the property the paper actually needs.
+        # Match against a whitespace-normalised copy. Anchored patterns like
+        # "Fisher exact $p=" silently missed the occurrence where LaTeX had wrapped
+        # the line between the two words, so the gate was checking one of two copies
+        # and reporting itself satisfied.
+        flat_tex = re.sub(r"\s+", " ", tex)
+
+        def all_equal(pattern, expected, label, groups=1):
+            nonlocal checks
+            checks += 1
+            got = re.findall(pattern, flat_tex)
+            if not got:
+                fails.append(f"{label}: not stated anywhere in main.tex")
+                return
+            exp = expected if groups > 1 else (expected,)
+            for g in got:
+                vals = g if isinstance(g, tuple) else (g,)
+                if any(abs(float(v) - float(e)) > 5e-9 for v, e in zip(vals, exp)):
+                    fails.append(f"{label}: main.tex states {vals}, data says {exp} "
+                                 f"({len(got)} occurrences, all must agree)")
+                    return
+
+        all_equal(r"\\kappa\s*=\s*([\d.]+)", round(a["cohens_kappa"], 2),
+                  "Cohen's kappa")
+        all_equal(r"[Aa]greement (?:is )?\$([\d.]+)\\%\$", 100 * a["raw_agreement"],
+                  "raw human/judge agreement")
+        all_equal(r"\$(\d+)\$ (?:stored memories|hand[- ]labelled items|hand labels)",
+                  a["n"], "annotated sample size")
+        all_equal(r"\$(\d+)\$ distinct claims", b["n_claims"],
+                  "number of claims the sample was drawn from")
+
+        # the asymmetry: both fractions and the p-value, everywhere each is stated
+        all_equal(r"\$(\d+)/(\d+)\$ on field", b["disagree_field"],
+                  "field disagreement fraction", groups=2)
+        all_equal(r"\$(\d+)/(\d+)\$ on (?:bracketed|prose)", b["disagree_prose"],
+                  "prose disagreement fraction", groups=2)
+        all_equal(r"Fisher exact \$p=([\d.]+)\$", round(b["asymmetry_fisher_p"], 3),
+                  "Fisher exact p for the disagreement asymmetry")
+        checks += 1
+        if b["asymmetry_fisher_p"] < 0.05 and "asymmetry" not in tex.lower():
+            fails.append("the disagreement asymmetry is significant and the prose does "
+                         "not name it")
+
+        # the shift interval must be reported WITH its width, not just as a null
+        lo, hi = (round(100 * v, 1) for v in b["shift_ci95"])
+        all_equal(r"scorer[\s\S]{0,160}?\$\[([-+][\d.]+),\s*([-+][\d.]+)\]\$", (lo, hi),
+                  "the scorer-swap interval", groups=2)
+
+        # paragraph-scoped checks. Asking whether "author" appears ANYWHERE in a paper
+        # that has an \author command is not a check; it passed while the caveat was
+        # being deleted. Pull the two paragraphs out and ask of them specifically.
+        def para(marker):
+            i = tex.find(marker)
+            if i == -1:
+                return ""
+            ends = [x for x in (tex.find(r"\paragraph{", i + len(marker)),
+                                tex.find("\n\\section", i)) if x != -1]
+            return tex[i:min(ends)] if ends else tex[i:]
+
+        s5 = re.sub(r"\s+", " ", para(r"\paragraph{And fifty items a human read.}").lower())
+        lim = re.sub(r"\s+", " ", para(r"\paragraph{One human read fifty of these").lower())
+        checks += 1
+        if not s5 or not lim:
+            fails.append("the human-annotation paragraph or its limitation is gone; "
+                         "every check below it is now vacuous")
+
+        for where, name, phrase, why in (
+            (s5, "S5", "one rater", "that there is a single annotator"),
+            (s5, "S5", "author", "that the annotator is the paper's author"),
+            (s5, "S5", "not blind to hypothesis",
+             "that blind to condition is not blind to hypothesis"),
+            (s5, "S5", "no inter-rater agreement",
+             "that there is no inter-rater agreement"),
+            (s5, "S5", "not validation of it",
+             "that fifty author labels are a check on the instrument, not validation"),
+            (lim, "limitations", "author",
+             "that the annotator is the paper's author"),
+            (lim, "limitations", "no inter-annotator", "that one rater yields no IAA"),
+            (s5, "S5", f"$[{lo:+.1f}, {hi:+.1f}]$",
+             "the scorer-swap interval itself, in the paragraph that reports the null"),
+        ):
+            checks += 1
+            if where and phrase not in where:
+                fails.append(f"the human-annotation caveat is missing from {name}: {why}")
+
+        # the null must be reported with its width, in the paragraph that reports it
+        checks += 1
+        widest = max(abs(lo), abs(hi))
+        # the effect the interval has to be compared against is the smaller of the two
+        # per-model headline numbers. An earlier version keyed on "c60/pooled", which
+        # does not exist in the summary, so this check was dead and passed everything.
+        sizes = [abs(100 * cc[k]["rate_delta"]) for k in ROWS.values() if k in cc]
+        headline = min(sizes) if sizes else None
+        if (s5 and headline and widest >= headline
+                and not re.search(r"fails? to exclude|does not exclude", s5)):
+            fails.append(f"the scorer-swap interval spans {widest:.1f} points against a "
+                         f"{headline:.1f}-point effect, and the paragraph reporting it "
+                         f"does not say it fails to exclude a shift that size. A null "
+                         f"stated without its width is the overclaim available here")
+
+        # and the claim it must NOT make
+        checks += 1
+        for bad in ("human validation", "validated by a human", "human ground truth",
+                    "is human validation"):
+            for chunk, name in ((s5, "S5"), (lim, "limitations")):
+                i = chunk.find(bad)
+                while i != -1:
+                    ctx = chunk[max(0, i - 90):i]
+                    if not re.search(r"\b(not|no|missing|cannot|does not|do not)\s*$",
+                                     ctx.strip() + " ") and not re.search(
+                            r"\b(not|missing|cannot)\b", ctx[-40:]):
+                        fails.append(f"{name} asserts {bad!r} for what is fifty labels "
+                                     f"by the paper's own author")
+                        break
+                    i = chunk.find(bad, i + 1)
 
     print(f"{checks} checks run against {SUMMARY.name} "
           f"({rep['n_trials_analysed']} trials analysed)")

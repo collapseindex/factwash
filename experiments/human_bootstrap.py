@@ -61,7 +61,7 @@ def delta(rows, who):
 
 def ci(draws, lo=0.025, hi=0.975):
     d = sorted(draws)
-    return round(d[int(lo * len(d))], 4), round(d[int(hi * len(d)) - 1], 4)
+    return round(d[int(lo * len(d))], 6), round(d[int(hi * len(d)) - 1], 6)
 
 
 def fisher_two_tailed(a, b, c, d):
@@ -130,19 +130,22 @@ def main() -> int:
     print(f"\n  disagreement asymmetry  field {fd}/{fn}, prose {pd_}/{pn}, "
           f"Fisher exact p = {p_fisher:.4f}")
     if p_fisher < 0.05:
-        print("  Real asymmetry. It is benign only because of its DIRECTION: the judge")
-        print("  over-detects claim presence on prose, and most of that lands on")
-        print("  established_fact, which does not count as retained.")
+        print("  Real asymmetry. It is benign only because of its DIRECTION: half of")
+        print("  the prose disagreements are established_fact against absent, two")
+        print("  labels that both count as stance lost, and the rest are cancelled by")
+        print("  the single field-arm error going the same way. That is a small number")
+        print("  of errors happening to balance, not a judge that is even-handed by")
+        print("  construction.")
     else:
         print("  Not distinguishable from even error at this n.")
 
     out = {"n_items": len(rows), "n_claims": len(claims), "n_boot": N_BOOT, "seed": SEED,
-           "judge_delta": round(d_j, 4), "human_delta": round(d_h, 4),
+           "judge_delta": round(d_j, 6), "human_delta": round(d_h, 6),
            "human_delta_ci95": [h_lo, h_hi],
-           "shift_human_minus_judge": round(d_h - d_j, 4),
+           "shift_human_minus_judge": round(d_h - d_j, 6),
            "shift_ci95": [s_lo, s_hi], "shift_ci_contains_zero": bool(crosses),
            "disagree_field": [fd, fn], "disagree_prose": [pd_, pn],
-           "asymmetry_fisher_p": round(p_fisher, 4),
+           "asymmetry_fisher_p": round(p_fisher, 6),
            "note": "One rater, the paper's author, blind to condition but not to "
                    "hypothesis. Fifty items check the DIRECTION of scorer disagreement; "
                    "they do not re-measure the effect."}

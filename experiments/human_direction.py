@@ -47,8 +47,8 @@ def main() -> int:
         f = [r for r in rows if r["arm"] == "field"]
         p = [r for r in rows if r["arm"] == "paren"]
         fr, pr = rate(f, who), rate(p, who)
-        res[who] = {"field": round(fr, 4), "paren": round(pr, 4),
-                    "delta": round(fr - pr, 4), "n_field": len(f), "n_paren": len(p)}
+        res[who] = {"field": round(fr, 6), "paren": round(pr, 6),
+                    "delta": round(fr - pr, 6), "n_field": len(f), "n_paren": len(p)}
         print(f"{who:<12} {fr:>8.3f} {pr:>8.3f} {fr - pr:>+12.3f}")
 
     d_j, d_h = res["judge"]["delta"], res["human"]["delta"]

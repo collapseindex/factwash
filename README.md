@@ -408,6 +408,7 @@ and its numbers may still move, but everything it rests on is here:
 | claim corpora, 10 + 50 + 60 held-out | `experiments/claims_corpus.py`, `claims_corpus_v3.py` |
 | pre-registration, committed before the run it describes | `writeup2/PREREGISTRATION.md` |
 | a second readout that uses no model at all | `experiments/mechanical_readout.py` |
+| 50 blind hand labels: the sheet as presented, and the judge key withheld until it was filled in | `experiments/human_annotate.py`, `data/annotation/` |
 | every scored trial, one JSON line each | `data/raw/*twocellpress*`, `*ablation*` |
 | superseded runs, kept and explained rather than deleted | `data/raw/superseded/` |
 
@@ -416,6 +417,14 @@ raises retention by about 15 points on two models, and a pre-registered replicat
 claims written before the run reproduces it to within 0.2 points. What the ablation does
 *not* show is a single mechanism: the two models reach the same net effect from different
 components, and only labels and length behave the same way on both.
+
+Every outcome there is a model judging another model's output, so 50 of the stored
+memories were also hand-labelled blind (86% agreement, kappa 0.75). On that sample the
+judge *understates* the effect, +21.2 points by hand against +20.8 by the judge, which is
+the direction the paper needed to check. It is one rater and that rater is the author, so
+it is a check on the instrument rather than validation of it; a larger annotation by
+people with no stake in the result, with inter-rater agreement, is listed as future work
+and has not been done.
 
 The paper carries a ledger of **eight withdrawn claims**, three of which were at some
 point its title. One of them is about this project's own tooling: the consistency gate

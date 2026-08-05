@@ -25,6 +25,9 @@ SONNET = "c60/claude-sonnet-4-5"
 AB = SUMMARY.parent / "ablation_summary.json"
 PR = SUMMARY.parent / "prereg_replication.json"
 ABS = SUMMARY.parent / "ablation_summary_sonnet-4-5.json"
+HD = SUMMARY.parent / "human_direction.json"
+HB = SUMMARY.parent / "human_bootstrap.json"
+HA = SUMMARY.parent / "human_agreement.json"
 
 
 def _patch_abs(path, value):
@@ -54,6 +57,15 @@ def _patch_ab(path, value):
     AB.write_text(json.dumps(d, indent=2), encoding="utf-8")
 
 
+def _patch_hd(path, value):
+    d = json.loads(HD.read_text(encoding="utf-8"))
+    node = d
+    for k in path[:-1]:
+        node = node[k]
+    node[path[-1]] = value
+    HD.write_text(json.dumps(d, indent=2), encoding="utf-8")
+
+
 def run():
     return subprocess.run([sys.executable, str(CHECK)],
                           capture_output=True, text=True).returncode
@@ -74,6 +86,10 @@ def main() -> int:
     orig_ab = AB.read_text(encoding="utf-8")
     orig_pr = PR.read_text(encoding="utf-8")
     orig_abs = ABS.read_text(encoding="utf-8")
+    orig_hd = HD.read_text(encoding="utf-8")
+    hd = json.loads(orig_hd)
+    hb = json.loads(HB.read_text(encoding="utf-8"))
+    ha = json.loads(HA.read_text(encoding="utf-8"))
     rep = json.loads(orig_sum)
     cc = rep["claim_clustered"]
 
@@ -163,6 +179,84 @@ def main() -> int:
              orig_tex.replace("$+15.8$", "$+5.5$", 1), encoding="utf-8")),
         ("a judge reply became unusable",
          lambda: _patch(orig_sum, ["judge_parse", "failed"], 3)),
+
+        # --- the human-annotation gate ---------------------------------------
+        # Every case here is a way the paragraph could claim more than fifty labels
+        # by the paper's own author can support. Targets are read out of the result
+        # files so they cannot go stale into no-ops.
+        ("the human-scored effect falls BELOW the judge's",
+         lambda: _patch_hd(["human", "delta"], hd["judge"]["delta"] - 0.05)),
+        ("the prose flips understates -> inflates",
+         lambda: TEX.write_text(
+             orig_tex.replace(r"\emph{understates}", r"\emph{inflates}", 1),
+             encoding="utf-8")),
+        (f"raw agreement drifts ({100 * ha['raw_agreement']:.1f}%)",
+         lambda: TEX.write_text(
+             orig_tex.replace(f"${100 * ha['raw_agreement']:.1f}" + r"\%$",
+                              r"$91.0\%$", 1), encoding="utf-8")),
+        (f"kappa drifts in S5 ({ha['cohens_kappa']:.2f})",
+         lambda: TEX.write_text(
+             orig_tex.replace(r"\kappa = " + f"{ha['cohens_kappa']:.2f}$",
+                              r"\kappa = 0.93$", 1), encoding="utf-8")),
+        (f"kappa drifts in the abstract ({ha['cohens_kappa']:.2f})",
+         lambda: TEX.write_text(
+             orig_tex.replace(r"\kappa=" + f"{ha['cohens_kappa']:.2f}$",
+                              r"\kappa=0.93$", 1), encoding="utf-8")),
+        (f"the annotated sample size drifts ({ha['n']})",
+         lambda: TEX.write_text(
+             orig_tex.replace(f"${ha['n']}$ stored memories",
+                              "$80$ stored memories", 1), encoding="utf-8")),
+        (f"the claim count drifts ({hb['n_claims']})",
+         lambda: TEX.write_text(
+             orig_tex.replace(f"${hb['n_claims']}$ distinct claims",
+                              "$44$ distinct claims", 1), encoding="utf-8")),
+        (f"the field disagreement fraction drifts ({hb['disagree_field']})",
+         lambda: TEX.write_text(
+             orig_tex.replace("${}/{}$".format(*hb["disagree_field"]),
+                              "$0/26$", 1), encoding="utf-8")),
+        (f"the prose disagreement fraction drifts ({hb['disagree_prose']})",
+         lambda: TEX.write_text(
+             orig_tex.replace("${}/{}$".format(*hb["disagree_prose"]),
+                              "$2/24$", 1), encoding="utf-8")),
+        (f"the Fisher p drifts ({hb['asymmetry_fisher_p']:.3f})",
+         lambda: TEX.write_text(
+             orig_tex.replace(f"$p={hb['asymmetry_fisher_p']:.3f}$",
+                              "$p=0.245$", 1), encoding="utf-8")),
+        ("the significant asymmetry stops being named",
+         lambda: TEX.write_text(
+             re.sub("asymmetry", "difference", orig_tex, flags=re.I),
+             encoding="utf-8")),
+        ("the scorer-swap interval is dropped",
+         lambda: TEX.write_text(
+             orig_tex.replace("$[{:+.1f}, {:+.1f}]$".format(
+                 *[100 * b for b in hb["shift_ci95"]]), "a narrow interval", 1),
+             encoding="utf-8")),
+        ("the wide null is reported as if it were tight",
+         lambda: TEX.write_text(
+             re.sub(r"it also fails to exclude a\s+shift the size of the entire\s+"
+                    r"effect\.", "The scorer makes no difference.",
+                    orig_tex.replace("does not exclude a shift the size of the effect",
+                                     "is tight")), encoding="utf-8")),
+        ("the single-rater caveat is dropped",
+         lambda: TEX.write_text(
+             re.sub("one rater", "several raters", orig_tex, flags=re.I),
+             encoding="utf-8")),
+        ("the annotator stops being identified as the author",
+         lambda: TEX.write_text(
+             re.sub(r"\bauthor(?!s)", "annotator", orig_tex), encoding="utf-8")),
+        ("the blind-to-hypothesis caveat is dropped",
+         lambda: TEX.write_text(
+             re.sub(r"not blind to\s+hypothesis", "blind throughout", orig_tex),
+             encoding="utf-8")),
+        ("the no-inter-rater caveat is dropped",
+         lambda: TEX.write_text(
+             orig_tex.replace("no inter-rater agreement",
+                              "strong inter-rater agreement"), encoding="utf-8")),
+        ("fifty author labels are upgraded to human validation",
+         lambda: TEX.write_text(
+             re.sub(r"It\s+is a check on the instrument, not validation of it\.",
+                    "This is human validation of the effect.", orig_tex),
+             encoding="utf-8")),
     ]
 
     if run() != 0:
@@ -180,6 +274,7 @@ def main() -> int:
             AB.write_text(orig_ab, encoding="utf-8")
             PR.write_text(orig_pr, encoding="utf-8")
             ABS.write_text(orig_abs, encoding="utf-8")
+            HD.write_text(orig_hd, encoding="utf-8")
         ok = rc != 0
         bad += not ok
         print(("CAUGHT " if ok else "MISSED ") + name)
@@ -194,3 +289,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
+
