@@ -9,6 +9,7 @@ Also fails on leftover \\needsdata placeholders and on an empty claims ledger.
 import json
 import re
 import sys
+from itertools import combinations
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -88,6 +89,11 @@ def main() -> int:
             ("Haiku survival p", h["paired"]["mcnemar_exact_p"], "0.004"),
             ("Opus survival p", o["paired"]["mcnemar_exact_p"], "0.0003"),
             ("Sonnet eviction p", s["eviction_paired"]["mcnemar_exact_p"], "0.29"),
+            # added after the prose quoted the SURVIVAL p-value next to the EVICTION
+            # counts; the gate checked the counts and never looked at the p
+            ("pooled eviction p", allb["eviction_paired"]["mcnemar_exact_p"], "0.00014"),
+            ("Opus severe eviction p", sev["eviction_paired"]["mcnemar_exact_p"],
+             "0.0003"),
             ("Opus severe survival p", sev["paired"]["mcnemar_exact_p"], "0.0009")):
         checks += 1
         if abs(float(f"{val:.4g}") - float(lit)) > float(lit) * 0.12:
@@ -103,6 +109,29 @@ def main() -> int:
 
     # --- total analysed pairs ------------------------------------------------
     want(f"${allb['paired']['pairs']}$", "total matched pairs")
+
+    # Presence of the right number is not absence of the wrong one. A stale "$860$
+    # matched pairs" survived three places while this gate happily confirmed that
+    # "$950$" also appeared somewhere. So: every pair count stated anywhere in the
+    # prose must be a count the data actually produces.
+    legal = {str(b["paired"]["pairs"]) for b in blocks.values() if "paired" in b}
+    legal |= {str(b[a]["n"]) for b in blocks.values() for a in ("field", "paren")
+              if a in b}
+    # The prose also groups models ("370 paired trials across two Sonnet models"), so
+    # sums over subsets of the per-model counts are legal. This checks the arithmetic
+    # too: a grouped total that is not a real sum fails here.
+    per_model = [blocks[f"model={k}"]["paired"]["pairs"] for k in MODELS.values()
+                 if k != "ALL" and f"model={k}" in blocks]
+    for r in range(2, len(per_model) + 1):
+        legal |= {str(sum(c)) for c in combinations(per_model, r)}
+    for pat, what in ((r"\$(\d+)\$ matched pairs", "matched pairs"),
+                      (r"\$n\s*=\s*(\d+)\$", "n="),
+                      (r"\$(\d+)\$ paired trials", "paired trials")):
+        for m in re.finditer(pat, tex):
+            checks += 1
+            if m.group(1) not in legal:
+                fails.append(f"stated {what} {m.group(1)} is not a pair count the data "
+                             f"produces (legal: {sorted(legal, key=int)})")
 
     # --- the direction claims the prose makes --------------------------------
     checks += 1

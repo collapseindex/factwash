@@ -99,6 +99,12 @@ def _live_pairs():
 
     pairs = {}
     for path in glob.glob(str(ROOT / "data" / "raw" / "*laundering*.jsonl")):
+        # Dry-run ledgers carry CANNED outputs, not measured ones, and they were being
+        # swept into this corpus: 10 of 26 pairs came from them, and the only recall
+        # miss came entirely from that synthetic half. A guard on published numbers
+        # must not read fabricated data, whichever way it happens to move the number.
+        if "dryrun" in Path(path).name:
+            continue
         for line in Path(path).read_text(encoding="utf-8").splitlines():
             if not line.strip():
                 continue
@@ -118,7 +124,16 @@ def _live_pairs():
 def test_deterministic_recall_and_precision_match():
     pairs = _live_pairs()
     if len(pairs) < 20:
-        pytest.skip("needs the paid-run ledgers in data/raw")
+        # A skip here is NOT a pass: it means the README's headline recall and
+        # precision are currently unverified on this machine, because the paid-run
+        # ledgers behind them are not in data/raw (which is gitignored, so a clone
+        # never has them). Say that out loud rather than reporting a quiet "s".
+        pytest.skip(
+            f"UNVERIFIED, not passing: only {len(pairs)} labelled writes have matching "
+            f"ledgers in data/raw, and the README headline was computed on 44. Restore "
+            f"the paid-run laundering ledgers or re-run experiments/laundering.py to "
+            f"check the published figures."
+        )
 
     tp = sum(1 for s, m, lab in pairs if lab == "flag" and _flagged(s, m))
     fn = sum(1 for s, m, lab in pairs if lab == "flag" and not _flagged(s, m))

@@ -61,6 +61,16 @@ def main() -> int:
          lambda: _patch_summary(orig_sum, "ALL", "paren", "evicted", 1))
     case("Opus effect no longer exceeds Haiku's",
          lambda: _patch_delta(orig_sum, "model=claude-opus-4-5", 0.001))
+    # The class of bug this gate was blind to until it was added: a stale figure
+    # surviving alongside the correct one, so "the right number is present" passes.
+    case("a stale pair count reappears in the prose",
+         lambda: TEX.write_text(
+             orig_tex.replace("across $950$ matched pairs", "across $860$ matched pairs",
+                              1), encoding="utf-8"))
+    case("a grouped total stops being a real sum",
+         lambda: TEX.write_text(orig_tex.replace("$370$ paired trials",
+                                                 "$371$ paired trials"),
+                                encoding="utf-8"))
     case("a Sonnet model stops being null",
          lambda: _patch_p(orig_sum, "model=claude-sonnet-5", 0.001))
     case("Haiku stops being significant",
