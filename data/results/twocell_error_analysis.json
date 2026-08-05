@@ -1,0 +1,92 @@
+{
+  "by_register": {
+    "project": {
+      "Haiku 4.5": 0.20588235294117646,
+      "Sonnet 4.5": 0.22549019607843138
+    },
+    "conflict": {
+      "Haiku 4.5": 0.11904761904761905,
+      "Sonnet 4.5": -1.586032892321652e-17
+    },
+    "estimate": {
+      "Haiku 4.5": 0.23809523809523808,
+      "Sonnet 4.5": 0.19047619047619047
+    },
+    "medicine": {
+      "Haiku 4.5": 0.125,
+      "Sonnet 4.5": 0.020833333333333322
+    },
+    "news": {
+      "Haiku 4.5": 0.16666666666666669,
+      "Sonnet 4.5": 0.09523809523809525
+    },
+    "personal": {
+      "Haiku 4.5": 0.047619047619047616,
+      "Sonnet 4.5": 0.16666666666666666
+    },
+    "scheduling": {
+      "Haiku 4.5": 0.14285714285714285,
+      "Sonnet 4.5": 0.2857142857142857
+    }
+  },
+  "failing_claims": {
+    "conf_status": {
+      "Haiku 4.5": -0.5
+    },
+    "proj_scope": {
+      "Haiku 4.5": -0.16666666666666666
+    },
+    "admin": {
+      "Sonnet 4.5": -0.16666666666666666
+    },
+    "conf_count": {
+      "Sonnet 4.5": -0.16666666666666674
+    },
+    "conf_owner": {
+      "Sonnet 4.5": -0.5
+    },
+    "med_scan": {
+      "Sonnet 4.5": -0.16666666666666674
+    },
+    "outage": {
+      "Sonnet 4.5": -0.16666666666666666
+    },
+    "pers_park": {
+      "Sonnet 4.5": -0.16666666666666666
+    },
+    "sched_deadline": {
+      "Sonnet 4.5": -0.16666666666666674
+    },
+    "sched_flight": {
+      "Sonnet 4.5": -0.16666666666666666
+    }
+  },
+  "permutation": {
+    "Haiku 4.5": {
+      "observed_mean_delta": 0.1583,
+      "n_claims": 60,
+      "p_permutation": 5e-05,
+      "n_perm": 20000
+    },
+    "Sonnet 4.5": {
+      "observed_mean_delta": 0.1528,
+      "n_claims": 60,
+      "p_permutation": 5e-05,
+      "n_perm": 20000
+    }
+  },
+  "length": {
+    "Haiku 4.5": {
+      "pearson_r": null,
+      "n": 60,
+      "extra_chars": 12.0,
+      "verdict": "UNINFORMATIVE: the length difference is constant by construction, so this correlation has no variance to work with. Needs a token-matched arm, not a re-analysis."
+    },
+    "Sonnet 4.5": {
+      "pearson_r": null,
+      "n": 60,
+      "extra_chars": 12.0,
+      "verdict": "UNINFORMATIVE: the length difference is constant by construction, so this correlation has no variance to work with. Needs a token-matched arm, not a re-analysis."
+    }
+  }
+}
