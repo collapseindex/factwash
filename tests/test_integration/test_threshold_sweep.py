@@ -24,8 +24,18 @@ SHIPPED = 0.25          # keep in step with claims.MIN_CONTAINMENT
 
 
 def _live():
+    """Real extractor outputs only.
+
+    Dry-run ledgers carry CANNED memories, not measured ones. They were being swept in
+    here, and they were the only reason this test cleared its own 40-record floor: the
+    paid ledgers hold 36. So the shipped threshold was being defended partly against
+    fabricated data. Same bug as the one fixed in test_published_numbers; a glob over
+    data/raw is not a corpus.
+    """
     out = []
     for path in glob.glob(str(ROOT / "data" / "raw" / "*laundering*.jsonl")):
+        if "dryrun" in Path(path).name:
+            continue
         for line in Path(path).read_text(encoding="utf-8").splitlines():
             if not line.strip():
                 continue
@@ -60,7 +70,14 @@ def _score(records, threshold):
 def test_shipped_threshold_is_not_beaten_by_any_swept_alternative(restore_threshold, capsys):
     records = _live()
     if len(records) < 40:
-        pytest.skip("needs paid-run data in data/raw")
+        # NOT a pass. The shipped threshold is currently unverified against a sweep,
+        # because the paid ledgers in data/raw hold fewer records than this test needs
+        # and dry-run data is no longer allowed to make up the difference.
+        pytest.skip(
+            f"UNVERIFIED, not passing: only {len(records)} real extractor outputs in "
+            f"data/raw, and this sweep needs 40. Re-run experiments/laundering.py to "
+            f"check the shipped threshold against its alternatives."
+        )
 
     results = {t: _score(records, t) for t in SWEEP}
     here = _score(records, SHIPPED)
