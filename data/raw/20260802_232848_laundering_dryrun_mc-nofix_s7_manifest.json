@@ -1,0 +1,22 @@
+{
+  "operation": "laundering",
+  "provider": "dryrun",
+  "model": "dryrun",
+  "extractor": "mc",
+  "extract_system_tokens_est": 46,
+  "fix_enabled": false,
+  "seed": 7,
+  "budget_cap_usd": 0.0,
+  "rate_label": "unpriced",
+  "rate_in_per_mtok": 0.0,
+  "rate_out_per_mtok": 0.0,
+  "corpus_size": 15,
+  "limit": 0,
+  "dry_run": true,
+  "memlint_version": "0.1.0",
+  "started_at": "2026-08-02T23:28:54.970131+00:00",
+  "resumed_from_items": 5,
+  "prior_spend_usd": 0.0,
+  "run_file": "20260802_232848_laundering_dryrun_mc-nofix_s7.jsonl",
+  "written_at": "2026-08-02T23:28:54.970145+00:00"
+}

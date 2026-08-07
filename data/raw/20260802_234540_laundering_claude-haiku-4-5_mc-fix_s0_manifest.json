@@ -1,0 +1,22 @@
+{
+  "operation": "laundering",
+  "provider": "anthropic",
+  "model": "claude-haiku-4-5",
+  "extractor": "mc",
+  "extract_system_tokens_est": 46,
+  "fix_enabled": true,
+  "seed": 0,
+  "budget_cap_usd": 0.25,
+  "rate_label": "claude-haiku-4-5",
+  "rate_in_per_mtok": 1.0,
+  "rate_out_per_mtok": 5.0,
+  "corpus_size": 15,
+  "limit": 0,
+  "dry_run": false,
+  "memlint_version": "0.1.0",
+  "started_at": "2026-08-02T23:45:40.436109+00:00",
+  "resumed_from_items": 0,
+  "prior_spend_usd": 0.0,
+  "run_file": "20260802_234540_laundering_claude-haiku-4-5_mc-fix_s0.jsonl",
+  "written_at": "2026-08-02T23:45:40.436129+00:00"
+}

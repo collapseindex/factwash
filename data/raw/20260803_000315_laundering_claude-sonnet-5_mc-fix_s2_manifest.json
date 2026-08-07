@@ -1,0 +1,22 @@
+{
+  "operation": "laundering",
+  "provider": "anthropic",
+  "model": "claude-sonnet-5",
+  "extractor": "mc",
+  "extract_system_tokens_est": 46,
+  "fix_enabled": true,
+  "seed": 2,
+  "budget_cap_usd": 0.15,
+  "rate_label": "claude-sonnet-5-intro",
+  "rate_in_per_mtok": 2.0,
+  "rate_out_per_mtok": 10.0,
+  "corpus_size": 15,
+  "limit": 0,
+  "dry_run": false,
+  "memlint_version": "0.1.0",
+  "started_at": "2026-08-03T00:03:15.226321+00:00",
+  "resumed_from_items": 0,
+  "prior_spend_usd": 0.0,
+  "run_file": "20260803_000315_laundering_claude-sonnet-5_mc-fix_s2.jsonl",
+  "written_at": "2026-08-03T00:03:15.226356+00:00"
+}
