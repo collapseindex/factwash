@@ -746,7 +746,8 @@ promoted, and \emph{labels} is field against unlabelled. Grey bars are not signi
 $0.05$ by an exact sign test over per-claim differences. Only \emph{labels} is coloured
 for both models; \emph{wording} carries the effect on Haiku and does nothing on Sonnet,
 while \emph{unbracketing} does more on Sonnet. \emph{Length} is the one property that
-helps neither, and on Sonnet it hurts. Sixty claims, both hard budgets.}
+helps neither model. Its apparent cost on Sonnet is the one bar here whose sign the
+no-model readout reverses, so we do not claim it. Sixty claims, both hard budgets.}
 \label{fig:ablation}
 \end{figure*}
 
@@ -769,10 +770,13 @@ length                & $+0.8$      & $-10.3^{*}$ \\
 net (field vs bracketed) & $+15.8^{*}$ & $+15.3^{*}$ \\
 \bottomrule
 \end{tabular}
-\caption{\textbf{The same effect, assembled differently.} Percentage-point change in
+\caption{\textbf{The same effect, assembled differently, under the blind reader.}
+Percentage-point change in
 stance retention from altering one property, per claim, sixty claims, both hard budgets.
 $^{*}$ marks a significant exact sign test across claims. The net effect at the bottom is
-near-identical on the two models; almost none of the components are.}
+near-identical on the two models; almost none of the components are. The \emph{length}
+row is the one whose sign the no-model readout reverses ($-1.9$ on Haiku, $+5.8$ on
+Sonnet), so its $-10.3$ is a property of this instrument and we claim only the null.}
 \label{tab:ablation}
 \end{table}
 
@@ -917,8 +921,9 @@ prediction registered in advance.
 
 What we cannot do is tell you why in one sentence, and the reason is worth more than the
 sentence would have been. Ablating the format on both models gives the same net effect
-assembled from different parts. Labels help on both. Length helps on neither, and on one
-model padding a note with stance-free text costs ten points. But the largest single
+assembled from different parts. Labels help on both. Length helps on neither, and whether
+padding a note with stance-free text actively costs depends on which instrument is asked,
+so we report the null and not the harm. But the largest single
 component on Haiku, wording the stance as a full sentence, is worth nothing at all on
 Sonnet. Either model on its own would have supported a confident mechanism, and the two
 mechanisms would have contradicted each other.
@@ -1049,6 +1054,8 @@ same format as the companion paper \citep{kwon2026factwash}.
       the nine were at some point this paper's \textbf{title claim}, and are marked
       \textsc{(headline)}.
 \item \textsc{not shown}: our measurement neither supports nor refutes it.
+\item \textsc{narrowed}: we asserted it and it survived, but smaller or under fewer
+      conditions than first stated.
 \item \textsc{not claimed}: we never asserted it; the row exists so a reader cannot
       infer it.
 \item \textsc{pending}: this draft still owes the measurement.
@@ -1072,8 +1079,12 @@ same format as the companion paper \citep{kwon2026factwash}.
 
 Making the note longer retains more stance. & \S\ref{sec:ablation},
 Tab.~\ref{tab:ablation} & \textsc{not shown, on two models}: $+0.8$ points
-$[-2.5,+3.9]$ on Haiku and $-10.3$ $[-15.0,-5.3]$ on Sonnet. On one model padding
-actively hurts \\
+$[-2.5,+3.9]$ on Haiku and $-10.3$ $[-15.0,-5.3]$ on Sonnet under the blind reader \\
+
+\textbf{Padding a note actively costs stance on Sonnet.} & \S\ref{sec:ablation} &
+\textsc{narrowed}: asserted from the blind reader's $-10.3$. The no-model readout puts
+the same contrast at $+5.8$ on Sonnet and $-1.9$ on Haiku, so it is the one component
+whose sign depends on the instrument, and the null is all we claim \\
 
 Labels contribute to retention. & \S\ref{sec:ablation} & \textsc{shown on both models}:
 $+9.7$ $[+2.8,+16.1]$ and $+12.8$ $[+7.2,+18.3]$. The only component that behaves the
