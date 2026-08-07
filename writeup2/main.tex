@@ -161,18 +161,19 @@ the same budget among the same distractor notes, and a blind reader that never s
 condition scores the result. Across $60$ claims in seven registers, writing the stance as a
 labelled field rather than a bracketed aside raises retention by about $15$ points on two
 models ($37$ claims to $2$ on one, $30$ to $8$ on the other; permutation $p=0.00005$). A
-pre-registered replication on $60$ claims written before the run, with the prediction and
-decision rule committed first, gives $+15.6$ points, $38$ claims to $1$. We then ablate the
-format on both models to ask which property does the work, and the answer is a warning
-about single-model mechanism claims: the two models reach the same net effect by different
-routes. Labels help on both ($+9.7$ and $+12.8$). Length helps on neither, and on one model
-padding with stance-free text \emph{costs} $10.3$ points. But the largest component on one
-model, wording the stance as a full sentence ($+12.5$), is worth nothing on the other
-($+0.6$). Either model alone would have licensed a confident and different mechanism. We
-report the intersection: make the stance explicit, do not merely make the note longer, and
-expect the best way of being explicit to depend on the model. A deterministic readout using
-no model agrees on direction, as do $50$ hand labels ($\kappa=0.75$) whose seven
-disagreements we print in full. We also report nine withdrawn claims, three of them former title claims of this paper.
+pre-registered replication on Haiku, on $60$ claims written before the run with the
+prediction and decision rule committed first, gives $+15.6$ points, $38$ claims to $1$. We
+then ablate the format on both models to ask which property does the work, and the answer
+is a warning about single-model mechanism claims: the two models reach the same net effect
+by different routes. Labels help on both ($+9.7$ and $+12.8$) and length helps on neither,
+but the largest component on one model, wording the stance as a full sentence ($+12.5$), is
+worth nothing on the other ($+0.6$). Either model alone would have licensed a confident and
+different mechanism. We report the intersection: make the stance explicit, do not merely
+make the note longer, and expect the best way of being explicit to depend on the model. A
+deterministic readout with no model reproduces the two-cell direction and five of seven
+ablation contrasts, but not length or labels, which we therefore do not claim on one
+instrument. Fifty hand labels ($\kappa=0.75$) agree on direction; we print their seven
+disagreements in full. We also report nine withdrawn claims, three of them former title claims of this paper.
 \end{abstract}
 
 % ===========================================================================
@@ -372,7 +373,7 @@ where the standing sits:
 \begin{promptbox}[the two cells]
 \textbf{field}\quad Alice has admin access\\
 \phantom{\textbf{field}}\quad SOURCE: a third party\\
-\phantom{\textbf{field}}\quad CERTAINTY: rumor\\[2pt]
+\phantom{\textbf{field}}\quad CERTAINTY: rumor, unconfirmed\\[2pt]
 \textbf{paren}\quad Alice has admin access (per a third party; rumor, unconfirmed)
 \end{promptbox}
 
@@ -492,13 +493,23 @@ written up rather than checked.
 
 \paragraph{The judge is not the explanation.} In the runs above the compressor and the
 blind reader are the same model, so each model in effect grades its own homework. That is
-a live confound for any comparison \emph{between} models. We removed it by re-scoring, with a single fixed judge, all $1{,}941$ memories that
-existed when that check was run, which costs judge calls only and no new compression. That
-figure is a snapshot: it predates the sixty-claim runs and the replication, so it is
-smaller than the $4{,}104$ trials the paper now analyses. Agreement with the original scoring is $98\%$, and no
-model's effect moves by more than two points; Sonnet~4.5's ten-claim null is unchanged to
-four decimals. The self-judging confound is real in principle and was not what was
-happening here.
+a live confound for any comparison \emph{between} models. We checked it by re-scoring, with
+a single fixed judge, all $1{,}941$ memories that existed when that check was run, which
+costs judge calls only and no new compression. That figure is a snapshot: it predates the
+sixty-claim runs and the replication, so it is smaller than the $4{,}104$ trials the paper
+now analyses. Agreement with the original scoring is $98\%$, and no model's effect moves by
+more than two points; Sonnet~4.5's ten-claim null is unchanged to four decimals.
+
+Two limits on what that buys, and they matter enough to state here rather than in the
+Limitations. First, the fixed judge is Haiku~4.5, so it de-selfs the Sonnet column and
+\emph{not} the Haiku one: Haiku memories were graded by Haiku in the original run and by
+Haiku again in the check, and the headline sign split and the entire replication live in
+that column. Second, both judges are Claude models, and agreement between two instruments
+of one family measures variance within that family rather than bias shared across it. So
+this is a check and not a removal. What carries weight against self-judging here is not the
+rescore but the two instruments that are not model judges at all, the deterministic readout
+and the hand labels in \S\ref{sec:errors}, both of which agree on direction. A non-Claude
+rescore of the Haiku column is the obvious next control and we have not run it.
 
 \paragraph{Which failure it prevents.} A claim can lose its standing or it can be
 dropped from the digest entirely, and these are different failures. Under the
@@ -774,10 +785,14 @@ Three things survive the second model and one does not.
       labels in both directions: an early draft credited them with the whole effect, a
       later one dismissed them as irrelevant, and the measurement puts them second of
       five and reproducible.
-\item \textbf{Length helps on neither model, and on one it hurts.} $+0.8$ $[-2.5, +3.9]$ on Haiku is a
-      tight null; on Sonnet the same padding \emph{costs} $10.3$ points
-      $[-15.0, -5.3]$, $p=0.0001$. Making the note longer without making the stance
-      plainer is at best useless and at worst actively harmful.
+\item \textbf{Length helps on neither model.} $+0.8$ $[-2.5, +3.9]$ on Haiku is a
+      tight null; on Sonnet the same padding scores $-10.3$ points
+      $[-15.0, -5.3]$, $p=0.0001$ under the blind reader. We claim the null and not the
+      harm: the no-model readout below puts this contrast at $-1.9$ on Haiku and
+      $+5.8$ on Sonnet, so it is the one component whose \emph{sign} depends on which
+      instrument is asked, and \emph{padding is actively harmful} is not a finding two
+      instruments support. Making the note longer without making the stance plainer buys
+      nothing; whether it costs is not settled here.
 \item \textbf{Unbracketing helps on both, by different amounts}, $+6.7$ and $+12.8$; it
       reaches significance on Sonnet and not on Haiku. Note that on Haiku \emph{own line}
       ($+6.1$) is slightly smaller than \emph{unbracketing} ($+6.7$) even though it moves
@@ -797,9 +812,27 @@ show together. The reportable statement is narrower than either: \emph{labels he
 models, length helps on neither, and which of the remaining properties carries the effect
 depends on the model.}
 
+\paragraph{The same contrasts, scored by an instrument with no model in it.} Everything
+above is one Claude-family judge reading Claude-family output, which is the objection
+\S\ref{sec:errors} answers for the two-cell result and did not, until now, answer here.
+\texttt{experiments/ablation\_mechanical.py} reruns all seven contrasts with the
+deterministic gate substituted for the blind reader. Read the magnitudes as floors: the
+gate has a documented recall ceiling on open-class stance and is tilted against any arm
+carrying stance as a label, so it cannot see \texttt{CERTAINTY: rumor} at all. Five of the
+seven contrasts keep their direction on both models, and the two largest, subordination
+and the whole asserted path, come out \emph{larger} under the no-model instrument
+($+11.7$ and $+16.9$ on Haiku, $+26.9$ and $+30.6$ on Sonnet). Two do not survive. Length
+reverses sign on both models, which is why we claim the null and not the harm above. The
+labels contrast reads $-1.1$ on Haiku and $+0.3$ on Sonnet, which is the predicted
+consequence of an instrument blind to the label form rather than evidence against labels,
+and we say so rather than resolve it: on our own ledger's vocabulary, a component that
+only one instrument can see is not shown by two. The full table ships in
+\texttt{data/results/ablation\_mechanical.json}.
+
 \paragraph{What this means.} A compressor asked to discard material does not decide by
-volume. That much holds on both models and is the firmest thing here: on one, padding
-buys nothing; on the other, it costs ten points. What it does respond to is some property
+volume. That much holds on both models and is the firmest thing here: padding buys
+nothing on either, and the one reading on which it actively costs does not survive a
+second instrument. What it does respond to is some property
 of how plainly the stance is presented, and the two models weight the available ways of
 being plain differently. Naming the parts with labels works on both. Getting the words out
 of the brackets works on both, more on Sonnet. Saying the same thing in fuller sentences
@@ -1382,8 +1415,9 @@ cell, the raw counts, the quoted $p$-values, the eviction counts, and the direct
 each claim the prose makes. It also rejects any pair
 count stated in the prose that the data cannot produce, which is how a stale ``$860$
 matched pairs'' was found surviving in three places alongside the correct figure.
-\texttt{writeup2/test\_check\_paper.py} then breaks the paper eleven different ways and
-asserts the gate fires on each. It has caught four holes in the gate so far, every one of
-them in the flattering direction.
+\texttt{writeup2/test\_check\_paper.py} then breaks the paper $48$ different ways and
+asserts the gate fires on each. It has caught five holes in the gate so far, every one of
+them in the flattering direction; the fifth was that this gate reported a reduced check
+count as \emph{all consistent} when an input file was missing.
 
 \end{document}

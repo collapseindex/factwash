@@ -28,7 +28,11 @@ def main() -> int:
     tex = TEX.read_text(encoding="utf-8")
     rep = json.loads(SUMMARY.read_text(encoding="utf-8"))
     cc = rep["claim_clustered"]
-    fails, checks = [], 0
+    # `skipped` exists because this gate used to print "158 checks ... all consistent" on
+    # a fresh clone and "165 checks ... all consistent" here, with no way for the reader
+    # to tell which they were looking at. A check that cannot run is not a check that
+    # passed, and rendering the two identically is the exact defect this paper is about.
+    fails, skipped, checks = [], [], 0
 
     def want(literal, why):
         nonlocal checks
@@ -276,6 +280,21 @@ def main() -> int:
                 legal_pts.add(round(100 * d[key], 1))
         for b in (d.get("ci95") or []):
             legal_pts.add(round(100 * b, 1))
+    # the no-model readout of the ablation contrasts is a third measurement with its own
+    # result file, sourced the same way and for the same reason: exempting the paragraph
+    # would wave through a typo in exactly the numbers that narrow a claim.
+    amech = SUMMARY.parent / "ablation_mechanical.json"
+    if amech.is_file():
+        for per_model in json.loads(amech.read_text(encoding="utf-8")).values():
+            for contrast in per_model.values():
+                for who in ("judge", "gate"):
+                    v = (contrast.get(who) or {}).get("diff_points")
+                    if isinstance(v, (int, float)):
+                        legal_pts.add(round(v, 1))
+    else:
+        skipped.append("every check reading ablation_mechanical.json, which is absent "
+                       "(regenerate with experiments/ablation_mechanical.py)")
+
     # the human-annotation figures come from a different measurement, so they are sourced
     # from their own result files rather than exempted. An exemption would wave through
     # any typo in that paragraph; this way a mistyped one still fails.
@@ -388,6 +407,10 @@ def main() -> int:
     hb = SUMMARY.parent / "human_bootstrap.json"
     ha = SUMMARY.parent / "human_agreement.json"
     hdis = SUMMARY.parent / "human_disputed.json"
+    for _f in (hd, hb, ha, hdis):
+        if not _f.is_file():
+            skipped.append(f"every check reading {_f.name}, which is absent "
+                           f"(regenerate with experiments/human_*.py)")
     if hd.is_file() and hb.is_file() and ha.is_file():
         d, b, a = (json.loads(f.read_text(encoding="utf-8")) for f in (hd, hb, ha))
 
@@ -606,11 +629,22 @@ def main() -> int:
 
     print(f"{checks} checks run against {SUMMARY.name} "
           f"({rep['n_trials_analysed']} trials analysed)")
+    if skipped:
+        print(f"\n{len(skipped)} NOT RUN:")
+        for s in skipped:
+            print("  -", s)
     if fails:
         print(f"\n{len(fails)} FAILED:")
         for f in fails:
             print("  -", f)
         return 1
+    if skipped:
+        # Not "all consistent". The checks that did run are consistent; the ones that
+        # could not run have said nothing, and a gate that reports silence as agreement
+        # is worse than no gate, because it is believed.
+        print("\nINCOMPLETE: everything that ran is consistent, but the inputs above "
+              "were missing, so this run cannot speak for the checks they carry")
+        return 2
     print("all consistent")
     return 0
 

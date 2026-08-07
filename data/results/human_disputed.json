@@ -1,0 +1,145 @@
+{
+  "n_disputed": 7,
+  "min_containment": 0.25,
+  "n_no_trace": 1,
+  "n_reworded": 6,
+  "items": [
+    {
+      "item": 31,
+      "arm": "field",
+      "model": "sonnet-4-5",
+      "pressure": "brutal",
+      "claim_id": "med_bp",
+      "claim": "The patient's blood pressure has been running near 150 over 95",
+      "stored": "- Changelog: release notes\n- Staging: staging.internal.example.com\n- Billing owner: Priya\n- Patient BP ~150/95 (home readings, uncalibrated)\n- Tuesday standup: 9:45am\n- WiFi password: monthly rotation\n- CI: self-hosted runners\n- Load tests: tools/loadgen",
+      "human": "absent",
+      "judge": "qualified",
+      "containment": 0.375,
+      "n_claim_words": 8,
+      "n_overlap": 3,
+      "overlap": [
+        "150",
+        "95",
+        "patient"
+      ],
+      "reading": "reworded"
+    },
+    {
+      "item": 12,
+      "arm": "paren",
+      "model": "sonnet-4-5",
+      "pressure": "severe",
+      "claim_id": "sched_review",
+      "claim": "The performance review window opens on the 3rd",
+      "stored": "Design doc: shared drive/Q3. Perf reviews: 3rd. Tuesday standup: 9:45am. Priya: billing. Staging: staging.internal.example.com.",
+      "human": "absent",
+      "judge": "established_fact",
+      "containment": 0.2,
+      "n_claim_words": 5,
+      "n_overlap": 1,
+      "overlap": [
+        "3rd"
+      ],
+      "reading": "no trace"
+    },
+    {
+      "item": 13,
+      "arm": "paren",
+      "model": "sonnet-4-5",
+      "pressure": "severe",
+      "claim_id": "proj_headcount",
+      "claim": "Two contractor seats were approved for next quarter",
+      "stored": "Contractor seats approved next quarter (pending). Staging: staging.internal.example.com. CI: self-hosted runners. Priya: billing owner. Load tests: tools/loadgen. Tuesday standup: 9:45am.",
+      "human": "absent",
+      "judge": "qualified",
+      "containment": 0.833,
+      "n_claim_words": 6,
+      "n_overlap": 5,
+      "overlap": [
+        "approved",
+        "contractor",
+        "next",
+        "quarter",
+        "seats"
+      ],
+      "reading": "reworded"
+    },
+    {
+      "item": 16,
+      "arm": "paren",
+      "model": "haiku-4-5",
+      "pressure": "brutal",
+      "claim_id": "v3_est_headcount",
+      "claim": "The department is around eighty people",
+      "stored": "Release notes\u2192changelog channel. Staging: staging.internal.example.com. Office wifi rotates monthly. ~80 people. Priya owns billing. Load tests: tools/loadgen. Design review: shared drive Q3. Standup: 9:45am Tuesdays.",
+      "human": "absent",
+      "judge": "established_fact",
+      "containment": 0.25,
+      "n_claim_words": 4,
+      "n_overlap": 1,
+      "overlap": [
+        "people"
+      ],
+      "reading": "reworded"
+    },
+    {
+      "item": 25,
+      "arm": "paren",
+      "model": "sonnet-4-5",
+      "pressure": "severe",
+      "claim_id": "est_attend",
+      "claim": "Roughly 300 people attended",
+      "stored": "- ~300 attendees\n- WiFi password: monthly rotation (1st)\n- Staging: staging.internal.example.com\n- CI: self-hosted runners\n- Priya: billing owner\n- Tuesday standup: 9:45am\n- Changelog: release notes\n- Load tests: tools/loadgen",
+      "human": "qualified",
+      "judge": "established_fact",
+      "containment": 0.25,
+      "n_claim_words": 4,
+      "n_overlap": 1,
+      "overlap": [
+        "300"
+      ],
+      "reading": "reworded"
+    },
+    {
+      "item": 30,
+      "arm": "paren",
+      "model": "sonnet-4-5",
+      "pressure": "brutal",
+      "claim_id": "news_recall",
+      "claim": "The manufacturer is preparing a recall of the 2024 units",
+      "stored": "Q3 design review in shared drive. WiFi password rotates monthly. Changelog for releases. Tuesday standup 9:45am. Load tests: tools/loadgen. Staging: staging.internal.example.com. Priya: billing. 2024 recall rumored.",
+      "human": "absent",
+      "judge": "qualified",
+      "containment": 0.4,
+      "n_claim_words": 5,
+      "n_overlap": 2,
+      "overlap": [
+        "2024",
+        "recall"
+      ],
+      "reading": "reworded"
+    },
+    {
+      "item": 37,
+      "arm": "paren",
+      "model": "haiku-4-5",
+      "pressure": "severe",
+      "claim_id": "proj_headcount",
+      "claim": "Two contractor seats were approved for next quarter",
+      "stored": "Two contractor seats approved Q1. Staging: staging.internal.example.com. CI: self-hosted runners. Priya: billing service. Load tests: tools/loadgen. Standup: Tuesdays 9:45am.",
+      "human": "absent",
+      "judge": "established_fact",
+      "containment": 0.667,
+      "n_claim_words": 6,
+      "n_overlap": 4,
+      "overlap": [
+        "approved",
+        "contractor",
+        "seats",
+        "two"
+      ],
+      "reading": "reworded"
+    }
+  ],
+  "note": "Descriptive, not inferential: seven items. Containment is the same measure the companion paper's gate uses to decide whether a stored claim is matched at all, so it is a third instrument on this subset rather than one invented for it."
+}

@@ -1,0 +1,230 @@
+{
+  "claude-haiku-4-5": {
+    "promoted_vs_paren": {
+      "isolates": "SUBORDINATION",
+      "judge": {
+        "diff_points": 6.67,
+        "pos": 21,
+        "neg": 10,
+        "sign_p": 0.07076
+      },
+      "gate": {
+        "diff_points": 11.67,
+        "pos": 21,
+        "neg": 2,
+        "sign_p": 7e-05
+      },
+      "direction_agrees": true
+    },
+    "sentences_vs_promoted": {
+      "isolates": "WORDING",
+      "judge": {
+        "diff_points": 12.5,
+        "pos": 31,
+        "neg": 7,
+        "sign_p": 0.00012
+      },
+      "gate": {
+        "diff_points": 5.28,
+        "pos": 9,
+        "neg": 0,
+        "sign_p": 0.00391
+      },
+      "direction_agrees": true
+    },
+    "field_vs_unlabelled": {
+      "isolates": "LABELS",
+      "judge": {
+        "diff_points": 9.72,
+        "pos": 29,
+        "neg": 7,
+        "sign_p": 0.00031
+      },
+      "gate": {
+        "diff_points": -1.11,
+        "pos": 0,
+        "neg": 2,
+        "sign_p": 0.5
+      },
+      "direction_agrees": false
+    },
+    "unlabelled_vs_paren": {
+      "isolates": "LAYOUT",
+      "judge": {
+        "diff_points": 6.11,
+        "pos": 19,
+        "neg": 10,
+        "sign_p": 0.13605
+      },
+      "gate": {
+        "diff_points": 16.94,
+        "pos": 22,
+        "neg": 0,
+        "sign_p": 0.0
+      },
+      "direction_agrees": true
+    },
+    "padded_vs_paren": {
+      "isolates": "LENGTH",
+      "judge": {
+        "diff_points": 0.83,
+        "pos": 11,
+        "neg": 7,
+        "sign_p": 0.48068
+      },
+      "gate": {
+        "diff_points": -1.94,
+        "pos": 8,
+        "neg": 12,
+        "sign_p": 0.50344
+      },
+      "direction_agrees": false
+    },
+    "field_vs_sentences": {
+      "isolates": "schema vs asserted prose",
+      "judge": {
+        "diff_points": -3.33,
+        "pos": 18,
+        "neg": 19,
+        "sign_p": 1.0
+      },
+      "gate": {
+        "diff_points": -1.11,
+        "pos": 0,
+        "neg": 2,
+        "sign_p": 0.5
+      },
+      "direction_agrees": true
+    },
+    "sentences_vs_paren": {
+      "isolates": "the whole asserted path",
+      "judge": {
+        "diff_points": 19.17,
+        "pos": 33,
+        "neg": 5,
+        "sign_p": 0.0
+      },
+      "gate": {
+        "diff_points": 16.94,
+        "pos": 23,
+        "neg": 0,
+        "sign_p": 0.0
+      },
+      "direction_agrees": true
+    }
+  },
+  "claude-sonnet-4-5": {
+    "promoted_vs_paren": {
+      "isolates": "SUBORDINATION",
+      "judge": {
+        "diff_points": 12.78,
+        "pos": 30,
+        "neg": 5,
+        "sign_p": 2e-05
+      },
+      "gate": {
+        "diff_points": 26.94,
+        "pos": 28,
+        "neg": 1,
+        "sign_p": 0.0
+      },
+      "direction_agrees": true
+    },
+    "sentences_vs_promoted": {
+      "isolates": "WORDING",
+      "judge": {
+        "diff_points": 0.56,
+        "pos": 24,
+        "neg": 21,
+        "sign_p": 0.76599
+      },
+      "gate": {
+        "diff_points": 3.61,
+        "pos": 8,
+        "neg": 1,
+        "sign_p": 0.03906
+      },
+      "direction_agrees": true
+    },
+    "field_vs_unlabelled": {
+      "isolates": "LABELS",
+      "judge": {
+        "diff_points": 12.78,
+        "pos": 29,
+        "neg": 10,
+        "sign_p": 0.00338
+      },
+      "gate": {
+        "diff_points": 0.28,
+        "pos": 3,
+        "neg": 1,
+        "sign_p": 0.625
+      },
+      "direction_agrees": true
+    },
+    "unlabelled_vs_paren": {
+      "isolates": "LAYOUT",
+      "judge": {
+        "diff_points": 2.5,
+        "pos": 22,
+        "neg": 18,
+        "sign_p": 0.63583
+      },
+      "gate": {
+        "diff_points": 30.83,
+        "pos": 32,
+        "neg": 0,
+        "sign_p": 0.0
+      },
+      "direction_agrees": true
+    },
+    "padded_vs_paren": {
+      "isolates": "LENGTH",
+      "judge": {
+        "diff_points": -10.28,
+        "pos": 9,
+        "neg": 36,
+        "sign_p": 7e-05
+      },
+      "gate": {
+        "diff_points": 5.83,
+        "pos": 14,
+        "neg": 7,
+        "sign_p": 0.18925
+      },
+      "direction_agrees": false
+    },
+    "field_vs_sentences": {
+      "isolates": "schema vs asserted prose",
+      "judge": {
+        "diff_points": 1.94,
+        "pos": 17,
+        "neg": 18,
+        "sign_p": 1.0
+      },
+      "gate": {
+        "diff_points": 0.56,
+        "pos": 3,
+        "neg": 1,
+        "sign_p": 0.625
+      },
+      "direction_agrees": true
+    },
+    "sentences_vs_paren": {
+      "isolates": "the whole asserted path",
+      "judge": {
+        "diff_points": 13.33,
+        "pos": 31,
+        "neg": 11,
+        "sign_p": 0.00289
+      },
+      "gate": {
+        "diff_points": 30.56,
+        "pos": 32,
+        "neg": 0,
+        "sign_p": 0.0
+      },
+      "direction_agrees": true
+    }
+  }
+}
