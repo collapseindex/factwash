@@ -143,8 +143,8 @@ passed to the same compressor with the same prompt, settings and filler notes. O
 form differs. Percentages are Haiku~4.5 at the \textsc{brutal} budget across all $60$
 claims, rounded to whole percents, so the prose column sums to $101$. The difference is concentrated in the middle row: the parenthetical is stored as
 bare fact more than twice as often, while the two forms are evicted at similar rates. So
-the schema does not mainly keep claims in memory; it keeps them \emph{qualified}
-(\S\ref{sec:twocell}).}
+at this budget the schema does not mainly keep claims in memory; it keeps them
+\emph{qualified}. Pooled over both budgets on Haiku it does both (\S\ref{sec:twocell}).}
 \label{fig:teaser}
 \end{figure*}
 
@@ -507,8 +507,18 @@ stored as bare fact $11\%$, and is evicted $45\%$. The parenthetical keeps stand
 $21\%$, is stored as bare fact $28\%$, and is evicted $52\%$. The eviction gap is small;
 the washing gap is a factor of two and a half. On Sonnet, pooled over both budgets, the eviction rates are
 statistically indistinguishable ($129$ against $123$ out of $360$, $p=0.52$) while the
-stance difference is $15$ points. So the schema is not mainly keeping claims in memory. It is
-keeping them qualified.
+stance difference is $15$ points.
+
+That separation does not survive pooling on Haiku, and we report it because it narrows the
+claim. Over both budgets the field form is evicted $199$ times out of $360$ against the
+parenthetical's $228$ ($21$ against $50$ discordant pairs, exact McNemar $p=0.0008$), and
+the gap is carried by \textsc{severe} ($p=0.006$) rather than by the \textsc{brutal} cell
+the percentages above are drawn from ($p=0.07$). Decomposed, Haiku's $+15.8$-point stance
+gain is $28$ fewer bare-fact stores plus $29$ fewer evictions, so about half of it runs
+through retention rather than through qualification. The honest statement is therefore
+model-conditional: on Sonnet, and on Haiku at \textsc{brutal}, the schema is not mainly
+keeping claims in memory but keeping them qualified; on Haiku pooled it does both, in
+roughly equal measure.
 
 This also retracts a cost an earlier draft asserted, that the bulkier record is evicted
 more often; see the Limitations.
@@ -1003,7 +1013,7 @@ same format as the companion paper \citep{kwon2026factwash}.
 \begin{itemize}\itemsep2pt
 \item \textsc{shown}: direct measurement supports it.
 \item \textsc{retracted}: \emph{we} asserted it earlier and later withdrew it. Three of
-      the eight were at some point this paper's \textbf{title claim}, and are marked
+      the nine were at some point this paper's \textbf{title claim}, and are marked
       \textsc{(headline)}.
 \item \textsc{not shown}: our measurement neither supports nor refutes it.
 \item \textsc{not claimed}: we never asserted it; the row exists so a reader cannot
@@ -1127,9 +1137,11 @@ The effect is a property of claims in general, not of a few wordings. &
 headline test, and it does not depend on effect size \\
 
 The mechanism is that standing is washed off, not that the claim is dropped. &
-\S\ref{sec:twocell} & \textsc{shown}: at \textsc{brutal}, prose is stored as bare fact
-$28\%$ vs the field's $11\%$, while eviction is $52\%$ vs $45\%$; on Sonnet eviction is
-indistinguishable ($p=0.52$) \\
+\S\ref{sec:twocell} & \textsc{shown for Sonnet and for Haiku at the brutal budget}: prose
+is stored as bare fact $28\%$ vs the field's $11\%$ while eviction is $52\%$ vs $45\%$,
+and on Sonnet eviction is indistinguishable ($p=0.52$). \textsc{Narrowed} on Haiku pooled
+over both budgets, where the field form is also evicted less ($199$ vs $228$ of $360$,
+McNemar $p=0.0008$) and about half the stance gain runs through retention \\
 
 The effect requires the compressor to be under budget pressure. & \S\ref{sec:twocell} &
 \textsc{shown for the tight end of the ladder}; at loose budgets it is small and we do
