@@ -36,5 +36,7 @@ writeup2/*.blg
 writeup2/*.synctex.gz
 writeup2/arxiv_pkg/
 writeup2/*.tar.gz
+writeup2/*.zip
+writeup2/arxiv_v*_form.txt
 writeup2/figures/*.png
 writeup2/fig_*.pdf
