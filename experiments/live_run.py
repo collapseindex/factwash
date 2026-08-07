@@ -345,7 +345,15 @@ def run(args) -> int:
     provider = make_provider(args)
     params = f"{args.corpus}-{args.extractor}-{'fix' if args.fix else 'nofix'}"
 
-    log = RunLog(operation="laundering", model=args.model, params=params, seed=args.seed,
+    # A dry run has to label itself. The old convention was to pass --model dryrun as
+    # well, which put the marker in the filename; forget that second flag and fifteen
+    # canned memories land in data/raw under a real model name, where the threshold
+    # sweep's corpus filter reads them as measurements. That is exactly the bug 9a24117
+    # fixed, and a guard that lives in the operator's memory is how it comes back. The
+    # manifest still records the real model under "model".
+    file_label = f"dryrun-{args.model}" if args.dry_run else args.model
+
+    log = RunLog(operation="laundering", model=file_label, params=params, seed=args.seed,
                  resume_path=Path(args.resume) if args.resume else None)
     budget = Budget(cap_usd=args.budget, spent_usd=log.prior_spend_usd)
     rate_in, rate_out, rate_label = rates_for(args.model)
