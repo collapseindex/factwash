@@ -69,6 +69,13 @@ What Makes Epistemic Stance Survive Memory Compression}
 }
 
 \begin{document}
+% acl.sty runs \flushbottom, which stretches vertical glue until every column ends at the
+% same depth. Column one of page 1 holds only the abstract, so all of that column's
+% leftover height went into the single stretch point after the heading and opened a gap
+% about eight lines deep. \raggedbottom lets columns end where they end instead, which
+% closes it and removes the whole class of problem rather than this one instance. Verified
+% by rendering page 1 both ways; page count is unchanged at 20.
+\raggedbottom
 \maketitle
 
 % ===========================================================================
